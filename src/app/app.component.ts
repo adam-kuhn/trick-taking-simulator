@@ -7,4 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'trick-taking-simulator';
+  inGame = false;
+
+  joinGame() {
+    this.inGame = true;
+  }
 }
