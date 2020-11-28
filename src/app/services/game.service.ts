@@ -7,7 +7,6 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class GameService {
-  private baseUrl = 'api/cards';
   private socket = io(environment.ws_url);
 
   dealTheCards(): void {
