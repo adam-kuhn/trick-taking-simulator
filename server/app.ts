@@ -17,8 +17,9 @@ const PORT = process.env.port || 3000;
 
 app.use(express.json());
 
-io.on('connection', (socket: Socket) => {
+io.use((socket: Socket, next) => {
   socketCommunication(socket, io);
+  next();
 });
 
 httpServer.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
