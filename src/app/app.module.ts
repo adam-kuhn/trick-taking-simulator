@@ -7,6 +7,8 @@ import { GameRoomComponent } from './game-room/game-room.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 
+import { WebSocketService } from './services/web-socket.service';
+
 @NgModule({
   declarations: [AppComponent, GameRoomComponent],
   imports: [
@@ -15,7 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [WebSocketService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

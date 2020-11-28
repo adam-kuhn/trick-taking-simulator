@@ -1,6 +1,8 @@
 <p>Welcome to the game room</p>
 <button *ngIf="!cardsHaveBeenDealt" mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <p *ngIf="cardsHaveBeenDealt">Cards have been dealt out</p>
+<button (click)="sendMessage()">Socket</button>
+<p>{{message}}</p>
 <div *ngIf="cardsInHand.length > 1">
   <ul *ngFor="let card of cardsInHand">
     <li>Suit: {{ card.suit }} value: {{ card.value }}</li>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'trick-taking-simulator';
   inGame = false;
 
-  joinGame() {
+  joinGame(): void {
     this.inGame = true;
   }
 }
