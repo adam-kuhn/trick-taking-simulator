@@ -19,16 +19,17 @@ const PORT = process.env.port || 3000;
 app.use(express.json());
 
 app.use('/api', routes);
-const sockets = []
+
+let activeSockets: Socket[] = []
 io.on('connection', (socket: Socket) => {
-  // console.log("CONNECTED", socket)
-  sockets.push(socket)
-  console.log(sockets.length)
+  activeSockets.push(socket)
   socket.on('message', (data) => {
     console.log("MESAGE recieved", data)
     io.emit("broadcast_message", `${data} modified from BE`)
-
   })
+  socket.on('disconnect', (reason) => {
+    activeSockets = activeSockets.filter(activeSocket => activeSocket.id !== socket.id)
+   })
 })
 
 
