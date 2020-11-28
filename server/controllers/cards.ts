@@ -5,7 +5,7 @@ export interface Card {
   suit: string
 }
 
-const CREW_TRUMP: Card[] = [
+const CREW_TRUMP_CARDS: Card[] = [
   {
     suit: 'rocket',
     value: 1
@@ -52,7 +52,7 @@ const shuffleCards = (cards: Card[]): Card[] => {
 
 
 function dealCards(req: Request, res: Response) {
-  const playingDeck: Card[] = shuffleCards([...CREW_TRUMP, ...createCrewSuites()])
+  const playingDeck: Card[] = shuffleCards([...CREW_TRUMP_CARDS, ...createCrewSuites()])
   res.json(playingDeck)
 }
 
