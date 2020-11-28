@@ -26,4 +26,13 @@ describe('dealCards', function () {
     expect(dealtCards['3'].length).to.equal(10);
     expect(dealtCards['4'].length).to.equal(10);
   });
+
+  it('deals 13 cards to 2 players and 14 cards to 1 player, in a 3 player game', function () {
+    const numberOfPlayers = 3;
+    const dealtCards = dealCards(numberOfPlayers);
+
+    expect(dealtCards['1'].length).to.equal(13);
+    expect(dealtCards['2'].length).to.equal(13);
+    expect(dealtCards['3'].length).to.equal(14);
+  });
 });
