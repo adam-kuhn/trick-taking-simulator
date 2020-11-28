@@ -55,10 +55,10 @@ export function dealCards(numberOfPlayers: number): { [key: string]: Card[] } {
   ]);
   let playerToDeal = numberOfPlayers;
   const dealtCards: { [key: string]: Card[] } = {};
-  for (let i = 0; i < playingDeck.length; i++) {
+  for (const cardToDeal of playingDeck) {
     dealtCards[playerToDeal] = dealtCards[playerToDeal]
-      ? [...dealtCards[playerToDeal], playingDeck[i]]
-      : [playingDeck[i]];
+      ? [...dealtCards[playerToDeal], cardToDeal]
+      : [cardToDeal];
     playerToDeal--;
     if (playerToDeal === 0) {
       playerToDeal = numberOfPlayers;
