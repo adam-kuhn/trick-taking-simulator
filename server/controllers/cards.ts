@@ -1,5 +1,3 @@
-import { Request, Response } from 'express';
-
 export interface Card {
   value: number;
   suit: string;
@@ -50,12 +48,21 @@ const shuffleCards = (cards: Card[]): Card[] => {
   return cards;
 };
 
-function dealCards(req: Request, res: Response) {
+export function dealCards(numberOfPlayers: number): { [key: string]: Card[] } {
   const playingDeck: Card[] = shuffleCards([
     ...CREW_TRUMP_CARDS,
     ...createCrewSuites(),
   ]);
-  res.json(playingDeck);
+  let playerToDeal = numberOfPlayers;
+  const dealtCards: { [key: string]: Card[] } = {};
+  for (let i = 0; i < playingDeck.length; i++) {
+    dealtCards[playerToDeal] = dealtCards[playerToDeal]
+      ? [...dealtCards[playerToDeal], playingDeck[i]]
+      : [playingDeck[i]];
+    playerToDeal--;
+    if (playerToDeal === 0) {
+      playerToDeal = numberOfPlayers;
+    }
+  }
+  return dealtCards;
 }
-
-export default { dealCards };
