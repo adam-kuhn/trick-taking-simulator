@@ -8,28 +8,13 @@ import { Card } from '../types/game';
   providers: [GameService],
 })
 export class GameRoomComponent {
-  cardsHaveBeenDealt = false;
   cardsInHand: Card[] = [];
-  message: string = ''
   constructor(private gameService: GameService) {
-
+    this.gameService
+      .recieveHandOfCards()
+      .subscribe((data) => (this.cardsInHand = data));
   }
-
-  ngOnInit() {
-    this.gameService.messages.subscribe(msg => {
-      console.log("from game room", msg)
-      this.message = msg;
-    })
+  dealCards(): void {
+    this.gameService.dealTheCards();
   }
-
-  sendMessage() {
-    console.log("CLICKED")
-    this.gameService.sendMsg("MYfancyy new TEST")
-  }
-  async dealCards() {
-    this.cardsInHand = await this.gameService.dealTheCards().toPromise();
-
-    this.cardsHaveBeenDealt = true;
-  }
-
 }
