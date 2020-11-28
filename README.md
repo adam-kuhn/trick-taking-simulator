@@ -6,9 +6,17 @@ A simple trick taking simulator that let's you play card games online with your 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.2.
 
-## Development server
+## Development Web server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+
+## Node Server
+
+Run `npm run start.server` to start the dev server
+
+Run `npm run dev` to start dev server with [nodemon](https://github.com/remy/nodemon)
+
+
 
 ## Code scaffolding
 
@@ -20,7 +28,13 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
+### Front End Tests
+
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+
+### Back End Tests
+
+Run `npm run server.test` to execute unit tests with [Mocha](https://mochajs.org/) and [Chai](https://www.chaijs.com/)
 
 ## Running end-to-end tests
 
