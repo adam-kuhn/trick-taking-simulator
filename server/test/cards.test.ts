@@ -35,4 +35,15 @@ describe('dealCards', function () {
     expect(dealtCards['2'].length).to.equal(13);
     expect(dealtCards['3'].length).to.equal(14);
   });
+
+  it('deals 8 cards to each player in a 5 player game', function () {
+    const numberOfPlayers = 5;
+    const dealtCards = dealCards(numberOfPlayers);
+
+    expect(dealtCards['1'].length).to.equal(8);
+    expect(dealtCards['2'].length).to.equal(8);
+    expect(dealtCards['3'].length).to.equal(8);
+    expect(dealtCards['4'].length).to.equal(8);
+    expect(dealtCards['5'].length).to.equal(8);
+  });
 });
