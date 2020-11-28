@@ -17,7 +17,7 @@ describe('createCrewSuites', function () {
 });
 
 describe('dealCards', function () {
-  it('deals 10 cards to 4 players', function () {
+  it('deals 10 cards to each player in a 4 player game', function () {
     const numberOfPlayers = 4;
     const dealtCards = dealCards(numberOfPlayers);
 
@@ -27,7 +27,7 @@ describe('dealCards', function () {
     expect(dealtCards['4'].length).to.equal(10);
   });
 
-  it('deals 13 cards to 2 players and 14 cards to 1 player, in a 3 player game', function () {
+  it('deals 13 cards to 2 players and 14 cards to 1 player in a 3 player game', function () {
     const numberOfPlayers = 3;
     const dealtCards = dealCards(numberOfPlayers);
 
