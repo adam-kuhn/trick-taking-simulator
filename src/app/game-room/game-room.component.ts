@@ -1,21 +1,19 @@
-import {Component} from '@angular/core';
-import { GameService } from '../services/game.service'
-import {Card} from "../types/game"
+import { Component } from '@angular/core';
+import { GameService } from '../services/game.service';
+import { Card } from '../types/game';
 
 @Component({
   selector: 'app-game-room',
   templateUrl: './game-room.component.html',
-  providers: [GameService]
+  providers: [GameService],
 })
-
 export class GameRoomComponent {
-  cardsHaveBeenDealt: boolean = false
-  cardsInHand: Card[] = []
-  constructor(private gameService: GameService) {
-  }
+  cardsHaveBeenDealt = false;
+  cardsInHand: Card[] = [];
+  constructor(private gameService: GameService) {}
   async dealCards() {
-    this.cardsInHand = await this.gameService.dealTheCards().toPromise()
+    this.cardsInHand = await this.gameService.dealTheCards().toPromise();
 
-    this.cardsHaveBeenDealt = true
+    this.cardsHaveBeenDealt = true;
   }
 }

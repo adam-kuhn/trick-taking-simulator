@@ -1,5 +1,5 @@
 import express from 'express';
-import cards from "./controllers/cards"
+import cards from './controllers/cards';
 
 const router = express.Router();
 

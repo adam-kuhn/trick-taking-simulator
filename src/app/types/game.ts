@@ -1,4 +1,4 @@
 export interface Card {
-  suit: string,
-  value: number
+  suit: string;
+  value: number;
 }
