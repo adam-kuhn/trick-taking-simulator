@@ -19,7 +19,12 @@ export class GameRoomComponent {
   constructor(private gameService: GameService) {
     this.gameService
       .recieveHandOfCards()
-      .subscribe((data) => (this.cardsInHand = data));
+      .subscribe((data: Card[]) => (this.cardsInHand = data));
+    this.gameService
+      .recievePlayedCard()
+      .subscribe(
+        (data: Card) => (this.playedCards = [...this.playedCards, data])
+      );
   }
   dealCards(): void {
     this.gameService.dealTheCards();
@@ -41,5 +46,6 @@ export class GameRoomComponent {
       previousIndex,
       currentIndex
     );
+    this.gameService.cardPlayed(currentContainer.data[currentIndex]);
   }
 }

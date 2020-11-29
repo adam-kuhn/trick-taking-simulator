@@ -13,6 +13,21 @@ export class GameService {
     this.socket.emit('deal_cards');
   }
 
+  cardPlayed(card: Card): void {
+    this.socket.emit('played_card', card);
+  }
+
+  recievePlayedCard(): Observable<Card> {
+    const observable = new Observable<Card>((observer) => {
+      this.socket.on('played_card', (data: Card) => {
+        observer.next(data);
+        // In case of error, disconnect
+        return () => this.socket.disconnect();
+      });
+    });
+    return observable;
+  }
+
   recieveHandOfCards(): Observable<Card[]> {
     const observable = new Observable<Card[]>((observer) => {
       this.socket.on('dealt_cards', (data: Card[]) => {
