@@ -2,7 +2,7 @@ import { io } from 'socket.io-client/build/index';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Card } from '../types/game';
+import { Card, GameState } from '../types/game';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -28,9 +28,9 @@ export class GameService {
     return observable;
   }
 
-  recieveHandOfCards(): Observable<Card[]> {
-    const observable = new Observable<Card[]>((observer) => {
-      this.socket.on('dealt_cards', (data: Card[]) => {
+  recieveStartingCards(): Observable<GameState> {
+    const observable = new Observable<GameState>((observer) => {
+      this.socket.on('dealt_cards', (data: GameState) => {
         observer.next(data);
         return () => this.socket.disconnect();
       });

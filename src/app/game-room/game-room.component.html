@@ -1,4 +1,5 @@
 <p>Welcome to the game room</p>
+<p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <div 
   class="playing-mat"
@@ -11,6 +12,7 @@
     <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
   </ul>
 </div>
+<h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
 <div 
     *ngIf="cardsInHand.length > 1" 
     cdkDropList

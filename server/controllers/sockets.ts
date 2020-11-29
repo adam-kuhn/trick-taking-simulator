@@ -9,7 +9,12 @@ export function socketCommunication(socket: Socket, io: Server): void {
   socket.on('deal_cards', () => {
     const dealtCards = dealCards(activeSockets.length);
     activeSockets.forEach((socket, idx) => {
-      io.to(socket.id).emit('dealt_cards', dealtCards[`${idx + 1}`]);
+      const player = idx + 1;
+      io.to(socket.id).emit('dealt_cards', {
+        player,
+        playersCards: dealtCards[player],
+        numberOfPlayers: activeSockets.length,
+      });
     });
   });
 
