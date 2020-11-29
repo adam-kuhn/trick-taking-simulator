@@ -1,7 +1,22 @@
 <p>Welcome to the game room</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
-<div *ngIf="cardsInHand.length > 1">
-  <ul *ngFor="let card of cardsInHand">
+<div 
+  class="playing-mat"
+  cdkDropList 
+  #playingMat="cdkDropList" 
+  [cdkDropListData]="playedCards"
+  (cdkDropListDropped)="cardPlayed($event)">
+  <h4>Play Cards Here</h4>
+  <ul *ngFor="let card of playedCards">
     <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
+  </ul>
+</div>
+<div 
+    *ngIf="cardsInHand.length > 1" 
+    cdkDropList
+    [cdkDropListData]="cardsInHand"
+    [cdkDropListConnectedTo]="[playingMat]">
+  <ul *ngFor="let card of cardsInHand">
+    <li cdkDrag>Suit: {{ card.suit }} value: {{ card.value }}</li>
   </ul>
 </div>
