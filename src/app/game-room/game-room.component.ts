@@ -1,14 +1,21 @@
 import { Component } from '@angular/core';
 import { GameService } from '../services/game.service';
 import { Card } from '../types/game';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-game-room',
   templateUrl: './game-room.component.html',
+  styleUrls: ['./game-room.component.sass'],
   providers: [GameService],
 })
 export class GameRoomComponent {
   cardsInHand: Card[] = [];
+  playedCards: Card[] = [];
   constructor(private gameService: GameService) {
     this.gameService
       .recieveHandOfCards()
@@ -16,5 +23,23 @@ export class GameRoomComponent {
   }
   dealCards(): void {
     this.gameService.dealTheCards();
+  }
+  cardPlayed(event: CdkDragDrop<Card[]>): void {
+    const {
+      container: currentContainer,
+      previousContainer,
+      currentIndex,
+      previousIndex,
+    } = event;
+    if (previousContainer === currentContainer) {
+      moveItemInArray(currentContainer.data, previousIndex, currentIndex);
+      return;
+    }
+    transferArrayItem(
+      previousContainer.data,
+      currentContainer.data,
+      previousIndex,
+      currentIndex
+    );
   }
 }
