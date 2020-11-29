@@ -48,13 +48,13 @@ export class GameRoomComponent {
     );
 
     if (playedTrump.length > 0) {
-      playedTrump.sort((a, b) => a.value - b.value);
+      playedTrump.sort((a, b) => b.value - a.value);
       this.winningCard = playedTrump[0];
     } else {
       const followedSuit = this.playedCards.filter(
         (card: PlayerCard) => card.suit === this.leadSuit
       );
-      followedSuit.sort((a, b) => a.value - b.value);
+      followedSuit.sort((a, b) => b.value - a.value);
       this.winningCard = followedSuit[0];
     }
     this.cleanUpTrick();
