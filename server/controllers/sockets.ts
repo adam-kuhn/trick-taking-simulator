@@ -17,11 +17,6 @@ export function socketCommunication(socket: Socket, io: Server): void {
     socket.broadcast.emit('played_card', card);
   });
 
-  socket.on('message', (data) => {
-    console.log('MESAGE recieved', data);
-    socket.emit('broadcast_message', `${data} modified from BE`);
-  });
-
   socket.on('disconnect', () => {
     activeSockets = activeSockets.filter(
       (activeSocket) => activeSocket.id !== socket.id
