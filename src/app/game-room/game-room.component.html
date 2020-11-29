@@ -1,6 +1,13 @@
 <p>Welcome to the game room</p>
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
+<div>
+  <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
+  <h5>Last Trick</h5>
+  <ul *ngFor="let card of lastTrick">
+    <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
+  </ul>
+</div>
 <div 
   class="playing-mat"
   cdkDropList 

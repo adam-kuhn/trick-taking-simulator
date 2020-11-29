@@ -3,8 +3,12 @@ export interface Card {
   value: number;
 }
 
+export interface PlayerCard extends Card {
+  player: number;
+}
+
 export interface GameState {
   player: number;
   numberOfPlayers: number;
-  playersCards: Card[];
+  playersCards: PlayerCard[];
 }

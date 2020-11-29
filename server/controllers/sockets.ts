@@ -1,5 +1,5 @@
 import { Socket, Server } from 'socket.io';
-import { dealCards, Card } from './cards';
+import { dealCards, PlayerCard } from './cards';
 
 let activeSockets: Socket[] = [];
 
@@ -18,7 +18,7 @@ export function socketCommunication(socket: Socket, io: Server): void {
     });
   });
 
-  socket.on('played_card', (card: Card) => {
+  socket.on('played_card', (card: PlayerCard) => {
     socket.broadcast.emit('played_card', card);
   });
 
