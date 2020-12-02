@@ -44,4 +44,16 @@ describe('GameRoomComponent', () => {
     component.resolveTrick();
     expect(component.winningCard).toEqual(winningCard);
   });
+  it("should find the winning card, when players can't follow the lead suit", () => {
+    const winningCard = { suit: 'pink', value: 1, player: 1 };
+    component.leadSuit = 'pink';
+    component.playedCards = [
+      { suit: 'pink', value: 1, player: 1 },
+      { suit: 'green', value: 5, player: 2 },
+      { suit: 'blue', value: 9, player: 3 },
+      { suit: 'yellow', value: 4, player: 4 },
+    ];
+    component.resolveTrick();
+    expect(component.winningCard).toEqual(winningCard);
+  });
 });
