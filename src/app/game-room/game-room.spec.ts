@@ -32,4 +32,16 @@ describe('GameRoomComponent', () => {
     component.resolveTrick();
     expect(component.winningCard).toEqual(winningCard);
   });
+  it('should find the winning card, when trump (a rocket) is played', () => {
+    const winningCard = { suit: 'rocket', value: 1, player: 2 };
+    component.leadSuit = 'pink';
+    component.playedCards = [
+      { suit: 'pink', value: 1, player: 1 },
+      { suit: 'rocket', value: 1, player: 2 },
+      { suit: 'green', value: 3, player: 3 },
+      { suit: 'green', value: 4, player: 4 },
+    ];
+    component.resolveTrick();
+    expect(component.winningCard).toEqual(winningCard);
+  });
 });
