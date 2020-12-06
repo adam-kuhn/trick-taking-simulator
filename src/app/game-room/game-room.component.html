@@ -8,16 +8,15 @@
     <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
   </ul>
 </div>
+
+<h4>Play Cards Here</h4>
 <div 
   class="playing-mat"
   cdkDropList 
   #playingMat="cdkDropList" 
   [cdkDropListData]="playedCards"
   (cdkDropListDropped)="cardPlayed($event)">
-  <h4>Play Cards Here</h4>
-  <ul *ngFor="let card of playedCards">
-    <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
-  </ul>
+    <app-playing-card *ngFor="let card of playedCards" [card]="card"></app-playing-card>
 </div>
 <h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
 <div 
