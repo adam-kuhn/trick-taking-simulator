@@ -22,7 +22,7 @@ describe('GameRoomComponent', () => {
 
   it('should find the winning card, when all play the same suit', () => {
     const winningCard = { suit: 'green', value: 4, player: 4 };
-    component.leadSuit = 'green';
+    component.leadCard = { suit: 'green', value: 1, player: 1 };
     component.playedCards = [
       { suit: 'green', value: 1, player: 1 },
       { suit: 'green', value: 2, player: 2 },
@@ -34,7 +34,7 @@ describe('GameRoomComponent', () => {
   });
   it('should find the winning card, when trump (a rocket) is played', () => {
     const winningCard = { suit: 'rocket', value: 1, player: 2 };
-    component.leadSuit = 'pink';
+    component.leadCard = { suit: 'pink', value: 1, player: 1 };
     component.playedCards = [
       { suit: 'pink', value: 1, player: 1 },
       { suit: 'rocket', value: 1, player: 2 },
@@ -46,7 +46,7 @@ describe('GameRoomComponent', () => {
   });
   it("should find the winning card, when players can't follow the lead suit", () => {
     const winningCard = { suit: 'pink', value: 1, player: 1 };
-    component.leadSuit = 'pink';
+    component.leadCard = { suit: 'pink', value: 1, player: 1 };
     component.playedCards = [
       { suit: 'pink', value: 1, player: 1 },
       { suit: 'green', value: 5, player: 2 },
