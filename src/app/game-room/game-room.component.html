@@ -4,14 +4,14 @@
 <div>
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
   <h5>Last Trick</h5>
-  <ul *ngFor="let card of lastTrick">
-    <li>Suit: {{ card.suit }} value: {{ card.value }}</li>
-  </ul>
+  <div class="arranged-cards">
+    <app-playing-card *ngFor="let card of lastTrick" [card]="card"></app-playing-card>
+  </div>
 </div>
 
 <h4>Play Cards Here</h4>
 <div 
-  class="playing-mat"
+  class="playing-mat arranged-cards"
   cdkDropList 
   #playingMat="cdkDropList" 
   [cdkDropListData]="playedCards"
@@ -25,7 +25,7 @@
     [cdkDropListData]="cardsInHand"
     [cdkDropListConnectedTo]="[playingMat]">
 
-  <div class="players-hand">
+  <div class="arranged-cards">
     <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card"></app-playing-card>
   </div>
 </div>
