@@ -1,0 +1,15 @@
+<mat-dialog-content>
+  <p>How many tasks are needed?</p>
+  <mat-select (selectionChange)="setNumberOfTasks($event)" [value]="taskRevealConfig.numberOfTasks">
+    <mat-option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+  <mat-checkbox [checked]="taskRevealConfig.revealOnlyToCommander" (change)="setRevealToCommander($event)">
+    Only reveal tasks to commander
+  </mat-checkbox>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="taskRevealConfig">Reveal Tasks</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

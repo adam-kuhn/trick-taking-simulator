@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { GameService } from '../services/game.service';
 import { GameState, PlayerCard } from '../types/game';
 import {
@@ -6,12 +8,13 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import { DealTaskDialogComponent } from '../deal-task-dialog/deal-task-dialog.component';
 
 @Component({
   selector: 'app-game-room',
   templateUrl: './game-room.component.html',
   styleUrls: ['./game-room.component.sass'],
-  providers: [GameService],
+  providers: [GameService, MatDialog],
 })
 export class GameRoomComponent {
   cardsInHand: PlayerCard[] = [];
@@ -22,7 +25,7 @@ export class GameRoomComponent {
   numberOfPlayers = 0;
   player = 0;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private dialog: MatDialog) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
@@ -35,6 +38,12 @@ export class GameRoomComponent {
   }
   dealCards(): void {
     this.gameService.dealTheCards();
+  }
+  openTaskDealDialog(): void {
+    const dialogRef = this.dialog.open(DealTaskDialogComponent);
+    dialogRef.afterClosed().subscribe((value) => {
+      console.log('CLOSED', value);
+    });
   }
   resolvePlayedCard(): void {
     const { playedCards } = this;
