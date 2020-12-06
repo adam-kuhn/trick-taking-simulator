@@ -9,7 +9,8 @@
   </div>
 </div>
 
-<h4>Play Cards Here</h4>
+<h4>Lead Card:</h4>
+<app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
 <div 
   class="playing-mat arranged-cards"
   cdkDropList 
