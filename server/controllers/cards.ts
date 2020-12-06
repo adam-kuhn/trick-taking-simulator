@@ -73,3 +73,19 @@ export function dealCards(
   }
   return dealtCards;
 }
+
+export function sortHandOfCards(cards: PlayerCard[]): PlayerCard[] {
+  return [
+    ...sortCardsBySuit('blue', cards),
+    ...sortCardsBySuit('pink', cards),
+    ...sortCardsBySuit('green', cards),
+    ...sortCardsBySuit('yellow', cards),
+    ...sortCardsBySuit('rocket', cards),
+  ];
+}
+
+function sortCardsBySuit(suit: string, cards: PlayerCard[]): PlayerCard[] {
+  return cards
+    .filter((card) => card.suit === suit)
+    .sort((a, b) => a.value - b.value);
+}

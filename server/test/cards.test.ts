@@ -1,5 +1,9 @@
 import { expect } from 'chai';
-import { createCrewSuites, dealCards } from '../controllers/cards';
+import {
+  createCrewSuites,
+  dealCards,
+  sortHandOfCards,
+} from '../controllers/cards';
 
 describe('createCrewSuites', function () {
   it('generates a deck with 4 suits and 9 cards for each suit', function () {
@@ -51,5 +55,34 @@ describe('dealCards', function () {
     expect(dealtCards['5'].length).to.equal(8);
     expect(dealtCards['1'][0]).to.have.property('suit');
     expect(dealtCards['1'][0]).to.have.property('value');
+  });
+});
+
+describe('sortHandOfCards', function () {
+  it('sorts a hand of cards', function () {
+    const playersHand = [
+      { suit: 'blue', value: 5, player: 1 },
+      { suit: 'yellow', value: 2, player: 1 },
+      { suit: 'blue', value: 1, player: 1 },
+      { suit: 'pink', value: 9, player: 1 },
+      { suit: 'green', value: 4, player: 1 },
+      { suit: 'rocket', value: 3, player: 1 },
+      { suit: 'yellow', value: 3, player: 1 },
+      { suit: 'pink', value: 5, player: 1 },
+      { suit: 'blue', value: 2, player: 1 },
+    ];
+    const expected = [
+      { suit: 'blue', value: 1, player: 1 },
+      { suit: 'blue', value: 2, player: 1 },
+      { suit: 'blue', value: 5, player: 1 },
+      { suit: 'pink', value: 5, player: 1 },
+      { suit: 'pink', value: 9, player: 1 },
+      { suit: 'green', value: 4, player: 1 },
+      { suit: 'yellow', value: 2, player: 1 },
+      { suit: 'yellow', value: 3, player: 1 },
+      { suit: 'rocket', value: 3, player: 1 },
+    ];
+    const actual = sortHandOfCards(playersHand);
+    expect(actual).to.deep.equal(expected);
   });
 });
