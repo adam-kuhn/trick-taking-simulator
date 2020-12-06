@@ -18,7 +18,7 @@ export class GameRoomComponent {
   playedCards: PlayerCard[] = [];
   lastTrick: PlayerCard[] = [];
   winningCard: PlayerCard | null = null;
-  leadSuit = '';
+  leadCard: PlayerCard | null = null;
   numberOfPlayers = 0;
   player = 0;
 
@@ -38,7 +38,7 @@ export class GameRoomComponent {
   }
   resolvePlayedCard(): void {
     const { playedCards } = this;
-    if (playedCards.length === 1) this.leadSuit = playedCards[0].suit;
+    if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
   }
@@ -52,7 +52,7 @@ export class GameRoomComponent {
       this.winningCard = playedTrump[0];
     } else {
       const followedSuit = this.playedCards.filter(
-        (card: PlayerCard) => card.suit === this.leadSuit
+        (card: PlayerCard) => this.leadCard && this.leadCard.suit === card.suit
       );
       followedSuit.sort((a, b) => b.value - a.value);
       this.winningCard = followedSuit[0];
