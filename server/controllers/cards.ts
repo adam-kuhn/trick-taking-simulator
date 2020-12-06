@@ -3,6 +3,10 @@ export interface Card {
   suit: string;
 }
 
+export interface PlayerCard extends Card {
+  player: number;
+}
+
 const CREW_TRUMP_CARDS: Card[] = [
   {
     suit: 'rocket',
@@ -48,14 +52,17 @@ const shuffleCards = (cards: Card[]): Card[] => {
   return cards;
 };
 
-export function dealCards(numberOfPlayers: number): { [key: string]: Card[] } {
+export function dealCards(
+  numberOfPlayers: number
+): { [key: string]: PlayerCard[] } {
   const playingDeck: Card[] = shuffleCards([
     ...CREW_TRUMP_CARDS,
     ...createCrewSuites(),
   ]);
   let playerToDeal = numberOfPlayers;
-  const dealtCards: { [key: string]: Card[] } = {};
-  for (const cardToDeal of playingDeck) {
+  const dealtCards: { [key: string]: PlayerCard[] } = {};
+  for (const card of playingDeck) {
+    const cardToDeal = { ...card, player: playerToDeal };
     dealtCards[playerToDeal] = dealtCards[playerToDeal]
       ? [...dealtCards[playerToDeal], cardToDeal]
       : [cardToDeal];
