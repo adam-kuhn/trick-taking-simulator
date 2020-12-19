@@ -26,7 +26,7 @@ const CREW_TRUMP_CARDS: Card[] = [
   },
 ];
 
-export const createCrewSuites = (): Card[] => {
+export const crewDeck: Card[] = (() => {
   const suits = ['green', 'blue', 'pink', 'yellow'];
   let deck: Card[] = [];
   suits.forEach((suit) => {
@@ -35,7 +35,7 @@ export const createCrewSuites = (): Card[] => {
     }
   });
   return deck;
-};
+})();
 
 const shuffleCards = (cards: Card[]): Card[] => {
   let currentIndex = cards.length;
@@ -55,10 +55,7 @@ const shuffleCards = (cards: Card[]): Card[] => {
 export function dealCards(
   numberOfPlayers: number
 ): { [key: string]: PlayerCard[] } {
-  const playingDeck: Card[] = shuffleCards([
-    ...CREW_TRUMP_CARDS,
-    ...createCrewSuites(),
-  ]);
+  const playingDeck: Card[] = shuffleCards([...CREW_TRUMP_CARDS, ...crewDeck]);
   let playerToDeal = numberOfPlayers;
   const dealtCards: { [key: string]: PlayerCard[] } = {};
   for (const card of playingDeck) {

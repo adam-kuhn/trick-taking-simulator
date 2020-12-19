@@ -1,13 +1,9 @@
 import { expect } from 'chai';
-import {
-  createCrewSuites,
-  dealCards,
-  sortHandOfCards,
-} from '../controllers/cards';
+import { crewDeck, dealCards, sortHandOfCards } from '../controllers/cards';
 
 describe('createCrewSuites', function () {
   it('generates a deck with 4 suits and 9 cards for each suit', function () {
-    const cards = createCrewSuites();
+    const cards = crewDeck;
     const greenCards = cards.filter((card) => card.suit === 'green').length;
     const pinkCards = cards.filter((card) => card.suit === 'pink').length;
     const blueCards = cards.filter((card) => card.suit === 'blue').length;
