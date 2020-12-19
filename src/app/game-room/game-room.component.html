@@ -3,6 +3,10 @@
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <button mat-raised-button (click)="openTaskDealDialog()">Reveal Tasks</button>
 <div>
+  <div *ngIf="startingTasks.length">
+    <app-task-selection [startingTasks]="startingTasks" [showTasks]="showTasks"></app-task-selection>
+  </div>
+
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
   <h5>Last Trick</h5>
   <div class="arranged-cards">

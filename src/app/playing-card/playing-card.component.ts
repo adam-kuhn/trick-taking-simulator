@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlayerCard } from '../types/game';
+import { Card } from '../types/game';
 
 @Component({
   selector: 'app-playing-card',
@@ -7,12 +7,15 @@ import { PlayerCard } from '../types/game';
   styleUrls: ['./playing-card.component.sass'],
 })
 export class PlayingCardComponent implements OnInit {
-  @Input() card!: PlayerCard;
+  @Input() card!: Card;
+  @Input() showBackOfCard = false;
   imgUrl = '';
   cardStyleClass = '';
 
   ngOnInit(): void {
     this.cardStyleClass = `${this.card.suit}-card`;
-    this.imgUrl = `/assets/${this.cardStyleClass}.jpg`;
+    this.imgUrl = `/assets/${
+      this.showBackOfCard ? 'card-back' : this.cardStyleClass
+    }.jpg`;
   }
 }

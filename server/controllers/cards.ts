@@ -7,6 +7,11 @@ export interface PlayerCard extends Card {
   player: number;
 }
 
+export interface TaskOptions {
+  numberOfTasks: number;
+  revealOnlyToCommander: boolean;
+}
+
 const CREW_TRUMP_CARDS: Card[] = [
   {
     suit: 'rocket',
@@ -85,4 +90,9 @@ function sortCardsBySuit(suit: string, cards: PlayerCard[]): PlayerCard[] {
   return cards
     .filter((card) => card.suit === suit)
     .sort((a, b) => a.value - b.value);
+}
+
+export function dealTaskCards(numberOfTasks: number): Card[] {
+  const taskDeck: Card[] = shuffleCards(crewDeck);
+  return taskDeck.splice(0, numberOfTasks);
 }

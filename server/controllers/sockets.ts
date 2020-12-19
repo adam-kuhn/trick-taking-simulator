@@ -1,5 +1,11 @@
 import { Socket, Server } from 'socket.io';
-import { dealCards, PlayerCard, sortHandOfCards } from './cards';
+import {
+  dealCards,
+  PlayerCard,
+  sortHandOfCards,
+  TaskOptions,
+  dealTaskCards,
+} from './cards';
 
 let activeSockets: Socket[] = [];
 
@@ -16,6 +22,15 @@ export function socketCommunication(socket: Socket, io: Server): void {
         playersCards,
         numberOfPlayers: activeSockets.length,
       });
+    });
+  });
+
+  socket.on('deal_task_cards', (options: TaskOptions) => {
+    const { numberOfTasks, revealOnlyToCommander } = options;
+    const taskCards = dealTaskCards(numberOfTasks);
+    io.emit('show_task_cards', {
+      taskCards,
+      revealOnlyToCommander,
     });
   });
 

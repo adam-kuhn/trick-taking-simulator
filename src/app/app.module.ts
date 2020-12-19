@@ -15,6 +15,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlayingCardComponent } from './playing-card/playing-card.component';
 import { DealTaskDialogComponent } from './deal-task-dialog/deal-task-dialog.component';
+import { TaskSelectionComponent } from './task-selection/task-selection.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { DealTaskDialogComponent } from './deal-task-dialog/deal-task-dialog.com
     GameRoomComponent,
     PlayingCardComponent,
     DealTaskDialogComponent,
+    TaskSelectionComponent,
   ],
   imports: [
     BrowserModule,

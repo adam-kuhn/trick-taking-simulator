@@ -2,7 +2,8 @@ import { io } from 'socket.io-client/build/index';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PlayerCard, GameState } from '../types/game';
+import { PlayerCard, GameState, InitialTasks } from '../types/game';
+import { TaskOptions } from '../deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
 
 @Injectable()
@@ -11,6 +12,9 @@ export class GameService {
 
   dealTheCards(): void {
     this.socket.emit('deal_cards');
+  }
+  dealTaskCards(options: TaskOptions): void {
+    this.socket.emit('deal_task_cards', options);
   }
 
   cardPlayed(card: PlayerCard): void {
@@ -31,6 +35,15 @@ export class GameService {
   recieveStartingCards(): Observable<GameState> {
     const observable = new Observable<GameState>((observer) => {
       this.socket.on('dealt_cards', (data: GameState) => {
+        observer.next(data);
+        return () => this.socket.disconnect();
+      });
+    });
+    return observable;
+  }
+  recieveTaskCards(): Observable<InitialTasks> {
+    const observable = new Observable<InitialTasks>((observer) => {
+      this.socket.on('show_task_cards', (data: InitialTasks) => {
         observer.next(data);
         return () => this.socket.disconnect();
       });

@@ -1,0 +1,9 @@
+<h5>Task Selection</h5>
+<div class="arranged-cards">
+  <div *ngFor="let task of startingTasks" >
+    <app-playing-card [card]="task" [showBackOfCard]="!showTasks"></app-playing-card>
+    <p>select option {{task.suit}} {{task.value}} </p>
+  </div>
+</div>
+
+
