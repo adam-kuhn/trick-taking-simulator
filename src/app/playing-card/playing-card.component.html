@@ -1,4 +1,4 @@
 <mat-card [ngClass]="['playing-card', cardStyleClass]">
-  <mat-card-title>{{card.value}}</mat-card-title>
+  <mat-card-title>{{showBackOfCard ? '' : card.value}}</mat-card-title>
   <img mat-card-image [src]="imgUrl">
 </mat-card>

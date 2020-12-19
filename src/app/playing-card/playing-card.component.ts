@@ -13,9 +13,9 @@ export class PlayingCardComponent implements OnInit {
   cardStyleClass = '';
 
   ngOnInit(): void {
-    this.cardStyleClass = `${this.card.suit}-card`;
-    this.imgUrl = `/assets/${
-      this.showBackOfCard ? 'card-back' : this.cardStyleClass
-    }.jpg`;
+    this.cardStyleClass = this.showBackOfCard
+      ? 'card-back'
+      : `${this.card.suit}-card`;
+    this.imgUrl = `/assets/${this.cardStyleClass}.jpg`;
   }
 }
