@@ -133,9 +133,9 @@ export function dealTaskCards(options: TaskOptions): Card[] {
 
 function assignSpecificTaskOrder(deck: TaskCard[], orderedTasks: number): void {
   let order = 1;
-
-  deck.forEach((task, idx) => {
-    if (idx + 1 > orderedTasks) return;
+  const assignTasks = 0;
+  deck.forEach((task) => {
+    if (assignTasks === orderedTasks) return;
     const taskHasRequirement =
       task.lastTask || (task.relativeOrder ? task.relativeOrder > 0 : false);
     if (taskHasRequirement) return;
