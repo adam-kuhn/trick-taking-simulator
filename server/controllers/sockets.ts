@@ -26,8 +26,8 @@ export function socketCommunication(socket: Socket, io: Server): void {
   });
 
   socket.on('deal_task_cards', (options: TaskOptions) => {
-    const { numberOfTasks, revealOnlyToCommander } = options;
-    const taskCards = dealTaskCards(numberOfTasks);
+    const { revealOnlyToCommander } = options;
+    const taskCards = dealTaskCards(options);
     io.emit('show_task_cards', {
       taskCards,
       revealOnlyToCommander,
