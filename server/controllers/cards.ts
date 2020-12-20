@@ -101,7 +101,7 @@ function sortCardsBySuit(suit: string, cards: PlayerCard[]): PlayerCard[] {
     .sort((a, b) => a.value - b.value);
 }
 
-export function dealTaskCards(options: TaskOptions): Card[] {
+export function dealTaskCards(options: TaskOptions): TaskCard[] {
   const {
     totalTasks,
     orderedTasks,
@@ -133,7 +133,7 @@ export function dealTaskCards(options: TaskOptions): Card[] {
 
 function assignSpecificTaskOrder(deck: TaskCard[], orderedTasks: number): void {
   let order = 1;
-  const assignTasks = 0;
+  let assignTasks = 0;
   deck.forEach((task) => {
     if (assignTasks === orderedTasks) return;
     const taskHasRequirement =
@@ -141,6 +141,7 @@ function assignSpecificTaskOrder(deck: TaskCard[], orderedTasks: number): void {
     if (taskHasRequirement) return;
     task.specificOrder = order;
     order++;
+    assignTasks++;
   });
 }
 
@@ -151,7 +152,7 @@ function assignRelativeTaskOrder(
   let order = 1;
   let assignedTasks = 0;
   deck.forEach((task) => {
-    if (assignedTasks > relativeTasks) return;
+    if (assignedTasks === relativeTasks) return;
     const taskHasRequirement =
       task.lastTask || (task.specificOrder ? task.specificOrder > 0 : false);
     if (taskHasRequirement) return;
