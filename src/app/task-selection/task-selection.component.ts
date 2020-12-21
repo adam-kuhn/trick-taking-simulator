@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Card } from '../types/game';
+import { TaskCard } from '../types/game';
 
 enum SpecificOrder {
   First = 1,
@@ -23,13 +23,12 @@ enum RelativeOrder {
   ],
 })
 export class TaskSelectionComponent {
-  @Input() startingTasks!: Card[];
+  @Input() startingTasks!: TaskCard[];
   @Input() showTasks!: boolean;
-
-  getTaskText(e: any): string {
-    console.log(e);
-    if (e.specificOrder) return SpecificOrder[e.specificOrder];
-    if (e.relativeOrder) return `Relative-${RelativeOrder[e.relativeOrder]}`;
-    return e.lastTask ? 'Last Task' : '';
+  getTaskText(task: TaskCard): string {
+    if (task.specificOrder) return SpecificOrder[task.specificOrder];
+    if (task.relativeOrder)
+      return `Relative-${RelativeOrder[task.relativeOrder]}`;
+    return task.lastTask ? 'Last Task' : '';
   }
 }

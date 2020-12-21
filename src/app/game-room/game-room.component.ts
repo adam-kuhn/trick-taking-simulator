@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { GameService } from '../services/game.service';
-import { GameState, InitialTasks, PlayerCard, Card } from '../types/game';
+import { GameState, InitialTasks, PlayerCard, TaskCard } from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -25,7 +25,7 @@ export class GameRoomComponent {
   lastTrick: PlayerCard[] = [];
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
-  startingTasks: Card[] = [];
+  startingTasks: TaskCard[] = [];
   showTasks = false;
   numberOfPlayers = 0;
   player = 0;

@@ -1,15 +1,20 @@
 export interface Card {
   suit: string;
   value: number;
-  player?: number;
 }
 
 export interface PlayerCard extends Card {
   player: number;
 }
 
+export interface TaskCard extends PlayerCard {
+  specificOrder?: number;
+  relativeOrder?: number;
+  lastTask?: boolean;
+}
+
 export interface InitialTasks {
-  taskCards: Card[];
+  taskCards: TaskCard[];
   revealOnlyToCommander: boolean;
 }
 
