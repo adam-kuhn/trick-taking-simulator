@@ -8,6 +8,7 @@ export interface PlayerCard extends Card {
 }
 
 export interface TaskCard extends PlayerCard {
+  completed: boolean;
   specificOrder?: number;
   relativeOrder?: number;
   lastTask?: boolean;

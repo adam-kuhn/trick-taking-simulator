@@ -2,6 +2,7 @@
 <div class="arranged-cards">
   <div *ngFor="let task of startingTasks">
     <p>{{ getTaskText(task) }}</p>
+    <mat-checkbox [checked]="task.completed" (change)="completeTask($event, task)">Complete task</mat-checkbox>
     <mat-select (selectionChange)="setTaskToPlayer($event, task)" [value]="task.player">
       <mat-option *ngFor="let player of players" [value]="player">
        Player {{ player }}

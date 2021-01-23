@@ -43,6 +43,10 @@ export function socketCommunication(socket: Socket, io: Server): void {
     socket.broadcast.emit('assign_task', card);
   });
 
+  socket.on('complete_task', (card: TaskCard) => {
+    socket.broadcast.emit('complete_task', card);
+  });
+
   socket.on('disconnect', () => {
     activeSockets = activeSockets.filter(
       (activeSocket) => activeSocket.id !== socket.id

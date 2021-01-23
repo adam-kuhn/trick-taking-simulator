@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { TaskCard } from '../types/game';
 import { MatSelectChange } from '@angular/material/select';
 import { GameService } from '../services/game.service';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 
 enum SpecificOrder {
   First = 1,
@@ -39,6 +40,14 @@ export class TaskSelectionComponent implements OnInit {
       if (!assignedTask) return;
       assignedTask.player = data.player;
     });
+
+    this.gameService.recieveCompletedTask().subscribe((data: TaskCard) => {
+      const completedTask = this.startingTasks.find(
+        (task) => task.suit === data.suit && task.value === data.value
+      );
+      if (!completedTask) return;
+      completedTask.completed = data.completed;
+    });
   }
 
   ngOnInit(): void {
@@ -61,5 +70,9 @@ export class TaskSelectionComponent implements OnInit {
     if (!task) return;
     task.player = event.value;
     this.gameService.assignTask(task);
+  }
+  completeTask(event: MatCheckboxChange, task: TaskCard): void {
+    task.completed = event.checked;
+    this.gameService.completeTask(task);
   }
 }

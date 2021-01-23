@@ -34,6 +34,10 @@ export class GameService {
     this.socket.emit('assign_task', card);
   }
 
+  completeTask(card: TaskCard): void {
+    this.socket.emit('complete_task', card);
+  }
+
   recievePlayedCard(): Observable<PlayerCard> {
     const observable = new Observable<PlayerCard>((observer) => {
       this.socket.on('played_card', (data: PlayerCard) => {
@@ -67,5 +71,9 @@ export class GameService {
 
   recieveAssignedTask(): Observable<TaskCard> {
     return this.createObservalble<TaskCard>('assign_task');
+  }
+
+  recieveCompletedTask(): Observable<TaskCard> {
+    return this.createObservalble<TaskCard>('complete_task');
   }
 }
