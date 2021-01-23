@@ -1,8 +1,13 @@
 <h5>Task Selection</h5>
 <div class="arranged-cards">
-  <div *ngFor="let task of startingTasks" >
-    <app-playing-card [card]="task" [showBackOfCard]="!showTasks"></app-playing-card>
+  <div *ngFor="let task of startingTasks">
     <p>{{ getTaskText(task) }}</p>
+    <mat-select (selectionChange)="setTaskToPlayer($event, task)" [value]="task.player">
+      <mat-option *ngFor="let player of players" [value]="player">
+       Player {{ player }}
+      </mat-option>
+    </mat-select>
+    <app-playing-card [card]="task" [showBackOfCard]="!showTasks"></app-playing-card>
   </div>
 </div>
 

@@ -1,5 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { TaskCard } from '../types/game';
+import { MatSelectChange } from '@angular/material/select';
+import { GameService } from '../services/game.service';
 
 enum SpecificOrder {
   First = 1,
@@ -21,14 +23,43 @@ enum RelativeOrder {
     '../game-room/game-room.component.sass',
     './task-selection.component.sass',
   ],
+  providers: [GameService],
 })
-export class TaskSelectionComponent {
+export class TaskSelectionComponent implements OnInit {
   @Input() startingTasks!: TaskCard[];
   @Input() showTasks!: boolean;
+  @Input() numberOfPlayers!: number;
+  players: number[] = [];
+
+  constructor(private gameService: GameService) {
+    this.gameService.recieveAssignedTask().subscribe((data: TaskCard) => {
+      const assignedTask = this.startingTasks.find(
+        (task) => task.suit === data.suit && task.value === data.value
+      );
+      if (!assignedTask) return;
+      assignedTask.player = data.player;
+    });
+  }
+
+  ngOnInit(): void {
+    for (let i = 1; i <= this.numberOfPlayers; i++) {
+      this.players.push(i);
+    }
+  }
+  // TODO move to pipe
   getTaskText(task: TaskCard): string {
     if (task.specificOrder) return SpecificOrder[task.specificOrder];
     if (task.relativeOrder)
       return `Relative-${RelativeOrder[task.relativeOrder]}`;
     return task.lastTask ? 'Last Task' : '';
+  }
+  setTaskToPlayer(event: MatSelectChange, selectedTask: TaskCard): void {
+    const task = this.startingTasks.find(
+      (task) =>
+        task.suit === selectedTask.suit && task.value === selectedTask.value
+    );
+    if (!task) return;
+    task.player = event.value;
+    this.gameService.assignTask(task);
   }
 }

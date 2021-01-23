@@ -2,6 +2,7 @@ import { Socket, Server } from 'socket.io';
 import {
   dealCards,
   PlayerCard,
+  TaskCard,
   sortHandOfCards,
   TaskOptions,
   dealTaskCards,
@@ -36,6 +37,10 @@ export function socketCommunication(socket: Socket, io: Server): void {
 
   socket.on('played_card', (card: PlayerCard) => {
     socket.broadcast.emit('played_card', card);
+  });
+
+  socket.on('assign_task', (card: TaskCard) => {
+    socket.broadcast.emit('assign_task', card);
   });
 
   socket.on('disconnect', () => {
