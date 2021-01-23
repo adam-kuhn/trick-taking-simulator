@@ -108,7 +108,8 @@ export function dealTaskCards(options: TaskOptions): TaskCard[] {
     relativeTasks,
     lastCompletedTask,
   } = options;
-  const taskDeck: TaskCard[] = shuffleCards(crewDeck)
+  const deckCopy = [...crewDeck];
+  const taskDeck: TaskCard[] = shuffleCards(deckCopy)
     .splice(0, totalTasks)
     .map((card) => {
       return {
