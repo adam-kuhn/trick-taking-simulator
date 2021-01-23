@@ -8,8 +8,6 @@
        Player {{ player }}
       </mat-option>
     </mat-select>
-    <app-playing-card [card]="task" [showBackOfCard]="!showTasks"></app-playing-card>
+    <app-playing-card [card]="task" [showBackOfCard]="!showTasks || task.completed"></app-playing-card>
   </div>
 </div>
-
-

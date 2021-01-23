@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { Card } from '../types/game';
 
 @Component({
@@ -6,13 +6,13 @@ import { Card } from '../types/game';
   templateUrl: './playing-card.component.html',
   styleUrls: ['./playing-card.component.sass'],
 })
-export class PlayingCardComponent implements OnInit {
+export class PlayingCardComponent implements OnChanges {
   @Input() card!: Card;
   @Input() showBackOfCard = false;
   imgUrl = '';
   cardStyleClass = '';
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.cardStyleClass = this.showBackOfCard
       ? 'card-back'
       : `${this.card.suit}-card`;
