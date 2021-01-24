@@ -47,6 +47,10 @@ export class GameService {
     socket.emit('complete_task', card);
   }
 
+  revealTasks(): void {
+    socket.emit('reveal_tasks');
+  }
+
   recievePlayedCard(): Observable<PlayerCard> {
     return this.createObservalble<PlayerCard>('played_card');
   }
@@ -65,5 +69,9 @@ export class GameService {
 
   recieveCompletedTask(): Observable<TaskCard> {
     return this.createObservalble<TaskCard>('complete_task');
+  }
+
+  revealTaskToPlayers(): Observable<null> {
+    return this.createObservalble<null>('reveal_tasks');
   }
 }

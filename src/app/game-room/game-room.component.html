@@ -1,10 +1,10 @@
 <p>Welcome to the game room</p>
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
-<button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Reveal Tasks</button>
+<button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Tasks</button>
 <div>
-  <div *ngIf="startingTasks.length">
-    <app-task-selection [startingTasks]="startingTasks" [showTasks]="showTasks" [numberOfPlayers]="numberOfPlayers"></app-task-selection>
+  <div *ngIf="numberOfPlayers">
+    <app-task-selection [numberOfPlayers]="numberOfPlayers" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
   </div>
 
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>

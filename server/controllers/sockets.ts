@@ -47,6 +47,10 @@ export function socketCommunication(socket: Socket, io: Server): void {
     socket.broadcast.emit('complete_task', card);
   });
 
+  socket.on('reveal_tasks', () => {
+    socket.broadcast.emit('reveal_tasks');
+  });
+
   socket.on('disconnect', () => {
     activeSockets = activeSockets.filter(
       (activeSocket) => activeSocket.id !== socket.id

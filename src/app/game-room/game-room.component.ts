@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { GameService } from '../services/game.service';
-import { GameState, InitialTasks, PlayerCard, TaskCard } from '../types/game';
+import { GameState, PlayerCard, TaskCard } from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -26,7 +26,6 @@ export class GameRoomComponent {
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
   startingTasks: TaskCard[] = [];
-  showTasks = false;
   numberOfPlayers = 0;
   player = 0;
   isPlayerCommander = false;
@@ -44,21 +43,12 @@ export class GameRoomComponent {
       this.playedCards = [...this.playedCards, data];
       this.resolvePlayedCard();
     });
-    this.gameService.recieveTaskCards().subscribe((data: InitialTasks) => {
-      this.startingTasks = data.taskCards;
-      this.showTasks = this.canPlayerSeeTasks(data.revealOnlyToCommander);
-    });
   }
+
   dealCards(): void {
     this.gameService.dealTheCards();
   }
-  canPlayerSeeTasks(commanderOnly: boolean): boolean {
-    let showTasks = true;
-    if (commanderOnly) {
-      showTasks = this.isPlayerCommander;
-    }
-    return showTasks;
-  }
+
   openTaskDealDialog(): void {
     const dialogRef = this.dialog.open(DealTaskDialogComponent);
     dialogRef.afterClosed().subscribe((options: TaskOptions) => {

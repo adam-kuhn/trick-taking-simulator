@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TaskCard } from '../types/game';
+import { InitialTasks, TaskCard } from '../types/game';
 import { MatSelectChange } from '@angular/material/select';
 import { GameService } from '../services/game.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -27,14 +27,16 @@ enum RelativeOrder {
   providers: [GameService],
 })
 export class TaskSelectionComponent implements OnInit {
-  @Input() startingTasks!: TaskCard[];
-  @Input() showTasks!: boolean;
+  @Input() isPlayerCommander = false;
   @Input() numberOfPlayers!: number;
+  tasks: TaskCard[] = [];
   players: number[] = [];
+  showTasks = true;
+  revealOnlyToCommander = false;
 
   constructor(private gameService: GameService) {
     this.gameService.recieveAssignedTask().subscribe((data: TaskCard) => {
-      const assignedTask = this.startingTasks.find(
+      const assignedTask = this.tasks.find(
         (task) => task.suit === data.suit && task.value === data.value
       );
       if (!assignedTask) return;
@@ -42,11 +44,20 @@ export class TaskSelectionComponent implements OnInit {
     });
 
     this.gameService.recieveCompletedTask().subscribe((data: TaskCard) => {
-      const completedTask = this.startingTasks.find(
+      const completedTask = this.tasks.find(
         (task) => task.suit === data.suit && task.value === data.value
       );
       if (!completedTask) return;
       completedTask.completed = data.completed;
+    });
+    this.gameService.recieveTaskCards().subscribe((data: InitialTasks) => {
+      this.tasks = data.taskCards;
+      this.revealOnlyToCommander = data.revealOnlyToCommander;
+      this.showTasks = this.canPlayerSeeTasks(data.revealOnlyToCommander);
+    });
+    this.gameService.revealTaskToPlayers().subscribe(() => {
+      this.showTasks = true;
+      this.revealOnlyToCommander = false;
     });
   }
 
@@ -54,6 +65,13 @@ export class TaskSelectionComponent implements OnInit {
     for (let i = 1; i <= this.numberOfPlayers; i++) {
       this.players.push(i);
     }
+  }
+  canPlayerSeeTasks(commanderOnly: boolean): boolean {
+    let showTasks = true;
+    if (commanderOnly) {
+      showTasks = this.isPlayerCommander;
+    }
+    return showTasks;
   }
   // TODO move to pipe
   getTaskText(task: TaskCard): string {
@@ -63,7 +81,7 @@ export class TaskSelectionComponent implements OnInit {
     return task.lastTask ? 'Last Task' : '';
   }
   setTaskToPlayer(event: MatSelectChange, selectedTask: TaskCard): void {
-    const task = this.startingTasks.find(
+    const task = this.tasks.find(
       (task) =>
         task.suit === selectedTask.suit && task.value === selectedTask.value
     );
@@ -74,5 +92,9 @@ export class TaskSelectionComponent implements OnInit {
   completeTask(event: MatCheckboxChange, task: TaskCard): void {
     task.completed = event.checked;
     this.gameService.completeTask(task);
+  }
+  revealTasks(): void {
+    this.revealOnlyToCommander = false;
+    this.gameService.revealTasks();
   }
 }
