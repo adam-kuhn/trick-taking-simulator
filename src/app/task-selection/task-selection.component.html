@@ -1,0 +1,16 @@
+<h5>Task Selection</h5>
+<div class="arranged-cards task-cards">
+  <div *ngFor="let task of tasks">
+    <p>{{ getTaskText(task) }}</p>
+    <div *ngIf="showTasks">
+      <mat-checkbox [checked]="task.completed" (change)="completeTask($event, task)">Complete task</mat-checkbox>
+      <mat-select (selectionChange)="setTaskToPlayer($event, task)" [value]="task.player">
+        <mat-option *ngFor="let player of players" [value]="player">
+         Player {{ player }}
+        </mat-option>
+      </mat-select>
+    </div>
+    <app-playing-card [card]="task" [showBackOfCard]="!showTasks || task.completed"></app-playing-card>
+  </div>
+</div>
+<button mat-raised-button color="secondary" *ngIf="revealOnlyToCommander && isPlayerCommander" (click)="revealTasks()">Reveal tasks</button>

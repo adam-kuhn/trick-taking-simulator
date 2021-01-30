@@ -7,6 +7,21 @@ export interface PlayerCard extends Card {
   player: number;
 }
 
+export interface TaskCard extends PlayerCard {
+  completed: boolean;
+  specificOrder?: number;
+  relativeOrder?: number;
+  lastTask?: boolean;
+}
+
+export interface TaskOptions {
+  totalTasks: number;
+  orderedTasks: number;
+  relativeTasks: number;
+  revealOnlyToCommander: boolean;
+  lastCompletedTask: boolean;
+}
+
 const CREW_TRUMP_CARDS: Card[] = [
   {
     suit: 'rocket',
@@ -26,7 +41,7 @@ const CREW_TRUMP_CARDS: Card[] = [
   },
 ];
 
-export const createCrewSuites = (): Card[] => {
+export const crewDeck: Card[] = (() => {
   const suits = ['green', 'blue', 'pink', 'yellow'];
   let deck: Card[] = [];
   suits.forEach((suit) => {
@@ -35,7 +50,7 @@ export const createCrewSuites = (): Card[] => {
     }
   });
   return deck;
-};
+})();
 
 const shuffleCards = (cards: Card[]): Card[] => {
   let currentIndex = cards.length;
@@ -55,10 +70,7 @@ const shuffleCards = (cards: Card[]): Card[] => {
 export function dealCards(
   numberOfPlayers: number
 ): { [key: string]: PlayerCard[] } {
-  const playingDeck: Card[] = shuffleCards([
-    ...CREW_TRUMP_CARDS,
-    ...createCrewSuites(),
-  ]);
+  const playingDeck: Card[] = shuffleCards([...CREW_TRUMP_CARDS, ...crewDeck]);
   let playerToDeal = numberOfPlayers;
   const dealtCards: { [key: string]: PlayerCard[] } = {};
   for (const card of playingDeck) {
@@ -88,4 +100,67 @@ function sortCardsBySuit(suit: string, cards: PlayerCard[]): PlayerCard[] {
   return cards
     .filter((card) => card.suit === suit)
     .sort((a, b) => a.value - b.value);
+}
+
+export function dealTaskCards(options: TaskOptions): TaskCard[] {
+  const {
+    totalTasks,
+    orderedTasks,
+    relativeTasks,
+    lastCompletedTask,
+  } = options;
+  const deckCopy = [...crewDeck];
+  const taskDeck: TaskCard[] = shuffleCards(deckCopy)
+    .splice(0, totalTasks)
+    .map((card) => {
+      return {
+        ...card,
+        completed: false,
+        player: 0,
+      };
+    });
+  if (orderedTasks > 0) {
+    assignSpecificTaskOrder(taskDeck, orderedTasks);
+  }
+  if (relativeTasks > 0) {
+    assignRelativeTaskOrder(taskDeck, relativeTasks);
+  }
+  if (lastCompletedTask) {
+    const avialableTask = taskDeck.find(
+      (task) => !task.relativeOrder && !task.specificOrder
+    );
+    if (avialableTask) avialableTask.lastTask = true;
+  }
+  return taskDeck.splice(0, totalTasks);
+}
+
+function assignSpecificTaskOrder(deck: TaskCard[], orderedTasks: number): void {
+  let order = 1;
+  let assignTasks = 0;
+  deck.forEach((task) => {
+    if (assignTasks === orderedTasks) return;
+    const taskHasRequirement =
+      task.lastTask || (task.relativeOrder ? task.relativeOrder > 0 : false);
+    if (taskHasRequirement) return;
+    task.specificOrder = order;
+    order++;
+    assignTasks++;
+  });
+}
+
+function assignRelativeTaskOrder(
+  deck: TaskCard[],
+  relativeTasks: number
+): void {
+  let order = 1;
+  let assignedTasks = 0;
+  deck.forEach((task) => {
+    if (assignedTasks === relativeTasks) return;
+    const taskHasRequirement =
+      task.lastTask || (task.specificOrder ? task.specificOrder > 0 : false);
+    if (taskHasRequirement) return;
+    task.relativeOrder = order;
+    order++;
+    assignedTasks++;
+  });
 }

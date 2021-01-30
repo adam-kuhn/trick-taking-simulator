@@ -1,13 +1,14 @@
 import { expect } from 'chai';
 import {
-  createCrewSuites,
+  crewDeck,
   dealCards,
   sortHandOfCards,
+  dealTaskCards,
 } from '../controllers/cards';
 
 describe('createCrewSuites', function () {
   it('generates a deck with 4 suits and 9 cards for each suit', function () {
-    const cards = createCrewSuites();
+    const cards = crewDeck;
     const greenCards = cards.filter((card) => card.suit === 'green').length;
     const pinkCards = cards.filter((card) => card.suit === 'pink').length;
     const blueCards = cards.filter((card) => card.suit === 'blue').length;
@@ -84,5 +85,48 @@ describe('sortHandOfCards', function () {
     ];
     const actual = sortHandOfCards(playersHand);
     expect(actual).to.deep.equal(expected);
+  });
+});
+
+describe('dealTaskCards', function () {
+  it('does not assign requirements when non are provided', function () {
+    const taskOptions = {
+      totalTasks: 5,
+      orderedTasks: 0,
+      relativeTasks: 0,
+      lastCompletedTask: false,
+      revealOnlyToCommander: false,
+    };
+    const actual = dealTaskCards(taskOptions);
+    expect(actual.length).to.equal(5);
+    expect(actual[0]).to.not.have.property('relativeOrder');
+    expect(actual[0]).to.not.have.property('specificOrder');
+    expect(actual[0]).to.not.have.property('lastTask');
+  });
+  it('correctly assign task requirements', function () {
+    const taskOptions = {
+      totalTasks: 5,
+      orderedTasks: 1,
+      relativeTasks: 2,
+      lastCompletedTask: true,
+      revealOnlyToCommander: false,
+    };
+    const actual = dealTaskCards(taskOptions);
+    expect(actual.length).to.equal(5);
+    expect(actual[0]).to.not.have.property('relativeOrder');
+    expect(actual[0]).to.have.property('specificOrder', 1);
+    expect(actual[0]).to.not.have.property('lastTask');
+    expect(actual[1]).to.have.property('relativeOrder', 1);
+    expect(actual[1]).to.not.have.property('specificOrder');
+    expect(actual[1]).to.not.have.property('lastTask');
+    expect(actual[2]).to.have.property('relativeOrder', 2);
+    expect(actual[2]).to.not.have.property('specificOrder');
+    expect(actual[2]).to.not.have.property('lastTask');
+    expect(actual[3]).to.not.have.property('relativeOrder');
+    expect(actual[3]).to.not.have.property('specificOrder');
+    expect(actual[3]).to.have.property('lastTask', true);
+    expect(actual[4]).to.not.have.property('relativeOrder');
+    expect(actual[4]).to.not.have.property('specificOrder');
+    expect(actual[4]).to.not.have.property('lastTask');
   });
 });

@@ -1,40 +1,77 @@
 import { io } from 'socket.io-client/build/index';
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PlayerCard, GameState } from '../types/game';
+import { PlayerCard, TaskCard, GameState, InitialTasks } from '../types/game';
+import { TaskOptions } from '../deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
 
+/* socket communication is occuring outside
+the Angular zone. Need to ensure the UI
+updates by use ngZone.run() 
+can use NgZone.isInAngularZone() to determine what is happening in the
+Angular zone
+*/
+
+const socket = io(environment.ws_url);
 @Injectable()
 export class GameService {
-  private socket = io(environment.ws_url);
-
+  constructor(private ngZone: NgZone) {}
+  private socket = socket;
+  private createObservalble<T>(message: string): Observable<T> {
+    const observable = new Observable<T>((observer) => {
+      socket.on(message, (data: T) => {
+        this.ngZone.run(() => observer.next(data));
+        // In case of error, disconnect
+        return () => socket.disconnect();
+      });
+    });
+    return observable;
+  }
   dealTheCards(): void {
-    this.socket.emit('deal_cards');
+    socket.emit('deal_cards');
+  }
+  dealTaskCards(options: TaskOptions): void {
+    socket.emit('deal_task_cards', options);
   }
 
   cardPlayed(card: PlayerCard): void {
-    this.socket.emit('played_card', card);
+    socket.emit('played_card', card);
+  }
+
+  assignTask(card: TaskCard): void {
+    socket.emit('assign_task', card);
+  }
+
+  completeTask(card: TaskCard): void {
+    socket.emit('complete_task', card);
+  }
+
+  revealTasks(): void {
+    socket.emit('reveal_tasks');
   }
 
   recievePlayedCard(): Observable<PlayerCard> {
-    const observable = new Observable<PlayerCard>((observer) => {
-      this.socket.on('played_card', (data: PlayerCard) => {
-        observer.next(data);
-        // In case of error, disconnect
-        return () => this.socket.disconnect();
-      });
-    });
-    return observable;
+    return this.createObservalble<PlayerCard>('played_card');
   }
 
   recieveStartingCards(): Observable<GameState> {
-    const observable = new Observable<GameState>((observer) => {
-      this.socket.on('dealt_cards', (data: GameState) => {
-        observer.next(data);
-        return () => this.socket.disconnect();
-      });
-    });
-    return observable;
+    return this.createObservalble<GameState>('dealt_cards');
+  }
+
+  recieveTaskCards(): Observable<InitialTasks> {
+    return this.createObservalble<InitialTasks>('show_task_cards');
+  }
+
+  recieveAssignedTask(): Observable<TaskCard> {
+    return this.createObservalble<TaskCard>('assign_task');
+  }
+
+  recieveCompletedTask(): Observable<TaskCard> {
+    return this.createObservalble<TaskCard>('complete_task');
+  }
+
+  revealTaskToPlayers(): Observable<null> {
+    return this.createObservalble<null>('reveal_tasks');
   }
 }

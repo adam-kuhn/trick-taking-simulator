@@ -1,5 +1,12 @@
 import { Socket, Server } from 'socket.io';
-import { dealCards, PlayerCard, sortHandOfCards } from './cards';
+import {
+  dealCards,
+  PlayerCard,
+  TaskCard,
+  sortHandOfCards,
+  TaskOptions,
+  dealTaskCards,
+} from './cards';
 
 let activeSockets: Socket[] = [];
 
@@ -19,8 +26,29 @@ export function socketCommunication(socket: Socket, io: Server): void {
     });
   });
 
+  socket.on('deal_task_cards', (options: TaskOptions) => {
+    const { revealOnlyToCommander } = options;
+    const taskCards = dealTaskCards(options);
+    io.emit('show_task_cards', {
+      taskCards,
+      revealOnlyToCommander,
+    });
+  });
+
   socket.on('played_card', (card: PlayerCard) => {
     socket.broadcast.emit('played_card', card);
+  });
+
+  socket.on('assign_task', (card: TaskCard) => {
+    socket.broadcast.emit('assign_task', card);
+  });
+
+  socket.on('complete_task', (card: TaskCard) => {
+    socket.broadcast.emit('complete_task', card);
+  });
+
+  socket.on('reveal_tasks', () => {
+    socket.broadcast.emit('reveal_tasks');
   });
 
   socket.on('disconnect', () => {

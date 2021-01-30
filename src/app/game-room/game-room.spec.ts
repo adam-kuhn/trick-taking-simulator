@@ -1,7 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { OverlayModule } from '@angular/cdk/overlay';
 
+import { MatDialogModule } from '@angular/material/dialog';
 import { GameRoomComponent } from './game-room.component';
+import { GameService } from '../services/game.service';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -10,7 +13,8 @@ describe('GameRoomComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GameRoomComponent],
-      imports: [DragDropModule],
+      imports: [DragDropModule, OverlayModule, MatDialogModule],
+      providers: [GameService],
     }).compileComponents();
   });
 

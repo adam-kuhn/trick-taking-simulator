@@ -1,17 +1,23 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
 import { GameService } from '../services/game.service';
-import { GameState, PlayerCard } from '../types/game';
+import { GameState, PlayerCard, TaskCard } from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
+import {
+  DealTaskDialogComponent,
+  TaskOptions,
+} from '../deal-task-dialog/deal-task-dialog.component';
 
 @Component({
   selector: 'app-game-room',
   templateUrl: './game-room.component.html',
   styleUrls: ['./game-room.component.sass'],
-  providers: [GameService],
+  providers: [GameService, MatDialog],
 })
 export class GameRoomComponent {
   cardsInHand: PlayerCard[] = [];
@@ -19,22 +25,35 @@ export class GameRoomComponent {
   lastTrick: PlayerCard[] = [];
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
+  startingTasks: TaskCard[] = [];
   numberOfPlayers = 0;
   player = 0;
+  isPlayerCommander = false;
 
-  constructor(private gameService: GameService) {
+  constructor(private gameService: GameService, private dialog: MatDialog) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
       this.player = data.player;
+      this.isPlayerCommander = !!data.playersCards.find(
+        (card) => card.suit === 'rocket' && card.value === 4
+      );
     });
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
       this.resolvePlayedCard();
     });
   }
+
   dealCards(): void {
     this.gameService.dealTheCards();
+  }
+
+  openTaskDealDialog(): void {
+    const dialogRef = this.dialog.open(DealTaskDialogComponent);
+    dialogRef.afterClosed().subscribe((options: TaskOptions) => {
+      this.gameService.dealTaskCards(options);
+    });
   }
   resolvePlayedCard(): void {
     const { playedCards } = this;

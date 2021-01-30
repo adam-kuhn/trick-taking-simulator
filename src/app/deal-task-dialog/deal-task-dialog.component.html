@@ -1,0 +1,34 @@
+<mat-dialog-content>
+  <p>How many tasks are needed?</p>
+  <mat-select (selectionChange)="setTotalTasks($event)" [value]="taskRevealConfig.totalTasks">
+    <mat-option *ngFor="let option of options" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+
+  <p>Specific ordered tasks?</p>
+  <mat-select (selectionChange)="setOrderSpecificTasks($event)" [value]="taskRevealConfig.orderedTasks">
+    <mat-option *ngFor="let option of orderSpecificOptions" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+  <p>Relative ordered tasks?</p>
+  <mat-select (selectionChange)="setRelativeTasks($event)" [value]="taskRevealConfig.relativeTasks">
+    <mat-option *ngFor="let option of relativeOptions" [value]="option">
+      {{ option }}
+    </mat-option>
+  </mat-select>
+  <div class="check-box-options">
+    <mat-checkbox [checked]="taskRevealConfig.lastCompletedTask" (change)="setLastCompletedTask($event)">
+      Last completed task requirement
+    </mat-checkbox>
+    <mat-checkbox [checked]="taskRevealConfig.revealOnlyToCommander" (change)="setRevealToCommander($event)">
+      Only reveal tasks to commander
+    </mat-checkbox>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="taskRevealConfig">Reveal Tasks</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
