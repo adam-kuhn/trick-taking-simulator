@@ -82,6 +82,7 @@ export class GameRoomComponent {
     setTimeout(() => {
       this.lastTrick = [...this.playedCards];
       this.playedCards = [];
+      this.leadCard = null;
     }, 3000);
   }
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
