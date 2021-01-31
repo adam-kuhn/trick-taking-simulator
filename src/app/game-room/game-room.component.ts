@@ -25,6 +25,7 @@ export class GameRoomComponent {
   lastTrick: PlayerCard[] = [];
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
+  communicationCard: PlayerCard[] = [];
   startingTasks: TaskCard[] = [];
   numberOfPlayers = 0;
   player = 0;
@@ -86,6 +87,15 @@ export class GameRoomComponent {
     }, 3000);
   }
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
+    this.handleDrop(event);
+
+    this.gameService.cardPlayed(event.container.data[event.currentIndex]);
+    this.resolvePlayedCard();
+  cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
+    if (this.communicationCard.length === 1) return;
+    this.handleDrop(event);
+  }
+  handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     const {
       container: currentContainer,
       previousContainer,
@@ -102,8 +112,5 @@ export class GameRoomComponent {
       previousIndex,
       currentIndex
     );
-
-    this.gameService.cardPlayed(currentContainer.data[currentIndex]);
-    this.resolvePlayedCard();
   }
 }

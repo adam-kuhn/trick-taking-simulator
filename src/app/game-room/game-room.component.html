@@ -24,14 +24,34 @@
   (cdkDropListDropped)="cardPlayed($event)">
     <app-playing-card *ngFor="let card of playedCards" [card]="card"></app-playing-card>
 </div>
-<h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
-<div 
-    *ngIf="cardsInHand.length > 1" 
-    cdkDropList
-    [cdkDropListData]="cardsInHand"
-    [cdkDropListConnectedTo]="[playingMat]">
 
-  <div class="arranged-cards">
-    <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card"></app-playing-card>
+<h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
+<div class="players-cards" *ngIf="cardsInHand.length > 1" >
+  <div
+    cdkDropList
+    #playersHand="cdkDropList" 
+    [cdkDropListData]="cardsInHand"
+    [cdkDropListConnectedTo]="[playingMat, communication]"
+    (cdkDropListDropped)="handleDrop($event)"
+  >
+    <div class="arranged-cards">
+      <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card"></app-playing-card>
+    </div>
+  </div>
+
+  <div>
+    <h3>Communicate</h3>
+    <div
+      class="communication-area"
+      #communication="cdkDropList" 
+      cdkDropList
+      [cdkDropListData]="communicationCard" 
+      [cdkDropListConnectedTo]="[playingMat, playersHand]"
+      (cdkDropListDropped)="cardPlacedInCommunication($event)"
+    >
+      <app-playing-card *ngIf="communicationCard[0]" cdkDrag [card]="communicationCard[0]"></app-playing-card>
+      <p>Communication card spot</p>
+    </div>
   </div>
 </div>
+
