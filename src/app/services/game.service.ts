@@ -17,6 +17,8 @@ the Angular zone. Need to ensure the UI
 updates by use ngZone.run() 
 can use NgZone.isInAngularZone() to determine what is happening in the
 Angular zone
+Socket communication occurs outside Angular zone, because it is being
+defined outside of the Angular Service
 */
 
 const socket = io(environment.ws_url);
