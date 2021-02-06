@@ -24,3 +24,8 @@ export interface GameState {
   numberOfPlayers: number;
   playersCards: PlayerCard[];
 }
+
+export interface Communication {
+  type: string;
+  card: PlayerCard;
+}

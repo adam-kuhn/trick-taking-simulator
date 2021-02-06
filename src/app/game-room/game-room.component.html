@@ -13,7 +13,10 @@
     <app-playing-card *ngFor="let card of lastTrick" [card]="card"></app-playing-card>
   </div>
 </div>
-
+<h5>Communication</h5>
+<div class="arranged-cards">
+  <app-communication-cards *ngFor="let card of revealedCommunications" [communication]="card"></app-communication-cards>
+</div>
 <h4>Lead Card:</h4>
 <app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
 <div 
@@ -48,9 +51,16 @@
       [cdkDropListData]="communicationCard" 
       [cdkDropListConnectedTo]="[playingMat, playersHand]"
       (cdkDropListDropped)="cardPlacedInCommunication($event)"
+      color="secondary"
     >
-      <app-playing-card *ngIf="communicationCard[0]" cdkDrag [card]="communicationCard[0]"></app-playing-card>
-      <p>Communication card spot</p>
+      <div *ngIf="communicationCard[0]">
+        <mat-select (selectionChange)="handleCommunication($event)">
+          <mat-option *ngFor="let option of communicationOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+      </div>
     </div>
   </div>
 </div>

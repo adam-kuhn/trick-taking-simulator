@@ -2,7 +2,13 @@ import { io } from 'socket.io-client/build/index';
 import { Injectable, NgZone } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { PlayerCard, TaskCard, GameState, InitialTasks } from '../types/game';
+import {
+  PlayerCard,
+  TaskCard,
+  GameState,
+  InitialTasks,
+  Communication,
+} from '../types/game';
 import { TaskOptions } from '../deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
 
@@ -31,6 +37,7 @@ export class GameService {
   dealTheCards(): void {
     socket.emit('deal_cards');
   }
+
   dealTaskCards(options: TaskOptions): void {
     socket.emit('deal_task_cards', options);
   }
@@ -49,6 +56,10 @@ export class GameService {
 
   revealTasks(): void {
     socket.emit('reveal_tasks');
+  }
+
+  sendCommunication(data: Communication): void {
+    socket.emit('communicate', data);
   }
 
   recievePlayedCard(): Observable<PlayerCard> {
@@ -73,5 +84,9 @@ export class GameService {
 
   revealTaskToPlayers(): Observable<null> {
     return this.createObservalble<null>('reveal_tasks');
+  }
+
+  recieveCommunication(): Observable<Communication> {
+    return this.createObservalble<Communication>('communicate');
   }
 }

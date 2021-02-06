@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
-import { GameState, PlayerCard, TaskCard } from '../types/game';
+import { GameState, PlayerCard, TaskCard, Communication } from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -26,10 +27,12 @@ export class GameRoomComponent {
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
   communicationCard: PlayerCard[] = [];
+  revealedCommunications: Communication[] = [];
   startingTasks: TaskCard[] = [];
   numberOfPlayers = 0;
   player = 0;
   isPlayerCommander = false;
+  communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
   constructor(private gameService: GameService, private dialog: MatDialog) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
@@ -43,6 +46,9 @@ export class GameRoomComponent {
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
       this.resolvePlayedCard();
+    });
+    this.gameService.recieveCommunication().subscribe((data: Communication) => {
+      this.revealedCommunications = [...this.revealedCommunications, data];
     });
   }
 
@@ -91,6 +97,7 @@ export class GameRoomComponent {
 
     this.gameService.cardPlayed(event.container.data[event.currentIndex]);
     this.resolvePlayedCard();
+  }
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
     if (this.communicationCard.length === 1) return;
     this.handleDrop(event);
@@ -112,5 +119,11 @@ export class GameRoomComponent {
       previousIndex,
       currentIndex
     );
+  }
+  handleCommunication(event: MatSelectChange): void {
+    this.gameService.sendCommunication({
+      type: event.value,
+      card: this.communicationCard[0],
+    });
   }
 }
