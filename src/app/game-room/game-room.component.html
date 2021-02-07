@@ -30,7 +30,7 @@
 <div 
   class="playing-mat arranged-cards"
   cdkDropList 
-  #playingMat="cdkDropList" 
+  id="playing-mat" 
   [cdkDropListData]="playedCards"
   (cdkDropListDropped)="cardPlayed($event)">
     <app-playing-card *ngFor="let card of playedCards" [card]="card"></app-playing-card>
@@ -40,9 +40,9 @@
 <div class="players-cards">
   <div
     cdkDropList
-    #playersHand="cdkDropList" 
+    id="players-hand" 
     [cdkDropListData]="cardsInHand"
-    [cdkDropListConnectedTo]="[playingMat, communication]"
+    [cdkDropListConnectedTo]="['playing-mat', 'communication']"
     (cdkDropListDropped)="handleDrop($event)"
   >
     <div class="arranged-cards">
@@ -54,10 +54,10 @@
     <h3>Communicate</h3>
     <div
       class="communication-area"
-      #communication="cdkDropList" 
       cdkDropList
+      id="communication" 
       [cdkDropListData]="communicationCard" 
-      [cdkDropListConnectedTo]="[playingMat, playersHand]"
+      [cdkDropListConnectedTo]="communicationDragTo()"
       (cdkDropListDropped)="cardPlacedInCommunication($event)"
       color="secondary"
     >

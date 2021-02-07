@@ -113,6 +113,17 @@ export class GameRoomComponent {
     if (this.communicationCard.length === 1) return;
     this.handleDrop(event);
   }
+
+  communicationDragTo(): string[] | string {
+    const listsForDrag = ['playing-mat', 'players-hand'];
+    if (!this.communicationCard[0]) return listsForDrag;
+    const communicated = this.revealedCommunications.find(
+      ({ card }) =>
+        card.value === this.communicationCard[0].value &&
+        card.suit === this.communicationCard[0].suit
+    );
+    return communicated ? 'playing-mat' : listsForDrag;
+  }
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     const {
       container: currentContainer,
