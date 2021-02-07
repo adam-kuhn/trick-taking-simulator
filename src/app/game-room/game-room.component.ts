@@ -45,7 +45,7 @@ export class GameRoomComponent {
     });
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
-      this.resolvePlayedCard();
+      this.resolvePlayedCard(data);
     });
     this.gameService.recieveCommunication().subscribe((data: Communication) => {
       this.revealedCommunications = [...this.revealedCommunications, data];
@@ -62,8 +62,12 @@ export class GameRoomComponent {
       this.gameService.dealTaskCards(options);
     });
   }
-  resolvePlayedCard(): void {
+  resolvePlayedCard(playedCard: PlayerCard): void {
     const { playedCards } = this;
+    this.revealedCommunications = this.revealedCommunications.filter(
+      ({ card }) =>
+        !(card.value === playedCard.value && card.suit === playedCard.suit)
+    );
     if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
@@ -94,9 +98,9 @@ export class GameRoomComponent {
   }
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
     this.handleDrop(event);
-
-    this.gameService.cardPlayed(event.container.data[event.currentIndex]);
-    this.resolvePlayedCard();
+    const card = event.container.data[event.currentIndex];
+    this.gameService.cardPlayed(card);
+    this.resolvePlayedCard(card);
   }
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
     if (this.communicationCard.length === 1) return;
