@@ -11,13 +11,13 @@
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
   <div class="game-info-card">
     <div class="card-info">
-      <h5>Last Trick</h5>
+      <h3>Last Trick</h3>
       <div class="arranged-cards">
        <app-information-card *ngFor="let card of lastTrick" [information]="'Player ' + card.player" [card]="card"></app-information-card>
       </div>
     </div>
     <div class="card-info">
-      <h5>Communication</h5>
+      <h3>Communication</h3>
       <div class="arranged-cards">
         <app-information-card *ngFor="let communication of revealedCommunications" [information]="communication.type" [card]="communication.card"></app-information-card>
       </div>
