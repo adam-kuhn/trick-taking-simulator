@@ -2,23 +2,31 @@
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Tasks</button>
-<div>
+
+<div class="game-info-container">
   <div *ngIf="numberOfPlayers">
     <app-task-selection [numberOfPlayers]="numberOfPlayers" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
   </div>
 
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
-  <h5>Last Trick</h5>
-  <div class="arranged-cards">
-    <app-playing-card *ngFor="let card of lastTrick" [card]="card"></app-playing-card>
+  <div class="game-info-card">
+    <div class="card-info">
+      <h5>Last Trick</h5>
+      <div class="arranged-cards">
+       <app-information-card *ngFor="let card of lastTrick" [information]="'Player ' + card.player" [card]="card"></app-information-card>
+      </div>
+    </div>
+    <div class="card-info">
+      <h5>Communication</h5>
+      <div class="arranged-cards">
+        <app-information-card *ngFor="let communication of revealedCommunications" [information]="communication.type" [card]="communication.card"></app-information-card>
+      </div>
+    </div>
   </div>
+  <h4>Lead Card:</h4>
+  <app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
 </div>
-<h5>Communication</h5>
-<div class="arranged-cards">
-  <app-communication-cards *ngFor="let card of revealedCommunications" [communication]="card"></app-communication-cards>
-</div>
-<h4>Lead Card:</h4>
-<app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
+
 <div 
   class="playing-mat arranged-cards"
   cdkDropList 
@@ -29,7 +37,7 @@
 </div>
 
 <h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
-<div class="players-cards" *ngIf="cardsInHand.length > 1" >
+<div class="players-cards" *ngIf="cardsInHand.length > 1 || communicationCard[0]">
   <div
     cdkDropList
     #playersHand="cdkDropList" 
