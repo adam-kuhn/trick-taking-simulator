@@ -50,7 +50,12 @@ export class GameRoomComponent {
       this.resolvePlayedCard(data);
     });
     this.gameService.recieveCommunication().subscribe((data: Communication) => {
-      this.revealedCommunications = [...this.revealedCommunications, data];
+      const uniqueCommunications = this.revealedCommunications.filter(
+        ({ card }) =>
+          !(card.suit === data.card.suit && card.value === data.card.value)
+      );
+
+      this.revealedCommunications = [...uniqueCommunications, data];
     });
   }
 
