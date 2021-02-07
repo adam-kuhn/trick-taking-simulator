@@ -37,7 +37,7 @@
 </div>
 
 <h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
-<div class="players-cards" *ngIf="cardsInHand.length > 1 || communicationCard[0]">
+<div class="players-cards">
   <div
     cdkDropList
     #playersHand="cdkDropList" 
