@@ -39,6 +39,8 @@ export class GameRoomComponent {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
       this.player = data.player;
+      this.revealedCommunications = [];
+      this.communicationCard = [];
       this.isPlayerCommander = !!data.playersCards.find(
         (card) => card.suit === 'rocket' && card.value === 4
       );
