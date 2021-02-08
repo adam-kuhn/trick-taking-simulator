@@ -27,9 +27,9 @@ describe('GameSummaryComponent', () => {
 
   it('should format information text based on the player who communicated the card', () => {
     const playedCard = { suit: 'green', value: 2, player: 4 };
-    const communcationType = 'highest';
+    const communicationType = 'highest';
     const expected = "Player 4's highest";
-    const actual = component.formatInformation(playedCard, communcationType);
+    const actual = component.formatInformation(playedCard, communicationType);
     expect(actual).toBe(expected);
   });
 });
