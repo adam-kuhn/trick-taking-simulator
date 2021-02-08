@@ -16,7 +16,10 @@ export class GameSummaryComponent {
   @Input() lastTrick!: PlayerCard[];
   @Input() revealedCommunications!: Communication[];
 
-  formatCommunicationInformation(communication: Communication): string {
-    return `Player ${communication.card.player}'s ${communication.type}`;
+  formatInformation(card: PlayerCard, communicationType?: string): string {
+    const playersCard = `Player ${card.player}`;
+    return communicationType
+      ? `${playersCard}'s ${communicationType}`
+      : playersCard;
   }
 }
