@@ -148,7 +148,4 @@ export class GameRoomComponent {
       card: this.communicationCard[0],
     });
   }
-  formatCommunicationInformation(communication: Communication): string {
-    return `Player ${communication.card.player}'s ${communication.type}`;
-  }
 }

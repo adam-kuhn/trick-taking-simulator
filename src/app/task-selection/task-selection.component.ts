@@ -20,10 +20,7 @@ enum RelativeOrder {
 @Component({
   selector: 'app-task-selection',
   templateUrl: './task-selection.component.html',
-  styleUrls: [
-    '../game-room/game-room.component.sass',
-    './task-selection.component.sass',
-  ],
+  styleUrls: ['./task-selection.component.sass'],
   providers: [GameService],
 })
 export class TaskSelectionComponent implements OnInit {
