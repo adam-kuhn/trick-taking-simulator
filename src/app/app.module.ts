@@ -16,6 +16,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlayingCardComponent } from './playing-card/playing-card.component';
 import { DealTaskDialogComponent } from './deal-task-dialog/deal-task-dialog.component';
 import { TaskSelectionComponent } from './task-selection/task-selection.component';
+import { InformationCardsComponent } from './communication-cards/information-card.component';
+import { GameSummaryComponent } from './game-summary/game-summary.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +26,8 @@ import { TaskSelectionComponent } from './task-selection/task-selection.componen
     PlayingCardComponent,
     DealTaskDialogComponent,
     TaskSelectionComponent,
+    InformationCardsComponent,
+    GameSummaryComponent,
   ],
   imports: [
     BrowserModule,

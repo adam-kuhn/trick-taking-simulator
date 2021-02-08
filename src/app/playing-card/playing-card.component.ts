@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Card } from '../types/game';
+import { Card, PlayerCard } from '../types/game';
 
 @Component({
   selector: 'app-playing-card',
@@ -7,7 +7,7 @@ import { Card } from '../types/game';
   styleUrls: ['./playing-card.component.sass'],
 })
 export class PlayingCardComponent implements OnChanges {
-  @Input() card!: Card;
+  @Input() card!: Card | PlayerCard;
   @Input() showBackOfCard = false;
   imgUrl = '';
   cardStyleClass = '';

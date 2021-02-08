@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
-import { GameState, PlayerCard, TaskCard } from '../types/game';
+import { GameState, PlayerCard, TaskCard, Communication } from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -25,23 +26,36 @@ export class GameRoomComponent {
   lastTrick: PlayerCard[] = [];
   winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
+  communicationCard: PlayerCard[] = [];
+  revealedCommunications: Communication[] = [];
   startingTasks: TaskCard[] = [];
   numberOfPlayers = 0;
   player = 0;
   isPlayerCommander = false;
+  communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
   constructor(private gameService: GameService, private dialog: MatDialog) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
       this.player = data.player;
+      this.revealedCommunications = [];
+      this.communicationCard = [];
       this.isPlayerCommander = !!data.playersCards.find(
         (card) => card.suit === 'rocket' && card.value === 4
       );
     });
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
-      this.resolvePlayedCard();
+      this.resolvePlayedCard(data);
+    });
+    this.gameService.recieveCommunication().subscribe((data: Communication) => {
+      const uniqueCommunications = this.revealedCommunications.filter(
+        ({ card }) =>
+          !(card.suit === data.card.suit && card.value === data.card.value)
+      );
+
+      this.revealedCommunications = [...uniqueCommunications, data];
     });
   }
 
@@ -55,8 +69,12 @@ export class GameRoomComponent {
       this.gameService.dealTaskCards(options);
     });
   }
-  resolvePlayedCard(): void {
+  resolvePlayedCard(playedCard: PlayerCard): void {
     const { playedCards } = this;
+    this.revealedCommunications = this.revealedCommunications.filter(
+      ({ card }) =>
+        !(card.value === playedCard.value && card.suit === playedCard.suit)
+    );
     if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
@@ -86,6 +104,27 @@ export class GameRoomComponent {
     }, 3000);
   }
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
+    this.handleDrop(event);
+    const card = event.container.data[event.currentIndex];
+    this.gameService.cardPlayed(card);
+    this.resolvePlayedCard(card);
+  }
+  cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
+    if (this.communicationCard.length === 1) return;
+    this.handleDrop(event);
+  }
+
+  communicationDragTo(): string[] | string {
+    const listsForDrag = ['playing-mat', 'players-hand'];
+    if (!this.communicationCard[0]) return listsForDrag;
+    const communicated = this.revealedCommunications.find(
+      ({ card }) =>
+        card.value === this.communicationCard[0].value &&
+        card.suit === this.communicationCard[0].suit
+    );
+    return communicated ? 'playing-mat' : listsForDrag;
+  }
+  handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     const {
       container: currentContainer,
       previousContainer,
@@ -102,8 +141,11 @@ export class GameRoomComponent {
       previousIndex,
       currentIndex
     );
-
-    this.gameService.cardPlayed(currentContainer.data[currentIndex]);
-    this.resolvePlayedCard();
+  }
+  handleCommunication(event: MatSelectChange): void {
+    this.gameService.sendCommunication({
+      type: event.value,
+      card: this.communicationCard[0],
+    });
   }
 }

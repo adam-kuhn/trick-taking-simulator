@@ -60,4 +60,27 @@ describe('GameRoomComponent', () => {
     component.resolveTrick();
     expect(component.winningCard).toEqual(winningCard);
   });
+
+  it('should prevent dragging to players hand if they have communicated', () => {
+    const communicationCard = { suit: 'pink', value: 2, player: 1 };
+    component.communicationCard = [communicationCard];
+    component.revealedCommunications = [
+      { type: 'highest', card: communicationCard },
+      { type: 'lowest', card: { suit: 'green', value: 3, player: 2 } },
+    ];
+    const expected = 'playing-mat';
+    const actual = component.communicationDragTo();
+    expect(actual).toBe(expected);
+  });
+
+  it('should allow dragging to players hand if they have not communicated', () => {
+    const communicationCard = { suit: 'pink', value: 2, player: 1 };
+    component.communicationCard = [communicationCard];
+    component.revealedCommunications = [
+      { type: 'lowest', card: { suit: 'green', value: 3, player: 2 } },
+    ];
+    const expected = ['playing-mat', 'players-hand'];
+    const actual = component.communicationDragTo();
+    expect(actual).toEqual(expected);
+  });
 });
