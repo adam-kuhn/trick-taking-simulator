@@ -41,7 +41,7 @@ import { GameSummaryComponent } from './game-summary/game-summary.component';
     MatSelectModule,
     MatCheckboxModule,
   ],
-  providers: [],
+  providers: [GameSummaryComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
+import { GameSummaryService } from '../services/game-summary.service';
 import { GameState, PlayerCard, TaskCard, Communication } from '../types/game';
 import {
   CdkDragDrop,
@@ -24,7 +25,6 @@ export class GameRoomComponent {
   cardsInHand: PlayerCard[] = [];
   playedCards: PlayerCard[] = [];
   lastTrick: PlayerCard[] = [];
-  winningCard: PlayerCard | null = null;
   leadCard: PlayerCard | null = null;
   communicationCard: PlayerCard[] = [];
   revealedCommunications: Communication[] = [];
@@ -34,7 +34,11 @@ export class GameRoomComponent {
   isPlayerCommander = false;
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
-  constructor(private gameService: GameService, private dialog: MatDialog) {
+  constructor(
+    private gameService: GameService,
+    private gameSummaryService: GameSummaryService,
+    private dialog: MatDialog
+  ) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
@@ -61,6 +65,7 @@ export class GameRoomComponent {
 
   dealCards(): void {
     this.gameService.dealTheCards();
+    this.gameSummaryService.setWinningCard(null);
   }
 
   openTaskDealDialog(): void {
@@ -86,13 +91,13 @@ export class GameRoomComponent {
 
     if (playedTrump.length > 0) {
       playedTrump.sort((a, b) => b.value - a.value);
-      this.winningCard = playedTrump[0];
+      this.gameSummaryService.setWinningCard(playedTrump[0]);
     } else {
       const followedSuit = this.playedCards.filter(
         (card: PlayerCard) => this.leadCard && this.leadCard.suit === card.suit
       );
       followedSuit.sort((a, b) => b.value - a.value);
-      this.winningCard = followedSuit[0];
+      this.gameSummaryService.setWinningCard(followedSuit[0]);
     }
     this.cleanUpTrick();
   }
