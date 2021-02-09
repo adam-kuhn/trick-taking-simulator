@@ -65,6 +65,7 @@ export class GameRoomComponent {
 
   dealCards(): void {
     this.gameService.dealTheCards();
+    this.gameSummaryService.setWinningCard(null);
   }
 
   openTaskDealDialog(): void {

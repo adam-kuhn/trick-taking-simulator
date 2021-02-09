@@ -31,7 +31,10 @@ export class GameSummaryComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    if (this.wonTrickSummary.length !== this.numberOfPlayers) {
+    if (
+      this.wonTrickSummary.length !== this.numberOfPlayers ||
+      this.winningCard === null
+    ) {
       this.createTrickSummary();
     }
   }
