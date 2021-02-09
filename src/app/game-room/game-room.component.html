@@ -3,10 +3,9 @@
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Tasks</button>
 
-<app-game-summary 
+<app-game-summary
   [numberOfPlayers]="numberOfPlayers"
   [isPlayerCommander]="isPlayerCommander"
-  [winningCard]="winningCard"
   [leadCard]="leadCard"
   [lastTrick]="lastTrick"
   [revealedCommunications]="revealedCommunications"
