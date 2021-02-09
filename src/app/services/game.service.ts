@@ -20,7 +20,8 @@ Angular zone
 Socket communication occurs outside Angular zone, because it is being
 defined outside of the Angular Service
 */
-
+// using provided in root would solve my socket problem
+// and then I wouldn't have to use ngzone.run()
 const socket = io(environment.ws_url);
 @Injectable()
 export class GameService {
