@@ -19,7 +19,7 @@ import {
   selector: 'app-game-room',
   templateUrl: './game-room.component.html',
   styleUrls: ['./game-room.component.sass'],
-  providers: [GameService, MatDialog],
+  providers: [MatDialog],
 })
 export class GameRoomComponent {
   cardsInHand: PlayerCard[] = [];

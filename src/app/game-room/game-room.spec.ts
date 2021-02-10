@@ -4,7 +4,6 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { GameRoomComponent } from './game-room.component';
-import { GameService } from '../services/game.service';
 
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
@@ -14,7 +13,6 @@ describe('GameRoomComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [GameRoomComponent],
       imports: [DragDropModule, OverlayModule, MatDialogModule],
-      providers: [GameService],
     }).compileComponents();
   });
 
@@ -34,7 +32,8 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    expect(component.winningCard).toEqual(winningCard);
+    const actual = component['gameSummaryService'].getWinningCard();
+    expect(actual).toEqual(winningCard);
   });
   it('should find the winning card, when trump (a rocket) is played', () => {
     const winningCard = { suit: 'rocket', value: 1, player: 2 };
@@ -46,7 +45,8 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    expect(component.winningCard).toEqual(winningCard);
+    const actual = component['gameSummaryService'].getWinningCard();
+    expect(actual).toEqual(winningCard);
   });
   it("should find the winning card, when players can't follow the lead suit", () => {
     const winningCard = { suit: 'pink', value: 1, player: 1 };
@@ -58,7 +58,8 @@ describe('GameRoomComponent', () => {
       { suit: 'yellow', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    expect(component.winningCard).toEqual(winningCard);
+    const actual = component['gameSummaryService'].getWinningCard();
+    expect(actual).toEqual(winningCard);
   });
 
   it('should prevent dragging to players hand if they have communicated', () => {
