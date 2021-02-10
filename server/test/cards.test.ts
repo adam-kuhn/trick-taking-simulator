@@ -12,12 +12,12 @@ describe('createCrewSuites', function () {
     const greenCards = cards.filter((card) => card.suit === 'green').length;
     const pinkCards = cards.filter((card) => card.suit === 'pink').length;
     const blueCards = cards.filter((card) => card.suit === 'blue').length;
-    const yellowCards = cards.filter((card) => card.suit === 'yellow').length;
+    const violetCards = cards.filter((card) => card.suit === 'violet').length;
     expect(cards.length).to.equal(36);
     expect(greenCards).to.equal(9);
     expect(pinkCards).to.equal(9);
     expect(blueCards).to.equal(9);
-    expect(yellowCards).to.equal(9);
+    expect(violetCards).to.equal(9);
   });
 });
 
@@ -63,12 +63,12 @@ describe('sortHandOfCards', function () {
   it('sorts a hand of cards', function () {
     const playersHand = [
       { suit: 'blue', value: 5, player: 1 },
-      { suit: 'yellow', value: 2, player: 1 },
+      { suit: 'violet', value: 2, player: 1 },
       { suit: 'blue', value: 1, player: 1 },
       { suit: 'pink', value: 9, player: 1 },
       { suit: 'green', value: 4, player: 1 },
       { suit: 'rocket', value: 3, player: 1 },
-      { suit: 'yellow', value: 3, player: 1 },
+      { suit: 'violet', value: 3, player: 1 },
       { suit: 'pink', value: 5, player: 1 },
       { suit: 'blue', value: 2, player: 1 },
     ];
@@ -79,8 +79,8 @@ describe('sortHandOfCards', function () {
       { suit: 'pink', value: 5, player: 1 },
       { suit: 'pink', value: 9, player: 1 },
       { suit: 'green', value: 4, player: 1 },
-      { suit: 'yellow', value: 2, player: 1 },
-      { suit: 'yellow', value: 3, player: 1 },
+      { suit: 'violet', value: 2, player: 1 },
+      { suit: 'violet', value: 3, player: 1 },
       { suit: 'rocket', value: 3, player: 1 },
     ];
     const actual = sortHandOfCards(playersHand);

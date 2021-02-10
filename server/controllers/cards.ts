@@ -42,7 +42,7 @@ const CREW_TRUMP_CARDS: Card[] = [
 ];
 
 export const crewDeck: Card[] = (() => {
-  const suits = ['green', 'blue', 'pink', 'yellow'];
+  const suits = ['green', 'blue', 'pink', 'violet'];
   let deck: Card[] = [];
   suits.forEach((suit) => {
     for (let i = 1; i < 10; i++) {
@@ -91,7 +91,7 @@ export function sortHandOfCards(cards: PlayerCard[]): PlayerCard[] {
     ...sortCardsBySuit('blue', cards),
     ...sortCardsBySuit('pink', cards),
     ...sortCardsBySuit('green', cards),
-    ...sortCardsBySuit('yellow', cards),
+    ...sortCardsBySuit('violet', cards),
     ...sortCardsBySuit('rocket', cards),
   ];
 }

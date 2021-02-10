@@ -55,7 +55,7 @@ describe('GameRoomComponent', () => {
       { suit: 'pink', value: 1, player: 1 },
       { suit: 'green', value: 5, player: 2 },
       { suit: 'blue', value: 9, player: 3 },
-      { suit: 'yellow', value: 4, player: 4 },
+      { suit: 'violet', value: 4, player: 4 },
     ];
     component.resolveTrick();
     const actual = component['gameSummaryService'].getWinningCard();
