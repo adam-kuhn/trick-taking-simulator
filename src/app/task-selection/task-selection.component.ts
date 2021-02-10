@@ -21,7 +21,6 @@ enum RelativeOrder {
   selector: 'app-task-selection',
   templateUrl: './task-selection.component.html',
   styleUrls: ['./task-selection.component.sass'],
-  providers: [GameService],
 })
 export class TaskSelectionComponent implements OnInit {
   @Input() isPlayerCommander = false;

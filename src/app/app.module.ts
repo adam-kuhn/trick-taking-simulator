@@ -19,6 +19,9 @@ import { TaskSelectionComponent } from './task-selection/task-selection.componen
 import { InformationCardsComponent } from './communication-cards/information-card.component';
 import { GameSummaryComponent } from './game-summary/game-summary.component';
 
+import { GameService } from './services/game.service';
+import { GameSummaryService } from './services/game-summary.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -41,7 +44,7 @@ import { GameSummaryComponent } from './game-summary/game-summary.component';
     MatSelectModule,
     MatCheckboxModule,
   ],
-  providers: [GameSummaryComponent],
+  providers: [GameService, GameSummaryService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
