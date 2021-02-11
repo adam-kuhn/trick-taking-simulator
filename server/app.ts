@@ -19,7 +19,7 @@ const io = new Server(httpServer, {
   cors,
 });
 
-const PORT = process.env.port || 3000;
+const PORT = process.env.PORT || 3000;
 console.log('PROCESS', process.env);
 app.use(express.json());
 
