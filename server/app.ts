@@ -32,10 +32,9 @@ app.get('*', (req, res) => {
   if (file === '') {
     file = 'index.html';
   }
-  const filePath =
-    process.env.NODE_ENV === 'dev'
-      ? '../dist/trick-taking-simulator'
-      : '../../trick-taking-simulator';
+  const filePath = process.env.NODE_ENV
+    ? '../../trick-taking-simulator'
+    : '../dist/trick-taking-simulator';
   res.sendFile(path.join(__dirname, `${filePath}/${file}`));
 });
 
