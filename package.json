@@ -9,6 +9,7 @@
     "complete.development": "npm run build.client.dev && npm run start.server NODE_ENV='dev'",
     "build.client.production": "ng build --prod",
     "build.client.dev": "ng build",
+    "postinstall": "npm run build.client.production",
     "test": "ng test",
     "e2e": "ng e2e",
     "start.server": "node ./dist/out-tsc/server/app.js",
