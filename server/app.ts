@@ -10,7 +10,7 @@ const httpServer = createServer(app);
 
 const cors = {
   origin:
-    process.env.NODE_ENV === 'prod'
+    process.env.NODE_ENV === 'production'
       ? 'https://trick-tacking-simulator.herokuapp.com/'
       : 'http://localhost:3000',
   methods: ['GET'],
