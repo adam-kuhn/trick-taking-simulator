@@ -29,7 +29,7 @@ app.get('/connections', (req, res) => {
     res.set('Access-Control-Allow-Origin', cors.origin);
     res.json({ connections: activeSockets.length });
   } catch (error) {
-    res.status(500).send(error.message);
+    res.status(500).send('Could not access live connections');
   }
 });
 

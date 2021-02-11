@@ -25,10 +25,14 @@ export class AppComponent implements OnInit {
   }
 
   async getConnections(): Promise<void> {
-    const { data } = await axios.get<ConnectionResponse>(
-      `${environment.backEndUrl}/connections`
-    );
-    this.connectedClients = data.connections;
+    try {
+      const { data } = await axios.get<ConnectionResponse>(
+        `${environment.backEndUrl}/connections`
+      );
+      this.connectedClients = data.connections;
+    } catch (error) {
+      console.error('Oops, something went wrong!', error.message);
+    }
   }
 
   joinGame(): void {
