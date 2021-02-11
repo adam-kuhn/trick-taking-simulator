@@ -8,7 +8,7 @@ import {
   dealTaskCards,
 } from './cards';
 
-let activeSockets: Socket[] = [];
+export let activeSockets: Socket[] = [];
 
 export function socketCommunication(socket: Socket, io: Server): void {
   activeSockets = [...activeSockets, socket];
