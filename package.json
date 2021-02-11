@@ -4,7 +4,7 @@
   "main": "server/app.js",
   "scripts": {
     "ng": "ng",
-    "start": "start.server NODE_ENV='prod'",
+    "start": "node ./dist/out-tsc/server/app.js NODE_ENV='prod'",
     "complete.production": "npm run build.client.production && npm run start.server",
     "complete.development": "npm run build.client.dev && npm run start.server NODE_ENV='dev'",
     "build.client.production": "ng build --prod",
