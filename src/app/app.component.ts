@@ -13,10 +13,15 @@ interface ConnectionResponse {
 export class AppComponent implements OnInit {
   title = 'trick-taking-simulator';
   inGame = false;
-  connectedClients = 0;
+  // set default to player limit, so button is disabled
+  // until connections request comes back
+  connectedClients = 5;
+  requestConnections = 0;
 
   async ngOnInit(): Promise<void> {
-    await this.getConnections();
+    this.requestConnections = window.setInterval(async () => {
+      await this.getConnections();
+    }, 1000);
   }
 
   async getConnections(): Promise<void> {
@@ -28,5 +33,6 @@ export class AppComponent implements OnInit {
 
   joinGame(): void {
     this.inGame = true;
+    window.clearInterval(this.requestConnections);
   }
 }
