@@ -16,6 +16,14 @@ Run `npm run start.server` to start the dev server
 
 Run `npm run dev` to start dev server with [nodemon](https://github.com/remy/nodemon)
 
+For the best developer experience use both `ng serve` and `npm run dev` in different terminals to enable hot reloading on both the front and back-end
+
+## Complete Builds
+
+Run `npm run complete.production` to run the complete application in production mode.
+
+Run `npm run complete.development` to run the complete application in development mode.
+
 
 
 ## Code scaffolding
