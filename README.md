@@ -8,7 +8,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development Web server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `ng serve` for a dev server. Navigate to `http://localhost:3000/`. The app will automatically reload if you change any of the source files.
 
 ## Node Server
 
@@ -20,9 +20,11 @@ For the best developer experience use both `ng serve` and `npm run dev` in diffe
 
 ## Complete Builds
 
-Run `npm run complete.production` to run the complete application in production mode.
+Run `npm run complete.production` to build the complete application in production mode. Then to start the server, run `npm run start`. This will not work locally has the URL points to the deployed app. 
 
-Run `npm run complete.development` to run the complete application in development mode.
+NOTE: `NODE_ENV` does not need to be assigned in the production start script as this is provided be Heroku
+
+Run `npm run complete.development` to build the complete application in development mode. Then run `npm run start.dev` to start up the application
 
 
 
