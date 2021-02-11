@@ -9,11 +9,11 @@
   "scripts": {
     "ng": "ng",
     "start": "node ./dist/out-tsc/server/app.js NODE_ENV='production'",
-    "complete.production": "npm run build.client.production && npm run start.server",
+    "build.production": "npm run build.client.production && npm run build.server",
     "complete.development": "npm run build.client.dev && npm run start.server NODE_ENV='dev'",
     "build.client.production": "ng build --prod",
     "build.client.dev": "ng build",
-    "postinstall": "npm run build.server && npm run complete.production",
+    "postinstall": "npm run build.server && npm run buil.production",
     "test": "ng test",
     "e2e": "ng e2e",
     "start.server": "node ./dist/out-tsc/server/app.js",
