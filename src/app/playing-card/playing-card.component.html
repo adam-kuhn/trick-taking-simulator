@@ -1,4 +1,5 @@
-<mat-card [ngClass]="['playing-card', cardStyleClass]">
-  <mat-card-title>{{showBackOfCard ? '' : card.value}}</mat-card-title>
-  <img mat-card-image [src]="imgUrl">
-</mat-card>
+<div class="playing-card">
+  <h1 class="card-header" [ngClass]="{'card-back': showBackOfCard}">{{showBackOfCard ? '' : card.value}}</h1>
+  <img class="card-img" [src]="imgUrl">
+  <h1 class="card-footer" [ngClass]="{'card-back': showBackOfCard}">{{showBackOfCard ? '' : card.value}}</h1>
+</div>

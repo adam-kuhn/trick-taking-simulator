@@ -1,22 +1,32 @@
+$card-alignment: -35px
+
 .playing-card
  width: 100px
  height: 132px
  margin: 3px
 
-.pink-card
-  background-color: #a7358e
+.card-header
+  position: relative
+  margin-left: 5px
+  margin-bottom: $card-alignment
+  z-index: 1
 
-.yellow-card
-  background-color: #bfad10
+.card-footer
+  position: relative
+  margin-left: 80px
+  margin-top: $card-alignment
 
-.green-card
-  background-color: #375f37
-
-.blue-card
-  background-color: #1173d3
-
-.rocket-card
-  background-color: #292929
+.card-img
+  height: 100%
+  width: 100%
+  border-radius: 10px
+  transform: scaleX(-1)
 
 .card-back
   background-color: black
+
+.card-back.card-header
+    margin-bottom: 0
+
+.card-back.card-footer
+    margin-top: 0

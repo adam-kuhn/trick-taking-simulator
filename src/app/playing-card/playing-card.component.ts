@@ -10,12 +10,11 @@ export class PlayingCardComponent implements OnChanges {
   @Input() card!: Card | PlayerCard;
   @Input() showBackOfCard = false;
   imgUrl = '';
-  cardStyleClass = '';
 
   ngOnChanges(): void {
-    this.cardStyleClass = this.showBackOfCard
+    const cardStyle = this.showBackOfCard
       ? 'card-back'
       : `${this.card.suit}-card`;
-    this.imgUrl = `/assets/${this.cardStyleClass}.jpg`;
+    this.imgUrl = `/assets/${cardStyle}.jpg`;
   }
 }
