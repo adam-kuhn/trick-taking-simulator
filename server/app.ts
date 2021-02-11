@@ -49,4 +49,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, `${filePath}/${file}`));
 });
 
-httpServer.listen(PORT, () => console.log(`Server running on PORT ${PORT}`));
+httpServer.listen(PORT, () => {
+  console.log(`Server running on PORT ${PORT}`);
+});
