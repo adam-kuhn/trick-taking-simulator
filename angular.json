@@ -67,7 +67,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "trick-taking-simulator:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "port": 3000
           },
           "configurations": {
             "production": {
