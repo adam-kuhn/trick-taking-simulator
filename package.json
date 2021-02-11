@@ -2,6 +2,9 @@
   "name": "trick-taking-simulator",
   "version": "0.0.0",
   "main": "server/app.js",
+  "engines": {
+    "node": "12.13.1"
+  },
   "scripts": {
     "ng": "ng",
     "start": "npm run start.server NODE_ENV='prod'",
