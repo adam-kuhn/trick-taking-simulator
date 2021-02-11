@@ -20,7 +20,7 @@ const io = new Server(httpServer, {
 });
 
 const PORT = process.env.port || 3000;
-
+console.log('PROCESS', process.env);
 app.use(express.json());
 
 io.use((socket: Socket, next) => {
@@ -50,5 +50,6 @@ app.get('*', (req, res) => {
 });
 
 httpServer.listen(PORT, () => {
-  // console.log(`Server running on PORT ${PORT}`);
+  console.log('P', process.env);
+  console.log(`Server running on PORT ${PORT}`);
 });
