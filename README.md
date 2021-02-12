@@ -26,17 +26,9 @@ NOTE: `NODE_ENV` does not need to be assigned in the production start script as 
 
 Run `npm run complete.development` to build the complete application in development mode. Then run `npm run start.dev` to start up the application
 
-
-
 ## Code scaffolding
 
 Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
 
 ### Front End Tests
 
@@ -53,3 +45,9 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Deployment
+
+The application is deployed to Heroku and is accessible at http://trick-tacking-simulator.herokuapp.com/ (yes there is a typo, in the name but oh well).
+
+The `master` branch is set up to be automtically deployed. Currently there is no automated tests during the build / deployment process, so make sure to run all tests and confirm things works locally before merging your branch to `master`
