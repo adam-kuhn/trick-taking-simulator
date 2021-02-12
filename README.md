@@ -12,8 +12,6 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:3000/`. The app w
 
 ## Node Server
 
-Run `npm run start.server` to start the dev server
-
 Run `npm run dev` to start dev server with [nodemon](https://github.com/remy/nodemon)
 
 For the best developer experience use both `build.client.dev` and `npm run dev` in different terminals to enable hot reloading on both the front and back-end

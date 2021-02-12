@@ -17,7 +17,6 @@
     "postinstall": "npm run build.production",
     "test": "ng test",
     "e2e": "ng e2e",
-    "start.server": "node ./dist/out-tsc/server/app.js",
     "build.server": "tsc -p tsconfig.json",
     "dev": "nodemon server/app.ts",
     "server.test": "mocha --require ts-node/register 'server/test/**/*.ts'",
