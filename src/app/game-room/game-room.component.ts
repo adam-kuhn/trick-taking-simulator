@@ -43,11 +43,10 @@ export class GameRoomComponent {
       this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
       this.player = data.player;
-      this.revealedCommunications = [];
-      this.communicationCard = [];
       this.isPlayerCommander = !!data.playersCards.find(
         (card) => card.suit === 'rocket' && card.value === 4
       );
+      this.clearOldGameInfo();
     });
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
@@ -65,7 +64,6 @@ export class GameRoomComponent {
 
   dealCards(): void {
     this.gameService.dealTheCards();
-    this.gameSummaryService.setWinningCard(null);
   }
 
   openTaskDealDialog(): void {
@@ -152,5 +150,13 @@ export class GameRoomComponent {
       type: event.value,
       card: this.communicationCard[0],
     });
+  }
+  clearOldGameInfo(): void {
+    this.revealedCommunications = [];
+    this.communicationCard = [];
+    this.leadCard = null;
+    this.playedCards = [];
+    this.lastTrick = [];
+    this.gameSummaryService.setWinningCard(null);
   }
 }
