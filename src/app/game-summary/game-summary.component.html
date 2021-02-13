@@ -16,11 +16,4 @@
   </div>
   <h4>Lead Card:</h4>
   <app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
-
-  <h4>Trick's Won:</h4>
-  <div class="trick-summary">
-    <span class= "player-trick-summary" *ngFor="let wonTrick of wonTrickSummary">
-      Player {{ wonTrick.player }}: trick's won {{ wonTrick.tricks }}
-    </span>
-  </div>
 </div>
