@@ -1,8 +1,4 @@
 <div class="game-info-container">
-  <div *ngIf="numberOfPlayers">
-    <app-task-selection [numberOfPlayers]="numberOfPlayers" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
-  </div>
-
   <h3 *ngIf="winningCard">Player {{ winningCard.player }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
   <div class="game-info-card">
     <div class="card-info">
