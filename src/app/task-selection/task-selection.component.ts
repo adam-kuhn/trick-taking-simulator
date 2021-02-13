@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChange } from '@angular/core';
 import { InitialTasks, TaskCard } from '../types/game';
 import { MatSelectChange } from '@angular/material/select';
 import { GameService } from '../services/game.service';
@@ -22,7 +22,7 @@ enum RelativeOrder {
   templateUrl: './task-selection.component.html',
   styleUrls: ['./task-selection.component.sass'],
 })
-export class TaskSelectionComponent implements OnInit {
+export class TaskSelectionComponent implements OnChanges {
   @Input() isPlayerCommander = false;
   @Input() numberOfPlayers!: number;
   tasks: TaskCard[] = [];
@@ -57,10 +57,11 @@ export class TaskSelectionComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    for (let i = 1; i <= this.numberOfPlayers; i++) {
-      this.players.push(i);
-    }
+  ngOnChanges(changes: { [key: string]: SimpleChange }): void {
+    if (!changes.numberOfPlayers) return;
+    this.players = [...Array(this.numberOfPlayers).keys()].map(
+      (player) => player + 1
+    );
   }
   canPlayerSeeTasks(commanderOnly: boolean): boolean {
     let showTasks = true;
