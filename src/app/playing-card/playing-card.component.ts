@@ -9,6 +9,7 @@ import { Card, PlayerCard } from '../types/game';
 export class PlayingCardComponent implements OnChanges {
   @Input() card!: Card | PlayerCard;
   @Input() showBackOfCard = false;
+  @Input() smallCard = false;
   imgUrl = '';
 
   ngOnChanges(): void {

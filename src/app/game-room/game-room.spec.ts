@@ -32,7 +32,7 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    const actual = component['gameSummaryService'].getWinningCard();
+    const actual = component.winningCard;
     expect(actual).toEqual(winningCard);
   });
   it('should find the winning card, when trump (a rocket) is played', () => {
@@ -45,7 +45,7 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    const actual = component['gameSummaryService'].getWinningCard();
+    const actual = component.winningCard;
     expect(actual).toEqual(winningCard);
   });
   it("should find the winning card, when players can't follow the lead suit", () => {
@@ -58,7 +58,7 @@ describe('GameRoomComponent', () => {
       { suit: 'violet', value: 4, player: 4 },
     ];
     component.resolveTrick();
-    const actual = component['gameSummaryService'].getWinningCard();
+    const actual = component.winningCard;
     expect(actual).toEqual(winningCard);
   });
 

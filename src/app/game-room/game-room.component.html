@@ -4,6 +4,7 @@
 <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Tasks</button>
 
 <app-game-summary
+  [winningCard]="winningCard"
   [numberOfPlayers]="numberOfPlayers"
   [isPlayerCommander]="isPlayerCommander"
   [leadCard]="leadCard"
@@ -11,48 +12,67 @@
   [revealedCommunications]="revealedCommunications"
 ></app-game-summary>
 
-<div 
-  class="playing-mat arranged-cards"
-  cdkDropList 
-  id="playing-mat" 
-  [cdkDropListData]="playedCards"
-  (cdkDropListDropped)="cardPlayed($event)">
-    <app-playing-card *ngFor="let card of playedCards" [card]="card"></app-playing-card>
-</div>
-
-<h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
-<div class="players-cards">
-  <div
-    cdkDropList
-    id="players-hand" 
-    [cdkDropListData]="cardsInHand"
-    [cdkDropListConnectedTo]="['playing-mat', 'communication']"
-    (cdkDropListDropped)="handleDrop($event)"
-  >
-    <div class="arranged-cards">
-      <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card"></app-playing-card>
-    </div>
-  </div>
-
-  <div>
-    <h3>Communicate</h3>
-    <div
-      class="communication-area"
-      cdkDropList
-      id="communication" 
-      [cdkDropListData]="communicationCard" 
-      [cdkDropListConnectedTo]="communicationDragTo()"
-      (cdkDropListDropped)="cardPlacedInCommunication($event)"
-      color="secondary"
-    >
-      <div *ngIf="communicationCard[0]">
-        <mat-select (selectionChange)="handleCommunication($event)">
-          <mat-option *ngFor="let option of communicationOptions" [value]="option">
-            {{ option }}
-          </mat-option>
-        </mat-select>
-        <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+<div class="game-area-container">
+  <div class="game-area">
+    <div class="game-table">
+      <div class="table-top" *ngIf="numberOfPlayers > 3">
+        <p class="player-summary">{{ playerInTableSeatOrder(2) }}</p>
+        <p class="player-summary" *ngIf="numberOfPlayers === 5"> {{ playerInTableSeatOrder(3) }}</p>
+      </div>
+      <div class="table-middle">
+        <p class="player-summary"> {{ playerInTableSeatOrder(1) }}</p>
+        <div 
+          class="playing-mat arranged-cards"
+          cdkDropList 
+          id="playing-mat" 
+          [cdkDropListData]="playedCards"
+          (cdkDropListDropped)="cardPlayed($event)">
+          <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="'Player ' + card.player" ></app-information-card>
+        </div>
+        <p class="player-summary"> {{ playerInTableSeatOrder(-1) }}</p>
       </div>
     </div>
+    <div class='players-hand'>
+      <h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
+      <p>tricks {{ wonTricks() }}</p>
+      <div class="players-cards">
+        <div
+          cdkDropList
+          id="players-hand" 
+          [cdkDropListData]="cardsInHand"
+          [cdkDropListConnectedTo]="['playing-mat', 'communication']"
+          (cdkDropListDropped)="handleDrop($event)"
+        >
+          <div class="arranged-cards">
+            <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card"></app-playing-card>
+          </div>
+        </div>
+      
+        <div>
+          <h3>Communicate</h3>
+          <div
+            class="communication-area"
+            cdkDropList
+            id="communication" 
+            [cdkDropListData]="communicationCard" 
+            [cdkDropListConnectedTo]="communicationDragTo()"
+            (cdkDropListDropped)="cardPlacedInCommunication($event)"
+            color="secondary"
+          >
+            <div *ngIf="communicationCard[0]">
+              <mat-select (selectionChange)="handleCommunication($event)">
+                <mat-option *ngFor="let option of communicationOptions" [value]="option">
+                  {{ option }}
+                </mat-option>
+              </mat-select>
+              <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="task-selection-container" *ngIf="numberOfPlayers">
+    <app-task-selection [numberOfPlayers]="numberOfPlayers" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
   </div>
 </div>

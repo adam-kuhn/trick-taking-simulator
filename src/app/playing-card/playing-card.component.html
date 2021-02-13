@@ -1,5 +1,5 @@
-<div class="playing-card">
+<div [ngClass]="smallCard ? 'playing-card-small' : 'playing-card'">
   <h1 class="card-header" [ngClass]="{'card-back': showBackOfCard}">{{showBackOfCard ? '' : card.value}}</h1>
   <img class="card-img" [src]="imgUrl">
-  <h1 class="card-footer" [ngClass]="{'card-back': showBackOfCard}">{{showBackOfCard ? '' : card.value}}</h1>
+  <h1 class="card-footer" [ngClass]="{'card-back': showBackOfCard, 'small': smallCard}">{{showBackOfCard ? '' : card.value}}</h1>
 </div>

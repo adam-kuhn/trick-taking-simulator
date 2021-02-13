@@ -19,7 +19,6 @@ import { InformationCardsComponent } from './communication-cards/information-car
 import { GameSummaryComponent } from './game-summary/game-summary.component';
 
 import { GameService } from './services/game.service';
-import { GameSummaryService } from './services/game-summary.service';
 
 @NgModule({
   declarations: [
@@ -42,7 +41,7 @@ import { GameSummaryService } from './services/game-summary.service';
     MatSelectModule,
     MatCheckboxModule,
   ],
-  providers: [GameService, GameSummaryService],
+  providers: [GameService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
