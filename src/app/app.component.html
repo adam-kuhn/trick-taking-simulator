@@ -1,7 +1,3 @@
 <h1>Welcome to Trick Taking Simulator</h1>
-<div *ngIf="!inGame">
-  <input type="text" placeholder="Space Code" [value]="gameCode" (input)="setGameCode($event)"/>
-  <button mat-raised-button color="primary" *ngIf="isGameCodeValid()" (click)="joinGame()" [disabled]="connectedClients >= 5">Join The Game</button>
-</div>
-
+<button *ngIf="!inGame" mat-raised-button color="primary" (click)="openJoinGameDialog()" [disabled]="connectedClients >= 5">Join The Game</button>
 <app-game-room *ngIf="inGame"></app-game-room>

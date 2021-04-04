@@ -1,0 +1,17 @@
+<mat-dialog-content>
+  <form [formGroup]="gameInfo">
+    <mat-form-field appearance="fill">
+      <mat-label>Game Code</mat-label>
+      <input matInput formControlName="gameCode"/>
+    </mat-form-field>
+    <mat-form-field apperance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="gameInfo" [disabled]="!isGameCodeValid()">Enter Space</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

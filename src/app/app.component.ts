@@ -1,6 +1,11 @@
 import axios from 'axios';
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { FormGroup } from '@angular/forms';
+import { GameService } from './services/game.service';
+
 import { environment } from '../environments/environment';
+import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
 
 interface ConnectionResponse {
   connections: number;
@@ -17,14 +22,14 @@ export class AppComponent implements OnInit {
   // until connections request comes back
   connectedClients = 5;
   requestConnections = 0;
-  gameCode = '';
-  private validGameCode = '';
+
+  constructor(private dialog: MatDialog, private gameService: GameService) {
+  }
 
   async ngOnInit(): Promise<void> {
     this.requestConnections = window.setInterval(async () => {
       await this.getConnections();
     }, 1000);
-    this.createGameCode();
   }
 
   async getConnections(): Promise<void> {
@@ -37,25 +42,12 @@ export class AppComponent implements OnInit {
       console.error('Oops, something went wrong!', error.message);
     }
   }
-  /* stupid simple password to enter the game this is just 
-  to prevent randoms for joining the game and is not meant to be secure
-  TODO: make game individual game rooms */
-  createGameCode(): void {
-    const now = new Date();
-    const month = now.getMonth() + 1;
-    const date = now.getDate();
-    this.validGameCode = `${date}-${month}_going-to-space`;
-    // log the code in the console, so I don't have to remember the password :)
-    console.log('Your game code is:', this.validGameCode);
-  }
-  setGameCode(event: Event): void {
-    this.gameCode = (event?.target as HTMLInputElement).value;
-  }
-  isGameCodeValid(): boolean {
-    return this.gameCode === this.validGameCode;
-  }
+
   joinGame(): void {
     this.inGame = true;
     window.clearInterval(this.requestConnections);
+  }
+  openJoinGameDialog(): void {
+    const dialogRef = this.dialog.open(JoinGameDialogComponent);
   }
 }
