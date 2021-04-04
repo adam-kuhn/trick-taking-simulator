@@ -3,7 +3,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
-import { GameState, PlayerCard, TaskCard, Communication } from '../types/game';
+import {
+  GameState,
+  PlayerCard,
+  TaskCard,
+  Communication,
+  Player,
+} from '../types/game';
 import {
   CdkDragDrop,
   moveItemInArray,
@@ -29,28 +35,23 @@ export class GameRoomComponent {
   communicationCard: PlayerCard[] = [];
   revealedCommunications: Communication[] = [];
   startingTasks: TaskCard[] = [];
-  playerSummary: { player: number; tricks: number }[] = [];
+  playerSummary: Player[] = [];
+  playerId = 0;
   numberOfPlayers = 0;
-  player = 0;
+  username = '';
   isPlayerCommander = false;
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
   constructor(private gameService: GameService, private dialog: MatDialog) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.clearOldGameInfo();
-      this.numberOfPlayers = data.numberOfPlayers;
       this.cardsInHand = data.playersCards;
-      this.player = data.player;
+      this.playerId = data.player.playerId;
+      this.username = data.player.username;
+      this.numberOfPlayers = data.playersInGame.length;
+      this.playerSummary = data.playersInGame;
       this.isPlayerCommander = !!data.playersCards.find(
         (card) => card.suit === 'rocket' && card.value === 4
-      );
-      this.playerSummary = [...Array(this.numberOfPlayers).keys()].map(
-        (player) => {
-          return {
-            player: player + 1,
-            tricks: 0,
-          };
-        }
       );
     });
     this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
@@ -110,9 +111,9 @@ export class GameRoomComponent {
       this.leadCard = null;
       const winningPlayer = this.playerSummary.find(
         (summary) =>
-          this.winningCard && this.winningCard.player === summary.player
+          this.winningCard && this.winningCard.player === summary.playerId
       );
-      if (winningPlayer) {
+      if (winningPlayer && winningPlayer.tricks >= 0) {
         winningPlayer.tricks = winningPlayer.tricks + 1;
       }
     }, 3000);
@@ -171,23 +172,26 @@ export class GameRoomComponent {
     this.winningCard = null;
   }
   playerInTableSeatOrder(seatsFromCurrentPlayer: number): string {
-    let otherPlayer = this.player + seatsFromCurrentPlayer;
+    let otherPlayer = this.playerId + seatsFromCurrentPlayer;
     if (otherPlayer > this.numberOfPlayers) {
       otherPlayer = otherPlayer - this.numberOfPlayers;
     } else if (otherPlayer === 0) {
       otherPlayer = this.numberOfPlayers;
     }
     const playerSummary = this.playerSummary.find(
-      (summary) => summary.player === otherPlayer
+      (summary) => summary.playerId === otherPlayer
     );
     if (!playerSummary) return '';
-    return `Player ${playerSummary.player}: tricks ${playerSummary.tricks}`;
+    const displayName = playerSummary.username
+      ? playerSummary.username
+      : `Player ${playerSummary.playerId}`;
+    return `${displayName}: tricks ${playerSummary.tricks}`;
   }
   wonTricks(): number | null {
     const playerSummary = this.playerSummary.find(
-      (summary) => summary.player === this.player
+      (summary) => summary.playerId === this.playerId
     );
-    if (!playerSummary) return null;
+    if (!playerSummary || playerSummary.tricks < 0) return null;
     return playerSummary.tricks;
   }
 }

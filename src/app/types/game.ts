@@ -19,9 +19,16 @@ export interface InitialTasks {
   revealOnlyToCommander: boolean;
 }
 
+export interface Player {
+  socket: string;
+  playerId: number;
+  username: string;
+  tricks: number;
+}
+
 export interface GameState {
-  player: number;
-  numberOfPlayers: number;
+  player: Player;
+  playersInGame: Player[];
   playersCards: PlayerCard[];
 }
 

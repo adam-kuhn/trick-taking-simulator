@@ -33,7 +33,7 @@
       </div>
     </div>
     <div class='players-hand'>
-      <h3 *ngIf="player !== 0">Player {{ player }}'s hand</h3>
+      <h3 *ngIf="playerId !== 0">{{ username ? username : 'Player ' + playerId }}'s hand</h3>
       <p>tricks {{ wonTricks() }}</p>
       <div class="players-cards">
         <div

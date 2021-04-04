@@ -7,21 +7,41 @@ import {
   TaskOptions,
   dealTaskCards,
 } from './cards';
+interface CustomSocket extends Socket {
+  username?: string;
+}
+export let activeSockets: CustomSocket[] = [];
 
-export let activeSockets: Socket[] = [];
-
-export function socketCommunication(socket: Socket, io: Server): void {
+export function socketCommunication(socket: CustomSocket, io: Server): void {
   activeSockets = [...activeSockets, socket];
 
+  socket.on(
+    'update_player_name',
+    (params: { username: string; id: string }) => {
+      const currentSocket = activeSockets.find(
+        (socket) => socket.id === params.id
+      );
+      if (!currentSocket) return;
+      currentSocket.username = params.username;
+      io.to(params.id).emit('player_name_updated');
+    }
+  );
   socket.on('deal_cards', () => {
     const dealtCards = dealCards(activeSockets.length);
-    activeSockets.forEach((socket, idx) => {
-      const player = idx + 1;
-      const playersCards = sortHandOfCards(dealtCards[player]);
-      io.to(socket.id).emit('dealt_cards', {
+    const playersInGame = activeSockets.map((socket, idx) => {
+      return {
+        socket: socket.id,
+        playerId: idx + 1,
+        username: socket.username,
+        tricks: 0,
+      };
+    });
+    playersInGame.forEach((player) => {
+      const playersCards = sortHandOfCards(dealtCards[player.playerId]);
+      io.to(player.socket).emit('dealt_cards', {
         player,
         playersCards,
-        numberOfPlayers: activeSockets.length,
+        playersInGame,
       });
     });
   });
