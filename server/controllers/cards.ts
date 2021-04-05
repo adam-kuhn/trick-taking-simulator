@@ -4,7 +4,8 @@ export interface Card {
 }
 
 export interface PlayerCard extends Card {
-  player: number;
+  playerPosition: number;
+  username?: string;
 }
 
 export interface TaskCard extends PlayerCard {
@@ -74,7 +75,7 @@ export function dealCards(
   let playerToDeal = numberOfPlayers;
   const dealtCards: { [key: string]: PlayerCard[] } = {};
   for (const card of playingDeck) {
-    const cardToDeal = { ...card, player: playerToDeal };
+    const cardToDeal = { ...card, playerPosition: playerToDeal };
     dealtCards[playerToDeal] = dealtCards[playerToDeal]
       ? [...dealtCards[playerToDeal], cardToDeal]
       : [cardToDeal];
@@ -116,7 +117,7 @@ export function dealTaskCards(options: TaskOptions): TaskCard[] {
       return {
         ...card,
         completed: false,
-        player: 0,
+        playerPosition: 0,
       };
     });
   if (orderedTasks > 0) {

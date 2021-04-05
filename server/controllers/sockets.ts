@@ -31,13 +31,20 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
     const playersInGame = activeSockets.map((socket, idx) => {
       return {
         socket: socket.id,
-        playerId: idx + 1,
+        playerPosition: idx + 1,
         username: socket.username,
         tricks: 0,
       };
     });
     playersInGame.forEach((player) => {
-      const playersCards = sortHandOfCards(dealtCards[player.playerId]);
+      const playersCards: PlayerCard[] = sortHandOfCards(
+        dealtCards[player.playerPosition]
+      ).map((card) => {
+        return {
+          ...card,
+          username: player.username,
+        };
+      });
       io.to(player.socket).emit('dealt_cards', {
         player,
         playersCards,

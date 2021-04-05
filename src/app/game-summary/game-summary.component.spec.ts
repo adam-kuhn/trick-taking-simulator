@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
 
 import { GameSummaryComponent } from './game-summary.component';
 
@@ -9,6 +10,7 @@ describe('GameSummaryComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [GameSummaryComponent],
+      providers: [PlayerDisplayNamePipe],
     }).compileComponents();
   });
 
@@ -19,16 +21,26 @@ describe('GameSummaryComponent', () => {
   });
 
   it('should format information text based on the player who played the card', () => {
-    const playedCard = { suit: 'green', value: 2, player: 4 };
+    const playedCard = {
+      suit: 'green',
+      value: 2,
+      playerPosition: 4,
+      username: '',
+    };
     const expected = 'Player 4';
     const actual = component.formatInformation(playedCard);
     expect(actual).toBe(expected);
   });
 
   it('should format information text based on the player who communicated the card', () => {
-    const playedCard = { suit: 'green', value: 2, player: 4 };
+    const playedCard = {
+      suit: 'green',
+      value: 2,
+      playerPosition: 4,
+      username: 'Custom User',
+    };
     const communicationType = 'highest';
-    const expected = "Player 4's highest";
+    const expected = "Custom User's highest";
     const actual = component.formatInformation(playedCard, communicationType);
     expect(actual).toBe(expected);
   });

@@ -36,7 +36,7 @@ export class TaskSelectionComponent implements OnChanges {
         (task) => task.suit === data.suit && task.value === data.value
       );
       if (!assignedTask) return;
-      assignedTask.player = data.player;
+      assignedTask.playerPosition = data.playerPosition;
     });
 
     this.gameService.recieveCompletedTask().subscribe((data: TaskCard) => {
@@ -83,7 +83,7 @@ export class TaskSelectionComponent implements OnChanges {
         task.suit === selectedTask.suit && task.value === selectedTask.value
     );
     if (!task) return;
-    task.player = event.value;
+    task.playerPosition = event.value;
     this.gameService.assignTask(task);
   }
   completeTask(event: MatCheckboxChange, task: TaskCard): void {
