@@ -1,5 +1,5 @@
 <div class="game-info-container">
-  <h3 *ngIf="winningCard">{{ cardPlayedBy(winningCard) }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
+  <h3 *ngIf="winningCard">{{ winningCard | playerDisplayName }} won the last trick with the {{ winningCard.value }} {{ winningCard.suit }}</h3>
   <div class="game-info-card">
     <div class="card-info">
       <h3>Last Trick</h3>

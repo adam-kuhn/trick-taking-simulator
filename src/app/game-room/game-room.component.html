@@ -27,13 +27,13 @@
           id="playing-mat" 
           [cdkDropListData]="playedCards"
           (cdkDropListDropped)="cardPlayed($event)">
-          <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="'Player ' + card.player" ></app-information-card>
+          <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
         </div>
         <p class="player-summary"> {{ playerInTableSeatOrder(-1) }}</p>
       </div>
     </div>
     <div class='players-hand'>
-      <h3 *ngIf="playerId !== 0">{{ username ? username : 'Player ' + playerId }}'s hand</h3>
+      <h3 *ngIf="player && player.playerPosition !== 0">{{ player | playerDisplayName }}'s hand</h3>
       <p>tricks {{ wonTricks() }}</p>
       <div class="players-cards">
         <div
@@ -72,7 +72,7 @@
       </div>
     </div>
   </div>
-  <div class="task-selection-container" *ngIf="numberOfPlayers">
-    <app-task-selection [numberOfPlayers]="numberOfPlayers" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
+  <div class="task-selection-container" *ngIf="playerSummary.length">
+    <app-task-selection [playerSummary]="playerSummary" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
   </div>
 </div>

@@ -22,6 +22,7 @@ import { GameSummaryComponent } from './game-summary/game-summary.component';
 
 import { GameService } from './services/game.service';
 import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
+import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.com
     InformationCardsComponent,
     GameSummaryComponent,
     JoinGameDialogComponent,
+    PlayerDisplayNamePipe,
   ],
   imports: [
     BrowserModule,
@@ -48,7 +50,7 @@ import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.com
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [GameService],
+  providers: [GameService, PlayerDisplayNamePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

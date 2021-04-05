@@ -19,6 +19,7 @@ import {
   DealTaskDialogComponent,
   TaskOptions,
 } from '../deal-task-dialog/deal-task-dialog.component';
+import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
 
 @Component({
   selector: 'app-game-room',
@@ -35,19 +36,21 @@ export class GameRoomComponent {
   communicationCard: PlayerCard[] = [];
   revealedCommunications: Communication[] = [];
   startingTasks: TaskCard[] = [];
+  player: Player | null = null;
   playerSummary: Player[] = [];
-  playerId = 0;
   numberOfPlayers = 0;
-  username = '';
   isPlayerCommander = false;
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
-  constructor(private gameService: GameService, private dialog: MatDialog) {
+  constructor(
+    private gameService: GameService,
+    private dialog: MatDialog,
+    private playerDisplayName: PlayerDisplayNamePipe
+  ) {
     this.gameService.recieveStartingCards().subscribe((data: GameState) => {
       this.clearOldGameInfo();
       this.cardsInHand = data.playersCards;
-      this.playerId = data.player.playerId;
-      this.username = data.player.username;
+      this.player = data.player;
       this.numberOfPlayers = data.playersInGame.length;
       this.playerSummary = data.playersInGame;
       this.isPlayerCommander = !!data.playersCards.find(
@@ -111,7 +114,8 @@ export class GameRoomComponent {
       this.leadCard = null;
       const winningPlayer = this.playerSummary.find(
         (summary) =>
-          this.winningCard && this.winningCard.player === summary.playerId
+          this.winningCard &&
+          this.winningCard.playerPosition === summary.playerPosition
       );
       if (winningPlayer && winningPlayer.tricks >= 0) {
         winningPlayer.tricks = winningPlayer.tricks + 1;
@@ -172,24 +176,23 @@ export class GameRoomComponent {
     this.winningCard = null;
   }
   playerInTableSeatOrder(seatsFromCurrentPlayer: number): string {
-    let otherPlayer = this.playerId + seatsFromCurrentPlayer;
+    if (!this.player) return '';
+    let otherPlayer = this.player.playerPosition + seatsFromCurrentPlayer;
     if (otherPlayer > this.numberOfPlayers) {
       otherPlayer = otherPlayer - this.numberOfPlayers;
     } else if (otherPlayer === 0) {
       otherPlayer = this.numberOfPlayers;
     }
     const playerSummary = this.playerSummary.find(
-      (summary) => summary.playerId === otherPlayer
+      (summary) => summary.playerPosition === otherPlayer
     );
     if (!playerSummary) return '';
-    const displayName = playerSummary.username
-      ? playerSummary.username
-      : `Player ${playerSummary.playerId}`;
+    const displayName = this.playerDisplayName.transform(playerSummary);
     return `${displayName}: tricks ${playerSummary.tricks}`;
   }
   wonTricks(): number | null {
     const playerSummary = this.playerSummary.find(
-      (summary) => summary.playerId === this.playerId
+      (summary) => summary.playerPosition === this.player?.playerPosition
     );
     if (!playerSummary || playerSummary.tricks < 0) return null;
     return playerSummary.tricks;

@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
 import { Communication, PlayerCard, Player } from '../types/game';
 
 @Component({
@@ -14,17 +15,10 @@ export class GameSummaryComponent {
   @Input() revealedCommunications!: Communication[];
   @Input() playerSummary!: Player[];
 
-  cardPlayedBy(card: PlayerCard): string {
-    const playedBy = this.playerSummary.find(
-      (player) => player.playerId === card.player
-    );
-    if (!playedBy) return 'Unknown player';
-    return playedBy.username
-      ? playedBy.username
-      : `Player ${playedBy.playerId}`;
-  }
+  constructor(private playerDisplayName: PlayerDisplayNamePipe) {}
+
   formatInformation(card: PlayerCard, communicationType?: string): string {
-    const playersCard = this.cardPlayedBy(card);
+    const playersCard = this.playerDisplayName.transform(card);
     return communicationType
       ? `${playersCard}'s ${communicationType}`
       : playersCard;
