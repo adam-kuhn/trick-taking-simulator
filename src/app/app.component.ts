@@ -52,8 +52,8 @@ export class AppComponent implements OnInit {
   }
   openJoinGameDialog(): void {
     const dialogRef = this.dialog.open(JoinGameDialogComponent);
-    dialogRef.afterClosed().subscribe((gameInfo: FormGroup) => {
-      if (gameInfo.value) {
+    dialogRef.afterClosed().subscribe((gameInfo: FormGroup | undefined) => {
+      if (gameInfo && gameInfo.value) {
         this.gameService.updatePlayerName(gameInfo.value.username);
       }
     });
