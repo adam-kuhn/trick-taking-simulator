@@ -32,7 +32,7 @@ export class JoinGameDialogComponent {
     ]),
     username: new FormControl('', [
       Validators.maxLength(15),
-      Validators.pattern('[a-zA-Z0-9]*'),
+      Validators.pattern('(?=[^a-zA-Z0-9]*[a-zA-Z0-9])[a-zA-Z0-9\\s]*'),
     ]),
   });
   validGameCode = '';
