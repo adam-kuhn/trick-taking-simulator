@@ -175,8 +175,9 @@ export class GameRoomComponent {
     this.lastTrick = [];
     this.winningCard = null;
   }
-  playerInTableSeatOrder(seatsFromCurrentPlayer: number): string {
-    if (!this.player) return '';
+
+  findPlayerBySeatOrder(seatsFromCurrentPlayer: number): Player | undefined {
+    if (!this.player) return;
     let otherPlayer = this.player.playerPosition + seatsFromCurrentPlayer;
     if (otherPlayer > this.numberOfPlayers) {
       otherPlayer = otherPlayer - this.numberOfPlayers;
@@ -186,9 +187,18 @@ export class GameRoomComponent {
     const playerSummary = this.playerSummary.find(
       (summary) => summary.playerPosition === otherPlayer
     );
-    if (!playerSummary) return '';
-    const displayName = this.playerDisplayName.transform(playerSummary);
-    return `${displayName}: tricks ${playerSummary.tricks}`;
+    return playerSummary;
+  }
+  playerToTheLeft(): Player | undefined {
+    return this.findPlayerBySeatOrder(1);
+  }
+  playerToTheRight(): Player | undefined {
+    return this.findPlayerBySeatOrder(-1);
+  }
+  playersTableText(player: Player | undefined): string {
+    if (!player) return '';
+    const displayName = this.playerDisplayName.transform(player);
+    return `${displayName}: tricks ${player.tricks}`;
   }
   wonTricks(): number | null {
     const playerSummary = this.playerSummary.find(
