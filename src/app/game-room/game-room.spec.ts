@@ -6,6 +6,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { GameRoomComponent } from './game-room.component';
 import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
 
+const USERNAME_ONE = 'Custom name 1';
+const USERNAME_TWO = 'Cusom name 2';
+
 describe('GameRoomComponent', () => {
   let component: GameRoomComponent;
   let fixture: ComponentFixture<GameRoomComponent>;
@@ -29,19 +32,19 @@ describe('GameRoomComponent', () => {
       suit: 'green',
       value: 4,
       playerPosition: 4,
-      username: '',
+      username: USERNAME_ONE,
     };
     component.leadCard = {
       suit: 'green',
       value: 1,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_TWO,
     };
     component.playedCards = [
-      { suit: 'green', value: 1, playerPosition: 1, username: '' },
+      { suit: 'green', value: 1, playerPosition: 1, username: USERNAME_TWO },
       { suit: 'green', value: 2, playerPosition: 2, username: '' },
       { suit: 'green', value: 3, playerPosition: 3, username: '' },
-      { suit: 'green', value: 4, playerPosition: 4, username: '' },
+      { suit: 'green', value: 4, playerPosition: 4, username: USERNAME_ONE },
     ];
     component.resolveTrick();
     const actual = component.winningCard;
@@ -52,17 +55,17 @@ describe('GameRoomComponent', () => {
       suit: 'rocket',
       value: 1,
       playerPosition: 2,
-      username: '',
+      username: USERNAME_TWO,
     };
     component.leadCard = {
       suit: 'pink',
       value: 1,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_ONE,
     };
     component.playedCards = [
-      { suit: 'pink', value: 1, playerPosition: 1, username: '' },
-      { suit: 'rocket', value: 1, playerPosition: 2, username: '' },
+      { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_ONE },
+      { suit: 'rocket', value: 1, playerPosition: 2, username: USERNAME_TWO },
       { suit: 'green', value: 3, playerPosition: 3, username: '' },
       { suit: 'green', value: 4, playerPosition: 4, username: '' },
     ];
@@ -75,16 +78,16 @@ describe('GameRoomComponent', () => {
       suit: 'pink',
       value: 1,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_TWO,
     };
     component.leadCard = {
       suit: 'pink',
       value: 1,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_TWO,
     };
     component.playedCards = [
-      { suit: 'pink', value: 1, playerPosition: 1, username: '' },
+      { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_TWO },
       { suit: 'green', value: 5, playerPosition: 2, username: '' },
       { suit: 'blue', value: 9, playerPosition: 3, username: '' },
       { suit: 'violet', value: 4, playerPosition: 4, username: '' },
@@ -99,14 +102,19 @@ describe('GameRoomComponent', () => {
       suit: 'pink',
       value: 2,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_TWO,
     };
     component.communicationCard = [communicationCard];
     component.revealedCommunications = [
       { type: 'highest', card: communicationCard },
       {
         type: 'lowest',
-        card: { suit: 'green', value: 3, playerPosition: 2, username: '' },
+        card: {
+          suit: 'green',
+          value: 3,
+          playerPosition: 2,
+          username: USERNAME_TWO,
+        },
       },
     ];
     const expected = 'playing-mat';
@@ -119,13 +127,18 @@ describe('GameRoomComponent', () => {
       suit: 'pink',
       value: 2,
       playerPosition: 1,
-      username: '',
+      username: USERNAME_ONE,
     };
     component.communicationCard = [communicationCard];
     component.revealedCommunications = [
       {
         type: 'lowest',
-        card: { suit: 'green', value: 3, playerPosition: 2, username: '' },
+        card: {
+          suit: 'green',
+          value: 3,
+          playerPosition: 2,
+          username: USERNAME_ONE,
+        },
       },
     ];
     const expected = ['playing-mat', 'players-hand'];
