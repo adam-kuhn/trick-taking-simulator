@@ -96,7 +96,7 @@ export class GameRoomComponent {
 
   handleGivingACardToAnotherPlayer(cardIndex: number, player: Player): void {
     const cardToMove = this.cardsInHand[cardIndex];
-    const displayName = this.playerDisplayName.transform(cardToMove);
+    const displayName = this.playerDisplayName.transform(player);
     const message = `You gave this card to ${displayName}.`;
     const afterClose = () => {
       this.cardsInHand.splice(cardIndex, 1);
