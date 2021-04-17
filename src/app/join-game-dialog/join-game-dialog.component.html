@@ -1,5 +1,5 @@
 <mat-dialog-content>
-  <form class="game-info-form" [formGroup]="gameInfo">
+  <form id="join-game" class="game-info-form" [formGroup]="gameInfo">
     <mat-form-field class="form-field" appearance="fill">
       <mat-label>Game Code</mat-label>
       <input matInput formControlName="gameCode"/>
@@ -16,6 +16,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="gameInfo" [disabled]="gameInfo.status === 'INVALID'">Enter Space</button>
+  <button mat-button type="submit" form="join-game" [mat-dialog-close]="gameInfo" [disabled]="gameInfo.status === 'INVALID'">Enter Space</button>
   <button mat-button mat-dialog-close>Cancel</button>
 </mat-dialog-actions>
