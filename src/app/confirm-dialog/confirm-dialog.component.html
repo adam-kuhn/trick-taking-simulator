@@ -1,0 +1,9 @@
+<mat-dialog-content>
+  <h3>Are you sure?</h3>
+  <p>{{ confirmMessage }}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="'confirm'">Confirm</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>
