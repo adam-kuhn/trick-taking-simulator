@@ -68,7 +68,6 @@ export class GameRoomComponent {
         ({ card }) =>
           !(card.suit === data.card.suit && card.value === data.card.value)
       );
-
       this.revealedCommunications = [...uniqueCommunications, data];
     });
     this.gameService
@@ -78,16 +77,6 @@ export class GameRoomComponent {
       });
   }
 
-  dealCards(): void {
-    this.gameService.dealTheCards();
-  }
-
-  openTaskDealDialog(): void {
-    const dialogRef = this.dialog.open(DealTaskDialogComponent);
-    dialogRef.afterClosed().subscribe((options: TaskOptions) => {
-      this.gameService.dealTaskCards(options);
-    });
-  }
   openConfirmDrawCard(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent);
     const instance = dialogRef.componentInstance;
@@ -104,6 +93,51 @@ export class GameRoomComponent {
       }
     });
   }
+
+  handleGivingACardToAnotherPlayer(cardIndex: number, player: Player): void {
+    const cardToMove = this.cardsInHand[cardIndex];
+    const displayName = this.playerDisplayName.transform(cardToMove);
+    const message = `You gave this card to ${displayName}.`;
+    const afterClose = () => {
+      this.cardsInHand.splice(cardIndex, 1);
+      this.gameService.moveCardToAnotherPlayer(cardToMove, player);
+    };
+    this.openAcknowledgeDialog(message, cardToMove, afterClose);
+  }
+
+  handleRecievedCardFromAnotherPlayer(acknowledgedCard: PlayerCard): void {
+    const displayName = this.playerDisplayName.transform(acknowledgedCard);
+    const message = `You recieved this card from ${displayName}.`;
+    const afterClose = () => {
+      const card = this.setCardToCurrentPlayer(acknowledgedCard);
+      this.cardsInHand.push(card);
+    };
+    this.openAcknowledgeDialog(message, acknowledgedCard, afterClose);
+  }
+
+  openAcknowledgeDialog(
+    message: string,
+    acknowledgedCard: PlayerCard,
+    afterClose: () => void
+  ): void {
+    const dialogRef = this.dialog.open(AcknowledgeDialogComponent, {
+      disableClose: true,
+    });
+    const instance = dialogRef.componentInstance;
+    instance.message = message;
+    instance.card = acknowledgedCard;
+    dialogRef.afterClosed().subscribe(() => {
+      afterClose();
+    });
+  }
+
+  openTaskDealDialog(): void {
+    const dialogRef = this.dialog.open(DealTaskDialogComponent);
+    dialogRef.afterClosed().subscribe((options: TaskOptions) => {
+      this.gameService.dealTaskCards(options);
+    });
+  }
+
   resolvePlayedCard(playedCard: PlayerCard): void {
     const { playedCards } = this;
     this.revealedCommunications = this.revealedCommunications.filter(
@@ -114,6 +148,7 @@ export class GameRoomComponent {
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
   }
+
   resolveTrick(): void {
     const playedTrump = this.playedCards.filter(
       (card: PlayerCard) => card.suit === 'rocket'
@@ -130,6 +165,7 @@ export class GameRoomComponent {
     }
     this.cleanUpTrick();
   }
+
   cleanUpTrick(): void {
     setTimeout(() => {
       this.lastTrick = [...this.playedCards];
@@ -145,12 +181,14 @@ export class GameRoomComponent {
       }
     }, 3000);
   }
+
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
     this.handleDrop(event);
     const card = event.container.data[event.currentIndex];
     this.gameService.cardPlayed(card);
     this.resolvePlayedCard(card);
   }
+
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
     if (this.communicationCard.length === 1) return;
     this.handleDrop(event);
@@ -166,6 +204,7 @@ export class GameRoomComponent {
     );
     return communicated ? 'playing-mat' : listsForDrag;
   }
+
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     const {
       container: currentContainer,
@@ -184,12 +223,14 @@ export class GameRoomComponent {
       currentIndex
     );
   }
+
   handleCommunication(event: MatSelectChange): void {
     this.gameService.sendCommunication({
       type: event.value,
       card: this.communicationCard[0],
     });
   }
+
   clearOldGameInfo(): void {
     this.revealedCommunications = [];
     this.communicationCard = [];
@@ -197,6 +238,14 @@ export class GameRoomComponent {
     this.playedCards = [];
     this.lastTrick = [];
     this.winningCard = null;
+  }
+
+  wonTricks(): number | null {
+    const playerSummary = this.playerSummary.find(
+      (summary) => summary.playerPosition === this.player?.playerPosition
+    );
+    if (!playerSummary || playerSummary.tricks < 0) return null;
+    return playerSummary.tricks;
   }
 
   findPlayerBySeatOrder(seatsFromCurrentPlayer: number): Player | undefined {
@@ -212,6 +261,7 @@ export class GameRoomComponent {
     );
     return playerSummary;
   }
+
   playerToTheLeft(): Player | undefined {
     return this.findPlayerBySeatOrder(1);
   }
@@ -223,28 +273,13 @@ export class GameRoomComponent {
     const displayName = this.playerDisplayName.transform(player);
     return `${displayName}: tricks ${player.tricks}`;
   }
-  wonTricks(): number | null {
-    const playerSummary = this.playerSummary.find(
-      (summary) => summary.playerPosition === this.player?.playerPosition
-    );
-    if (!playerSummary || playerSummary.tricks < 0) return null;
-    return playerSummary.tricks;
-  }
+
   getIndexOfRandomCardToMove(): number {
     const playersTotalCards = this.cardsInHand.length;
     const indexOfCard = Math.floor(Math.random() * playersTotalCards);
     return indexOfCard;
   }
-  handleGivingACardToAnotherPlayer(cardIndex: number, player: Player): void {
-    const cardToMove = this.cardsInHand[cardIndex];
-    const displayName = this.playerDisplayName.transform(cardToMove);
-    const message = `You gave this card to ${displayName}.`;
-    const afterClose = () => {
-      this.cardsInHand.splice(cardIndex, 1);
-      this.gameService.moveCardToAnotherPlayer(cardToMove, player);
-    };
-    this.openAcknowledgeDialog(message, cardToMove, afterClose);
-  }
+
   setCardToCurrentPlayer(card: PlayerCard): PlayerCard {
     if (!this.player) throw new Error('Current Player is not set');
     return {
@@ -253,28 +288,8 @@ export class GameRoomComponent {
       username: this.player.username,
     };
   }
-  handleRecievedCardFromAnotherPlayer(acknowledgedCard: PlayerCard): void {
-    const displayName = this.playerDisplayName.transform(acknowledgedCard);
-    const message = `You recieved this card from ${displayName}.`;
-    const afterClose = () => {
-      const card = this.setCardToCurrentPlayer(acknowledgedCard);
-      this.cardsInHand.push(card);
-    };
-    this.openAcknowledgeDialog(message, acknowledgedCard, afterClose);
-  }
-  openAcknowledgeDialog(
-    message: string,
-    acknowledgedCard: PlayerCard,
-    afterClose: () => void
-  ): void {
-    const dialogRef = this.dialog.open(AcknowledgeDialogComponent, {
-      disableClose: true,
-    });
-    const instance = dialogRef.componentInstance;
-    instance.message = message;
-    instance.card = acknowledgedCard;
-    dialogRef.afterClosed().subscribe(() => {
-      afterClose();
-    });
+
+  dealCards(): void {
+    this.gameService.dealTheCards();
   }
 }
