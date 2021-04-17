@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 
-const createGameCode = (): string => {
+export const createGameCode = (): string => {
   /* stupid simple password to enter the game this is just 
   to prevent randoms for joining the game and is not meant to be secure
   TODO: make game individual game rooms */
