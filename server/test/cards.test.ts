@@ -62,26 +62,26 @@ describe('dealCards', function () {
 describe('sortHandOfCards', function () {
   it('sorts a hand of cards', function () {
     const playersHand = [
-      { suit: 'blue', value: 5, playerPosition 1 },
-      { suit: 'violet', value: 2, playerPosition 1 },
-      { suit: 'blue', value: 1, playerPosition 1 },
-      { suit: 'pink', value: 9, playerPosition 1 },
-      { suit: 'green', value: 4, playerPosition 1 },
-      { suit: 'rocket', value: 3, playerPosition 1 },
-      { suit: 'violet', value: 3, playerPosition 1 },
-      { suit: 'pink', value: 5, playerPosition 1 },
-      { suit: 'blue', value: 2, playerPosition 1 },
+      { suit: 'blue', value: 5, playerPosition: 1 },
+      { suit: 'violet', value: 2, playerPosition: 1 },
+      { suit: 'blue', value: 1, playerPosition: 1 },
+      { suit: 'pink', value: 9, playerPosition: 1 },
+      { suit: 'green', value: 4, playerPosition: 1 },
+      { suit: 'rocket', value: 3, playerPosition: 1 },
+      { suit: 'violet', value: 3, playerPosition: 1 },
+      { suit: 'pink', value: 5, playerPosition: 1 },
+      { suit: 'blue', value: 2, playerPosition: 1 },
     ];
     const expected = [
-      { suit: 'blue', value: 1, playerPosition 1 },
-      { suit: 'blue', value: 2, playerPosition 1 },
-      { suit: 'blue', value: 5, playerPosition 1 },
-      { suit: 'pink', value: 5, playerPosition 1 },
-      { suit: 'pink', value: 9, playerPosition 1 },
-      { suit: 'green', value: 4, playerPosition 1 },
-      { suit: 'violet', value: 2, playerPosition 1 },
-      { suit: 'violet', value: 3, playerPosition 1 },
-      { suit: 'rocket', value: 3, playerPosition 1 },
+      { suit: 'blue', value: 1, playerPosition: 1 },
+      { suit: 'blue', value: 2, playerPosition: 1 },
+      { suit: 'blue', value: 5, playerPosition: 1 },
+      { suit: 'pink', value: 5, playerPosition: 1 },
+      { suit: 'pink', value: 9, playerPosition: 1 },
+      { suit: 'green', value: 4, playerPosition: 1 },
+      { suit: 'violet', value: 2, playerPosition: 1 },
+      { suit: 'violet', value: 3, playerPosition: 1 },
+      { suit: 'rocket', value: 3, playerPosition: 1 },
     ];
     const actual = sortHandOfCards(playersHand);
     expect(actual).to.deep.equal(expected);
