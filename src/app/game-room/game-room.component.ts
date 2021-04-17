@@ -106,6 +106,33 @@ export class GameRoomComponent {
     });
   }
 
+  handleConfirmPassingCardDialog(card: PlayerCard): void {
+    if (card.suit === 'rocket') {
+      const data = {
+        message: "You can't pass rocket cards.",
+        actions: DialogActions.ACKNOWLEDGE,
+      };
+      this.openConfirmDialog(data, { disableClose: true, autoFocus: false });
+    } else {
+      const data = {
+        card,
+        message: 'Pass this card to the left or right?',
+        actions: DialogActions.PLAYER_CHOICE,
+      };
+      const dialogRef = this.openConfirmDialog(data, { autoFocus: false });
+
+      dialogRef.afterClosed().subscribe((direction: string) => {
+        if (!direction) return;
+        const player =
+          direction === 'left'
+            ? this.playerToTheLeft()
+            : this.playerToTheRight();
+        if (!player) throw new Error('No players beside current player');
+        this.handleGivingACardToAnotherPlayer(card, player);
+      });
+    }
+  }
+
   handleGivingACardToAnotherPlayer(
     cardToMove: PlayerCard,
     player: Player
@@ -145,6 +172,16 @@ export class GameRoomComponent {
     const dialogRef = this.openConfirmDialog(data, { disableClose: true });
     dialogRef.afterClosed().subscribe(() => {
       afterClose();
+    });
+  }
+
+  openConfirmDialog(
+    data: DialogData,
+    config?: MatDialogConfig
+  ): MatDialogRef<ConfirmDialogComponent> {
+    return this.dialog.open(ConfirmDialogComponent, {
+      ...config,
+      data,
     });
   }
 
@@ -308,14 +345,5 @@ export class GameRoomComponent {
 
   dealCards(): void {
     this.gameService.dealTheCards();
-  }
-  openConfirmDialog(
-    data: DialogData,
-    config?: MatDialogConfig
-  ): MatDialogRef<ConfirmDialogComponent> {
-    return this.dialog.open(ConfirmDialogComponent, {
-      ...config,
-      data,
-    });
   }
 }

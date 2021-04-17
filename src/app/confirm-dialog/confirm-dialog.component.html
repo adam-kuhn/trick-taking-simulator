@@ -12,6 +12,11 @@
       <button mat-button [mat-dialog-close]="'confirm'">Confirm</button>
       <button mat-button mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
+    <mat-dialog-actions *ngSwitchCase="DialogActions.PLAYER_CHOICE">
+      <button mat-button [mat-dialog-close]="'left'">Left</button>
+      <button mat-button [mat-dialog-close]="'right'">Right</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
   </div>
 
 

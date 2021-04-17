@@ -5,6 +5,7 @@ import { PlayerCard } from '../types/game';
 export enum DialogActions {
   CONFIRM,
   ACKNOWLEDGE,
+  PLAYER_CHOICE,
 }
 
 export interface DialogData {
