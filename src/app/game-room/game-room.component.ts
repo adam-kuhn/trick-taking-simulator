@@ -20,6 +20,7 @@ import {
   TaskOptions,
 } from '../deal-task-dialog/deal-task-dialog.component';
 import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-game-room',
@@ -69,6 +70,12 @@ export class GameRoomComponent {
 
       this.revealedCommunications = [...uniqueCommunications, data];
     });
+    this.gameService
+      .recieveCardFromAnotherPlayer()
+      .subscribe((data: PlayerCard) => {
+        const card = this.setCardToCurrentPlayer(data);
+        this.cardsInHand.push(card);
+      });
   }
 
   dealCards(): void {
@@ -79,6 +86,25 @@ export class GameRoomComponent {
     const dialogRef = this.dialog.open(DealTaskDialogComponent);
     dialogRef.afterClosed().subscribe((options: TaskOptions) => {
       this.gameService.dealTaskCards(options);
+    });
+  }
+  openConfirmDrawCard(): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent);
+    const instance = dialogRef.componentInstance;
+    const playerToRecieveCard = this.playerToTheLeft();
+    if (!playerToRecieveCard) return;
+    instance.confirmMessage = `
+    Give a random card from your hand to ${this.playerDisplayName.transform(
+      playerToRecieveCard
+    )}?`;
+    dialogRef.afterClosed().subscribe((confirmation: string) => {
+      if (confirmation === 'confirm') {
+        const cardIndex = this.getIndexOfRandomCardToMove();
+        this.removeCardFromHandAndMoveToNewPlayer(
+          cardIndex,
+          playerToRecieveCard
+        );
+      }
     });
   }
   resolvePlayedCard(playedCard: PlayerCard): void {
@@ -206,5 +232,26 @@ export class GameRoomComponent {
     );
     if (!playerSummary || playerSummary.tricks < 0) return null;
     return playerSummary.tricks;
+  }
+  getIndexOfRandomCardToMove(): number {
+    const playersTotalCards = this.cardsInHand.length;
+    const indexOfCard = Math.floor(Math.random() * playersTotalCards);
+    return indexOfCard;
+  }
+  removeCardFromHandAndMoveToNewPlayer(
+    cardIndex: number,
+    player: Player
+  ): void {
+    const cardToMove = this.cardsInHand[cardIndex];
+    this.cardsInHand.splice(cardIndex, 1);
+    this.gameService.moveCardToAnotherPlayer(cardToMove, player);
+  }
+  setCardToCurrentPlayer(card: PlayerCard): PlayerCard {
+    if (!this.player) throw new Error('Current Player is not set');
+    return {
+      ...card,
+      playerPosition: this.player.playerPosition,
+      username: this.player.username,
+    };
   }
 }
