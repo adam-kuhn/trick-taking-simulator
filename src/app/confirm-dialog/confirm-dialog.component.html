@@ -1,9 +1,20 @@
-<mat-dialog-content>
-  <h3>Are you sure?</h3>
-  <p>{{ data.confirmMessage }}</p>
-</mat-dialog-content>
+<div class="centered-column">
+  <mat-dialog-content class="centered-column">
+    <p>{{ data.message }}</p>
+    <app-playing-card *ngIf="data.card" [card]="data.card"></app-playing-card>
+  </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="'confirm'">Confirm</button>
-  <button mat-button mat-dialog-close>Cancel</button>
-</mat-dialog-actions>
+  <div [ngSwitch]="data.actions">
+    <mat-dialog-actions *ngSwitchCase="DialogActions.ACKNOWLEDGE">
+      <button mat-button mat-dialog-close>OK</button>
+    </mat-dialog-actions>
+    <mat-dialog-actions *ngSwitchCase="DialogActions.CONFIRM">
+      <button mat-button [mat-dialog-close]="'confirm'">Confirm</button>
+      <button mat-button mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </div>
+
+
+</div>
+
+

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
@@ -20,8 +24,11 @@ import {
   TaskOptions,
 } from '../deal-task-dialog/deal-task-dialog.component';
 import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
-import { AcknowledgeDialogComponent } from '../acknowledge-dialog/acknowledge-dialog.component';
+import {
+  ConfirmDialogComponent,
+  DialogActions,
+  DialogData,
+} from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-game-room',
@@ -80,24 +87,32 @@ export class GameRoomComponent {
   openConfirmDrawCard(): void {
     const playerToRecieveCard = this.playerToTheLeft();
     if (!playerToRecieveCard) throw new Error('No player to the left');
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: {
-        confirmMessage: `Give a random card from your hand to ${this.playerDisplayName.transform(
-          playerToRecieveCard
-        )}?`,
-      },
-    });
+    const data = {
+      message: `Give a random card from your hand to ${this.playerDisplayName.transform(
+        playerToRecieveCard
+      )}?`,
+      actions: DialogActions.CONFIRM,
+    };
+    const dialogRef = this.openConfirmDialog(data);
 
     dialogRef.afterClosed().subscribe((confirmation: string) => {
       if (confirmation === 'confirm') {
         const cardIndex = this.getIndexOfRandomCardToMove();
-        this.handleGivingACardToAnotherPlayer(cardIndex, playerToRecieveCard);
+        this.handleGivingACardToAnotherPlayer(
+          this.cardsInHand[cardIndex],
+          playerToRecieveCard
+        );
       }
     });
   }
 
-  handleGivingACardToAnotherPlayer(cardIndex: number, player: Player): void {
-    const cardToMove = this.cardsInHand[cardIndex];
+  handleGivingACardToAnotherPlayer(
+    cardToMove: PlayerCard,
+    player: Player
+  ): void {
+    const cardIndex = this.cardsInHand.findIndex(
+      (card) => card.suit === cardToMove.suit && card.value === cardToMove.value
+    );
     const displayName = this.playerDisplayName.transform(player);
     const message = `You gave this card to ${displayName}.`;
     const afterClose = () => {
@@ -122,13 +137,12 @@ export class GameRoomComponent {
     acknowledgedCard: PlayerCard,
     afterClose: () => void
   ): void {
-    const dialogRef = this.dialog.open(AcknowledgeDialogComponent, {
-      disableClose: true,
-      data: {
-        message,
-        card: acknowledgedCard,
-      },
-    });
+    const data = {
+      message,
+      card: acknowledgedCard,
+      actions: DialogActions.ACKNOWLEDGE,
+    };
+    const dialogRef = this.openConfirmDialog(data, { disableClose: true });
     dialogRef.afterClosed().subscribe(() => {
       afterClose();
     });
@@ -294,5 +308,14 @@ export class GameRoomComponent {
 
   dealCards(): void {
     this.gameService.dealTheCards();
+  }
+  openConfirmDialog(
+    data: DialogData,
+    config?: MatDialogConfig
+  ): MatDialogRef<ConfirmDialogComponent> {
+    return this.dialog.open(ConfirmDialogComponent, {
+      ...config,
+      data,
+    });
   }
 }

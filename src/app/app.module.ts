@@ -24,7 +24,6 @@ import { GameService } from './services/game.service';
 import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
-import { AcknowledgeDialogComponent } from './acknowledge-dialog/acknowledge-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +37,6 @@ import { AcknowledgeDialogComponent } from './acknowledge-dialog/acknowledge-dia
     JoinGameDialogComponent,
     PlayerDisplayNamePipe,
     ConfirmDialogComponent,
-    AcknowledgeDialogComponent,
   ],
   imports: [
     BrowserModule,
