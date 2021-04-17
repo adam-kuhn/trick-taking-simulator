@@ -78,14 +78,16 @@ export class GameRoomComponent {
   }
 
   openConfirmDrawCard(): void {
-    const dialogRef = this.dialog.open(ConfirmDialogComponent);
-    const instance = dialogRef.componentInstance;
     const playerToRecieveCard = this.playerToTheLeft();
-    if (!playerToRecieveCard) return;
-    instance.confirmMessage = `
-    Give a random card from your hand to ${this.playerDisplayName.transform(
-      playerToRecieveCard
-    )}?`;
+    if (!playerToRecieveCard) throw new Error('No player to the left');
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: {
+        confirmMessage: `Give a random card from your hand to ${this.playerDisplayName.transform(
+          playerToRecieveCard
+        )}?`,
+      },
+    });
+
     dialogRef.afterClosed().subscribe((confirmation: string) => {
       if (confirmation === 'confirm') {
         const cardIndex = this.getIndexOfRandomCardToMove();
@@ -122,10 +124,11 @@ export class GameRoomComponent {
   ): void {
     const dialogRef = this.dialog.open(AcknowledgeDialogComponent, {
       disableClose: true,
+      data: {
+        message,
+        card: acknowledgedCard,
+      },
     });
-    const instance = dialogRef.componentInstance;
-    instance.message = message;
-    instance.card = acknowledgedCard;
     dialogRef.afterClosed().subscribe(() => {
       afterClose();
     });

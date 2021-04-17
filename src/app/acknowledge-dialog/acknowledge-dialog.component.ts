@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { PlayerCard } from '../types/game';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-acknowledge-dialog',
@@ -7,6 +8,7 @@ import { PlayerCard } from '../types/game';
   styleUrls: ['./acknowledge-dialog.component.sass'],
 })
 export class AcknowledgeDialogComponent {
-  @Input() card: PlayerCard | null = null;
-  @Input() message = '';
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: { card?: PlayerCard; message: string }
+  ) {}
 }

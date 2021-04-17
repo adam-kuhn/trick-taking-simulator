@@ -1,7 +1,7 @@
 <div class="centered-column">
   <mat-dialog-content class="centered-column">
-    <p>{{ message }}</p>
-    <app-playing-card *ngIf="card" [card]="card"></app-playing-card>
+    <p>{{ data.message }}</p>
+    <app-playing-card *ngIf="data.card" [card]="data.card"></app-playing-card>
   </mat-dialog-content>
 
   <mat-dialog-actions>
