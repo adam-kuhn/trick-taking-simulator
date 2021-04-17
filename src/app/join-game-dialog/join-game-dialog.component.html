@@ -1,0 +1,21 @@
+<mat-dialog-content>
+  <form id="join-game" class="game-info-form" [formGroup]="gameInfo">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Game Code</mat-label>
+      <input matInput formControlName="gameCode"/>
+      <mat-error *ngIf="gameCode && gameCode.hasError('pattern')">Invalid game code.</mat-error>
+      <mat-error *ngIf="gameCode && gameCode.hasError('required')">Game code is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+      <mat-error *ngIf="username && username.hasError('pattern')">Letters and numbers only.</mat-error>
+      <mat-error *ngIf="username && username.hasError('maxlength')">Username must be &lt; 15 characters.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button type="submit" form="join-game" [mat-dialog-close]="gameInfo" [disabled]="gameInfo.status === 'INVALID'">Enter Space</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

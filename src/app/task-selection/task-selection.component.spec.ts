@@ -22,13 +22,14 @@ describe('TaskSelectionComponent', () => {
     const selectedTask = {
       suit: 'green',
       value: 1,
-      player: 0,
+      playerPosition: 0,
       completed: false,
+      username: '',
     };
     component.tasks = [selectedTask];
     const matSelectEvent = { value: 3 } as MatSelectChange;
-    const expected = { ...selectedTask, player: 3 };
+    const expected = { ...selectedTask, playerPosition: 3 };
     component.setTaskToPlayer(matSelectEvent, selectedTask);
-    expect(component.tasks[0].player).toBe(expected.player);
+    expect(component.tasks[0].playerPosition).toBe(expected.playerPosition);
   });
 });

@@ -4,7 +4,8 @@ export interface Card {
 }
 
 export interface PlayerCard extends Card {
-  player: number;
+  playerPosition: number;
+  username: string;
 }
 
 export interface TaskCard extends PlayerCard {
@@ -19,9 +20,16 @@ export interface InitialTasks {
   revealOnlyToCommander: boolean;
 }
 
+export interface Player {
+  socket: string;
+  playerPosition: number;
+  username: string;
+  tricks: number;
+}
+
 export interface GameState {
-  player: number;
-  numberOfPlayers: number;
+  player: Player;
+  playersInGame: Player[];
   playersCards: PlayerCard[];
 }
 

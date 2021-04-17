@@ -38,6 +38,9 @@ export class GameService {
     });
     return observable;
   }
+  updatePlayerName(username: string): void {
+    this.socket.emit('update_player_name', { username, id: this.socket.id });
+  }
   dealTheCards(): void {
     this.socket.emit('deal_cards');
   }
@@ -60,6 +63,10 @@ export class GameService {
 
   revealTasks(): void {
     this.socket.emit('reveal_tasks');
+  }
+
+  playerNameUpdated(): Observable<null> {
+    return this.createObservalble<null>('player_name_updated');
   }
 
   sendCommunication(data: Communication): void {
