@@ -1,8 +1,10 @@
-<mat-dialog-content>
-  <p>{{ message }}</p>
-  <app-playing-card *ngIf="card" [card]="card"></app-playing-card>
-</mat-dialog-content>
+<div class="centered-column">
+  <mat-dialog-content class="centered-column">
+    <p>{{ message }}</p>
+    <app-playing-card *ngIf="card" [card]="card"></app-playing-card>
+  </mat-dialog-content>
 
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>OK</button>
-</mat-dialog-actions>
+  <mat-dialog-actions>
+    <button mat-button mat-dialog-close>OK</button>
+  </mat-dialog-actions>
+</div>
