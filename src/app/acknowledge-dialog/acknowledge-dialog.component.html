@@ -1,0 +1,8 @@
+<mat-dialog-content>
+  <p>{{ message }}</p>
+  <app-playing-card *ngIf="card" [card]="card"></app-playing-card>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>OK</button>
+</mat-dialog-actions>

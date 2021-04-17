@@ -21,6 +21,7 @@ import {
 } from '../deal-task-dialog/deal-task-dialog.component';
 import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { AcknowledgeDialogComponent } from '../acknowledge-dialog/acknowledge-dialog.component';
 
 @Component({
   selector: 'app-game-room',
@@ -73,8 +74,17 @@ export class GameRoomComponent {
     this.gameService
       .recieveCardFromAnotherPlayer()
       .subscribe((data: PlayerCard) => {
-        const card = this.setCardToCurrentPlayer(data);
-        this.cardsInHand.push(card);
+        const dialogRef = this.dialog.open(AcknowledgeDialogComponent, {
+          disableClose: true,
+        });
+        const instance = dialogRef.componentInstance;
+        const displayName = this.playerDisplayName.transform(data);
+        instance.message = `You recieved this card from ${displayName}.`;
+        instance.card = data;
+        dialogRef.afterClosed().subscribe(() => {
+          const card = this.setCardToCurrentPlayer(data);
+          this.cardsInHand.push(card);
+        });
       });
   }
 
