@@ -1,0 +1,21 @@
+<div class="centered-column">
+  <mat-dialog-content class="centered-column">
+    <p>{{ data.message }}</p>
+    <app-playing-card *ngIf="data.card" [card]="data.card"></app-playing-card>
+  </mat-dialog-content>
+
+  <div [ngSwitch]="data.actions">
+    <mat-dialog-actions *ngSwitchCase="DialogActions.ACKNOWLEDGE">
+      <button mat-button color='accent' mat-dialog-close>OK</button>
+    </mat-dialog-actions>
+    <mat-dialog-actions *ngSwitchCase="DialogActions.CONFIRM">
+      <button mat-button color='accent' [mat-dialog-close]="'confirm'">Confirm</button>
+      <button mat-button color='warn' mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+    <mat-dialog-actions *ngSwitchCase="DialogActions.PLAYER_CHOICE">
+      <button mat-button color='accent' [mat-dialog-close]="'left'">Left</button>
+      <button mat-button color='accent' [mat-dialog-close]="'right'">Right</button>
+      <button mat-button color='warn' mat-dialog-close>Cancel</button>
+    </mat-dialog-actions>
+  </div>
+</div>

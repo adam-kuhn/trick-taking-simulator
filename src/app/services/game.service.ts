@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import {
+  Player,
   PlayerCard,
   TaskCard,
   GameState,
@@ -64,6 +65,9 @@ export class GameService {
   revealTasks(): void {
     this.socket.emit('reveal_tasks');
   }
+  moveCardToAnotherPlayer(card: PlayerCard, player: Player): void {
+    this.socket.emit('move_card', { card, sendToSocket: player.socket });
+  }
 
   playerNameUpdated(): Observable<null> {
     return this.createObservalble<null>('player_name_updated');
@@ -99,5 +103,9 @@ export class GameService {
 
   recieveCommunication(): Observable<Communication> {
     return this.createObservalble<Communication>('communicate');
+  }
+
+  recieveCardFromAnotherPlayer(): Observable<PlayerCard> {
+    return this.createObservalble<PlayerCard>('recieve_players_card');
   }
 }

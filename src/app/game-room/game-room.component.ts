@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 
 import { GameService } from '../services/game.service';
@@ -20,6 +24,11 @@ import {
   TaskOptions,
 } from '../deal-task-dialog/deal-task-dialog.component';
 import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
+import {
+  ConfirmDialogComponent,
+  DialogActions,
+  DialogData,
+} from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-game-room',
@@ -66,13 +75,114 @@ export class GameRoomComponent {
         ({ card }) =>
           !(card.suit === data.card.suit && card.value === data.card.value)
       );
-
       this.revealedCommunications = [...uniqueCommunications, data];
+    });
+    this.gameService
+      .recieveCardFromAnotherPlayer()
+      .subscribe((data: PlayerCard) => {
+        this.handleRecievedCardFromAnotherPlayer(data);
+      });
+  }
+
+  openConfirmDrawCard(): void {
+    const playerToRecieveCard = this.playerToTheLeft();
+    if (!playerToRecieveCard) throw new Error('No player to the left');
+    const data = {
+      message: `Give a random card from your hand to ${this.playerDisplayName.transform(
+        playerToRecieveCard
+      )}?`,
+      actions: DialogActions.CONFIRM,
+    };
+    const dialogRef = this.openConfirmDialog(data);
+
+    dialogRef.afterClosed().subscribe((confirmation: string) => {
+      if (confirmation === 'confirm') {
+        const cardIndex = this.getIndexOfRandomCardToMove();
+        this.handleGivingACardToAnotherPlayer(
+          this.cardsInHand[cardIndex],
+          playerToRecieveCard
+        );
+      }
     });
   }
 
-  dealCards(): void {
-    this.gameService.dealTheCards();
+  handleConfirmPassingCardDialog(card: PlayerCard): void {
+    if (card.suit === 'rocket') {
+      const data = {
+        message: "You can't pass rocket cards.",
+        actions: DialogActions.ACKNOWLEDGE,
+      };
+      this.openConfirmDialog(data, { disableClose: true });
+    } else {
+      const data = {
+        card,
+        message: 'Pass this card to the left or right?',
+        actions: DialogActions.PLAYER_CHOICE,
+      };
+      const dialogRef = this.openConfirmDialog(data, { autoFocus: false });
+
+      dialogRef.afterClosed().subscribe((direction: string) => {
+        if (!direction) return;
+        const player =
+          direction === 'left'
+            ? this.playerToTheLeft()
+            : this.playerToTheRight();
+        if (!player) throw new Error('No players beside current player');
+        this.handleGivingACardToAnotherPlayer(card, player);
+      });
+    }
+  }
+
+  handleGivingACardToAnotherPlayer(
+    cardToMove: PlayerCard,
+    player: Player
+  ): void {
+    const cardIndex = this.cardsInHand.findIndex(
+      (card) => card.suit === cardToMove.suit && card.value === cardToMove.value
+    );
+    const displayName = this.playerDisplayName.transform(player);
+    const message = `You gave this card to ${displayName}.`;
+    const afterClose = () => {
+      this.cardsInHand.splice(cardIndex, 1);
+      this.gameService.moveCardToAnotherPlayer(cardToMove, player);
+    };
+    this.openAcknowledgeDialog(message, cardToMove, afterClose);
+  }
+
+  handleRecievedCardFromAnotherPlayer(acknowledgedCard: PlayerCard): void {
+    const displayName = this.playerDisplayName.transform(acknowledgedCard);
+    const message = `You recieved this card from ${displayName}.`;
+    const afterClose = () => {
+      const card = this.setCardToCurrentPlayer(acknowledgedCard);
+      this.cardsInHand.push(card);
+    };
+    this.openAcknowledgeDialog(message, acknowledgedCard, afterClose);
+  }
+
+  openAcknowledgeDialog(
+    message: string,
+    acknowledgedCard: PlayerCard,
+    afterClose: () => void
+  ): void {
+    const data = {
+      message,
+      card: acknowledgedCard,
+      actions: DialogActions.ACKNOWLEDGE,
+    };
+    const dialogRef = this.openConfirmDialog(data, { disableClose: true });
+    dialogRef.afterClosed().subscribe(() => {
+      afterClose();
+    });
+  }
+
+  openConfirmDialog(
+    data: DialogData,
+    config?: MatDialogConfig
+  ): MatDialogRef<ConfirmDialogComponent> {
+    return this.dialog.open(ConfirmDialogComponent, {
+      ...config,
+      data,
+    });
   }
 
   openTaskDealDialog(): void {
@@ -81,6 +191,7 @@ export class GameRoomComponent {
       this.gameService.dealTaskCards(options);
     });
   }
+
   resolvePlayedCard(playedCard: PlayerCard): void {
     const { playedCards } = this;
     this.revealedCommunications = this.revealedCommunications.filter(
@@ -91,6 +202,7 @@ export class GameRoomComponent {
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
   }
+
   resolveTrick(): void {
     const playedTrump = this.playedCards.filter(
       (card: PlayerCard) => card.suit === 'rocket'
@@ -107,6 +219,7 @@ export class GameRoomComponent {
     }
     this.cleanUpTrick();
   }
+
   cleanUpTrick(): void {
     setTimeout(() => {
       this.lastTrick = [...this.playedCards];
@@ -122,12 +235,14 @@ export class GameRoomComponent {
       }
     }, 3000);
   }
+
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
     this.handleDrop(event);
     const card = event.container.data[event.currentIndex];
     this.gameService.cardPlayed(card);
     this.resolvePlayedCard(card);
   }
+
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
     if (this.communicationCard.length === 1) return;
     this.handleDrop(event);
@@ -143,6 +258,7 @@ export class GameRoomComponent {
     );
     return communicated ? 'playing-mat' : listsForDrag;
   }
+
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     const {
       container: currentContainer,
@@ -161,12 +277,14 @@ export class GameRoomComponent {
       currentIndex
     );
   }
+
   handleCommunication(event: MatSelectChange): void {
     this.gameService.sendCommunication({
       type: event.value,
       card: this.communicationCard[0],
     });
   }
+
   clearOldGameInfo(): void {
     this.revealedCommunications = [];
     this.communicationCard = [];
@@ -175,8 +293,17 @@ export class GameRoomComponent {
     this.lastTrick = [];
     this.winningCard = null;
   }
-  playerInTableSeatOrder(seatsFromCurrentPlayer: number): string {
-    if (!this.player) return '';
+
+  wonTricks(): number | null {
+    const playerSummary = this.playerSummary.find(
+      (summary) => summary.playerPosition === this.player?.playerPosition
+    );
+    if (!playerSummary || playerSummary.tricks < 0) return null;
+    return playerSummary.tricks;
+  }
+
+  findPlayerBySeatOrder(seatsFromCurrentPlayer: number): Player | undefined {
+    if (!this.player) return;
     let otherPlayer = this.player.playerPosition + seatsFromCurrentPlayer;
     if (otherPlayer > this.numberOfPlayers) {
       otherPlayer = otherPlayer - this.numberOfPlayers;
@@ -186,15 +313,37 @@ export class GameRoomComponent {
     const playerSummary = this.playerSummary.find(
       (summary) => summary.playerPosition === otherPlayer
     );
-    if (!playerSummary) return '';
-    const displayName = this.playerDisplayName.transform(playerSummary);
-    return `${displayName}: tricks ${playerSummary.tricks}`;
+    return playerSummary;
   }
-  wonTricks(): number | null {
-    const playerSummary = this.playerSummary.find(
-      (summary) => summary.playerPosition === this.player?.playerPosition
-    );
-    if (!playerSummary || playerSummary.tricks < 0) return null;
-    return playerSummary.tricks;
+
+  playerToTheLeft(): Player | undefined {
+    return this.findPlayerBySeatOrder(1);
+  }
+  playerToTheRight(): Player | undefined {
+    return this.findPlayerBySeatOrder(-1);
+  }
+  playersTableText(player: Player | undefined): string {
+    if (!player) return '';
+    const displayName = this.playerDisplayName.transform(player);
+    return `${displayName}: tricks ${player.tricks}`;
+  }
+
+  getIndexOfRandomCardToMove(): number {
+    const playersTotalCards = this.cardsInHand.length;
+    const indexOfCard = Math.floor(Math.random() * playersTotalCards);
+    return indexOfCard;
+  }
+
+  setCardToCurrentPlayer(card: PlayerCard): PlayerCard {
+    if (!this.player) throw new Error('Current Player is not set');
+    return {
+      ...card,
+      playerPosition: this.player.playerPosition,
+      username: this.player.username,
+    };
+  }
+
+  dealCards(): void {
+    this.gameService.dealTheCards();
   }
 }
