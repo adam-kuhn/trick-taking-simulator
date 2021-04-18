@@ -82,6 +82,10 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
     io.emit('communicate', data);
   });
 
+  socket.on('move_card', (data: { card: PlayerCard; sendToSocket: string }) => {
+    io.to(data.sendToSocket).emit('recieve_players_card', data.card);
+  });
+
   socket.on('disconnect', () => {
     activeSockets = activeSockets.filter(
       (activeSocket) => activeSocket.id !== socket.id
