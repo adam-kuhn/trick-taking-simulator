@@ -66,7 +66,6 @@ export class GameService {
     this.socket.emit('reveal_tasks');
   }
   moveCardToAnotherPlayer(card: PlayerCard, player: Player): void {
-    console.log('MOVE INIT');
     this.socket.emit('move_card', { card, sendToSocket: player.socket });
   }
 
