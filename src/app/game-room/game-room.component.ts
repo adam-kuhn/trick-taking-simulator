@@ -112,7 +112,7 @@ export class GameRoomComponent {
         message: "You can't pass rocket cards.",
         actions: DialogActions.ACKNOWLEDGE,
       };
-      this.openConfirmDialog(data, { disableClose: true, autoFocus: false });
+      this.openConfirmDialog(data, { disableClose: true });
     } else {
       const data = {
         card,
