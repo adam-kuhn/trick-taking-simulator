@@ -6,16 +6,16 @@
 
   <div [ngSwitch]="data.actions">
     <mat-dialog-actions *ngSwitchCase="DialogActions.ACKNOWLEDGE">
-      <button mat-button mat-dialog-close>OK</button>
+      <button mat-button color='accent' mat-dialog-close>OK</button>
     </mat-dialog-actions>
     <mat-dialog-actions *ngSwitchCase="DialogActions.CONFIRM">
-      <button mat-button [mat-dialog-close]="'confirm'">Confirm</button>
-      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button color='accent' [mat-dialog-close]="'confirm'">Confirm</button>
+      <button mat-button color='warn' mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
     <mat-dialog-actions *ngSwitchCase="DialogActions.PLAYER_CHOICE">
-      <button mat-button [mat-dialog-close]="'left'">Left</button>
-      <button mat-button [mat-dialog-close]="'right'">Right</button>
-      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button color='accent' [mat-dialog-close]="'left'">Left</button>
+      <button mat-button color='accent' [mat-dialog-close]="'right'">Right</button>
+      <button mat-button color='warn' mat-dialog-close>Cancel</button>
     </mat-dialog-actions>
   </div>
 
