@@ -49,25 +49,28 @@
         </div>
       
         <div class="interaction-container">
-          <h3>Communicate</h3>
-          <div
-            class="communication-area"
-            cdkDropList
-            id="communication" 
-            [cdkDropListData]="communicationCard" 
-            [cdkDropListConnectedTo]="communicationDragTo()"
-            (cdkDropListDropped)="cardPlacedInCommunication($event)"
-            color="secondary"
-          >
-            <div *ngIf="communicationCard[0]">
-              <mat-select (selectionChange)="handleCommunication($event)">
-                <mat-option *ngFor="let option of communicationOptions" [value]="option">
-                  {{ option }}
-                </mat-option>
-              </mat-select>
-              <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+          <div class="communication-container">
+            <h3>Communicate</h3>
+            <div
+              class="communication-area"
+              cdkDropList
+              id="communication" 
+              [cdkDropListData]="communicationCard" 
+              [cdkDropListConnectedTo]="communicationDragTo()"
+              (cdkDropListDropped)="cardPlacedInCommunication($event)"
+              color="secondary"
+            >
+              <div *ngIf="communicationCard[0]">
+                <mat-select (selectionChange)="handleCommunication($event)">
+                  <mat-option *ngFor="let option of communicationOptions" [value]="option">
+                    {{ option }}
+                  </mat-option>
+                </mat-select>
+                <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+              </div>
             </div>
           </div>
+          
           <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
         </div>
       </div>
