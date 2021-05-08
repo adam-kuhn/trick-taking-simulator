@@ -68,7 +68,7 @@ export class GameTableComponent {
     const { playedCards } = this;
     this.gameStateService.removePlayedCardFromCommunicationCards(playedCard);
     if (playedCards.length === 1) this.leadCard = playedCards[0];
-    if (playedCards.length !== this.numberOfPlayers) return;
+    if (playedCards.length !== this.gameStateService.numberOfPlayers) return;
     this.resolveTrick();
   }
 
