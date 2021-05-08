@@ -21,6 +21,7 @@ import { InformationCardsComponent } from './communication-cards/information-car
 import { GameSummaryComponent } from './game-summary/game-summary.component';
 
 import { SocketService } from './services/socket.service';
+import { GameStateService } from './services/game-state.service';
 import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
@@ -52,7 +53,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [SocketService, PlayerDisplayNamePipe],
+  providers: [SocketService, GameStateService, PlayerDisplayNamePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
