@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
-import { Communication, PlayerCard, Player } from '../types/game';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
+import { Communication, PlayerCard, Player } from '../../types/game';
 
 @Component({
   selector: 'app-game-summary',

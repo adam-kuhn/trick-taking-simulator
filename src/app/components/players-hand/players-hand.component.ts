@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { SocketService } from '../services/socket.service';
-import { Player, PlayerCard, GameState } from '../types/game';
-import { handleCardDropEvent } from '../utils/card-dragging';
+import { SocketService } from '../../services/socket.service';
+import { Player, PlayerCard, GameState } from '../../types/game';
+import { handleCardDropEvent } from '../../utils/card-dragging';
 import { MatSelectChange } from '@angular/material/select';
 import {
   ConfirmDialogComponent,
@@ -14,8 +14,8 @@ import {
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
-import { SharedGameStateService } from '../services/shared-game-state.service';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
+import { SharedGameStateService } from '../../services/shared-game-state.service';
 
 @Component({
   selector: 'app-players-hand',

@@ -5,7 +5,7 @@ import { FormGroup } from '@angular/forms';
 import { SocketService } from './services/socket.service';
 
 import { environment } from '../environments/environment';
-import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
+import { JoinGameDialogComponent } from './components/join-game-dialog/join-game-dialog.component';
 
 interface ConnectionResponse {
   connections: number;

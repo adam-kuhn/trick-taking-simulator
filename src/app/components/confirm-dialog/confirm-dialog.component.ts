@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PlayerCard } from '../types/game';
+import { PlayerCard } from '../../types/game';
 
 export enum DialogActions {
   CONFIRM,

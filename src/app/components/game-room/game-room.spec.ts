@@ -4,7 +4,7 @@ import { OverlayModule } from '@angular/cdk/overlay';
 
 import { MatDialogModule } from '@angular/material/dialog';
 import { GameRoomComponent } from './game-room.component';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 const USERNAME_ONE = 'Custom name 1';
 const USERNAME_TWO = 'Custom name 2';

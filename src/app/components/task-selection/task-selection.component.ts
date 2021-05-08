@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { InitialTasks, TaskCard, Player } from '../types/game';
+import { InitialTasks, TaskCard, Player } from '../../types/game';
 import { MatSelectChange } from '@angular/material/select';
-import { SocketService } from '../services/socket.service';
+import { SocketService } from '../../services/socket.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 enum SpecificOrder {

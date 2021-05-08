@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { SocketService } from '../services/socket.service';
-import { GameState, PlayerCard, Communication, Player } from '../types/game';
+import { SocketService } from '../../services/socket.service';
+import { GameState, PlayerCard, Communication, Player } from '../../types/game';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import {
   DealTaskDialogComponent,
   TaskOptions,
 } from '../deal-task-dialog/deal-task-dialog.component';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
-import { SharedGameStateService } from '../services/shared-game-state.service';
-import { handleCardDropEvent } from '../utils/card-dragging';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
+import { SharedGameStateService } from '../../services/shared-game-state.service';
+import { handleCardDropEvent } from '../../utils/card-dragging';
 
 @Component({
   selector: 'app-game-room',

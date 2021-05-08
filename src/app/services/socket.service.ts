@@ -10,7 +10,7 @@ import {
   InitialTasks,
   Communication,
 } from '../types/game';
-import { TaskOptions } from '../deal-task-dialog/deal-task-dialog.component';
+import { TaskOptions } from '../components/deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
 
 /* NOTE TO SELF
