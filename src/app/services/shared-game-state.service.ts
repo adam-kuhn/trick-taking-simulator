@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayerCard, Communication, Player } from '../types/game';
+import { PlayerCard, Communication, Player, GameState } from '../types/game';
 
 @Injectable({
   providedIn: 'root',
@@ -9,6 +9,23 @@ export class SharedGameStateService {
   player: Player | null = null;
   revealedCommunications: Communication[] = [];
   playerSummary: Player[] = []; // will include tasks
+  winningCard: PlayerCard | null = null;
+  leadCard: PlayerCard | null = null;
+  lastTrick: PlayerCard[] = [];
+  isPlayerCommander = false;
+
+  handleStartingCards(data: GameState): void {
+    this.revealedCommunications = [];
+    this.leadCard = null;
+    this.lastTrick = [];
+    this.winningCard = null;
+    this.numberOfPlayers = data.playersInGame.length;
+    this.player = data.player;
+    this.playerSummary = data.playersInGame;
+    this.isPlayerCommander = !!data.playersCards.find(
+      (card) => card.suit === 'rocket' && card.value === 4
+    );
+  }
 
   updateRevealedCommunication(data: Communication): void {
     const uniqueCommunications = this.revealedCommunications.filter(
@@ -31,6 +48,20 @@ export class SharedGameStateService {
     );
     if (!playerSummary || playerSummary.tricks < 0) return null;
     return playerSummary.tricks;
+  }
+  completedTrick(trick: PlayerCard[], winningCard: PlayerCard): void {
+    this.winningCard = winningCard;
+    this.incrementWinningPlayersTrickCount(winningCard);
+  }
+
+  incrementWinningPlayersTrickCount(winningCard: PlayerCard): void {
+    const winningPlayer = this.playerSummary.find(
+      (summary) =>
+        winningCard && winningCard.playerPosition === summary.playerPosition
+    );
+    if (winningPlayer && winningPlayer.tricks >= 0) {
+      winningPlayer.tricks = winningPlayer.tricks + 1;
+    }
   }
 
   playerBySeatOrder(seatsFromCurrentPlayer: number): Player | undefined {

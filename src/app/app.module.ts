@@ -26,6 +26,7 @@ import { JoinGameDialogComponent } from './components/join-game-dialog/join-game
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { PlayersHandComponent } from './components/players-hand/players-hand.component';
+import { GameTableComponent } from './components/game-table/game-table.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { PlayersHandComponent } from './components/players-hand/players-hand.com
     PlayerDisplayNamePipe,
     ConfirmDialogComponent,
     PlayersHandComponent,
+    GameTableComponent,
   ],
   imports: [
     BrowserModule,
