@@ -29,16 +29,15 @@ export class PlayersHandComponent {
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
   constructor(
+    public gameStateService: SharedGameStateService,
     private socketService: SocketService,
     private dialog: MatDialog,
-    private playerDisplayName: PlayerDisplayNamePipe,
-    private gameStateService: SharedGameStateService
+    private playerDisplayName: PlayerDisplayNamePipe
   ) {
     this.socketService.recieveStartingCards().subscribe((data: GameState) => {
       this.communicationCard = [];
       this.cardsInHand = data.playersCards;
       this.player = data.player;
-      console.log('DATA', this.cardsInHand);
     });
     this.socketService
       .recieveCardFromAnotherPlayer()
@@ -49,6 +48,7 @@ export class PlayersHandComponent {
   get wonTricks(): number | null {
     return this.gameStateService.wonTricks();
   }
+
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
     handleCardDropEvent(event);
   }
