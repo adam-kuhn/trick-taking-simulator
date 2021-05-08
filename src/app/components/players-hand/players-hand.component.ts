@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
-import { Player, PlayerCard, GameState } from '../../types/game';
+import { Player, PlayerCard, GameState, Communication } from '../../types/game';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { MatSelectChange } from '@angular/material/select';
 import {
@@ -27,6 +27,7 @@ export class PlayersHandComponent {
   cardsInHand: PlayerCard[] = [];
   communicationCard: PlayerCard[] = [];
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
+  @Input() revealedCommunications!: Communication[];
 
   constructor(
     public gameStateService: SharedGameStateService,
@@ -157,7 +158,7 @@ export class PlayersHandComponent {
   communicationDragTo(): string[] | string {
     const listsForDrag = ['playing-mat', 'players-hand'];
     if (!this.communicationCard[0]) return listsForDrag;
-    const communicated = this.gameStateService.revealedCommunications.find(
+    const communicated = this.revealedCommunications.find(
       ({ card }) =>
         card.value === this.communicationCard[0].value &&
         card.suit === this.communicationCard[0].suit

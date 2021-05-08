@@ -36,9 +36,6 @@ export class GameRoomComponent {
   get numberOfPlayers(): number {
     return this.gameStateService.numberOfPlayers;
   }
-  get isPlayerCommaned(): boolean {
-    return this.gameStateService.isPlayerCommander;
-  }
   get leadCard(): PlayerCard | null {
     return this.gameStateService.leadCard;
   }

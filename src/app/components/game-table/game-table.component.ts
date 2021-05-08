@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
@@ -19,6 +19,7 @@ export interface CompleteTrick {
 export class GameTableComponent {
   playedCards: PlayerCard[] = [];
   leadCard: PlayerCard | null = null;
+  @Input() numberOfPlayers!: number;
 
   constructor(
     private socketService: SocketService,
@@ -68,7 +69,7 @@ export class GameTableComponent {
     const { playedCards } = this;
     this.gameStateService.removePlayedCardFromCommunicationCards(playedCard);
     if (playedCards.length === 1) this.leadCard = playedCards[0];
-    if (playedCards.length !== this.gameStateService.numberOfPlayers) return;
+    if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
   }
 
