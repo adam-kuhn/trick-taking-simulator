@@ -20,7 +20,7 @@ import { TaskSelectionComponent } from './task-selection/task-selection.componen
 import { InformationCardsComponent } from './communication-cards/information-card.component';
 import { GameSummaryComponent } from './game-summary/game-summary.component';
 
-import { GameService } from './services/game.service';
+import { SocketService } from './services/socket.service';
 import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
@@ -52,7 +52,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [GameService, PlayerDisplayNamePipe],
+  providers: [SocketService, PlayerDisplayNamePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

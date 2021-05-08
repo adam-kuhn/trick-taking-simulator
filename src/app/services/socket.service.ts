@@ -27,7 +27,7 @@ and is accessible by all components in that module. Therefore only one socket pe
 and updates occur without the need of ngZone
 */
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class SocketService {
   private socket = io(environment.backEndUrl);
   private createObservalble<T>(message: string): Observable<T> {
     const observable = new Observable<T>((observer) => {

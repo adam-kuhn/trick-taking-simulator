@@ -6,7 +6,7 @@ import {
 } from '@angular/material/dialog';
 import { MatSelectChange } from '@angular/material/select';
 
-import { GameService } from '../services/game.service';
+import { SocketService } from '../services/socket.service';
 import {
   GameState,
   PlayerCard,
@@ -52,11 +52,11 @@ export class GameRoomComponent {
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
 
   constructor(
-    private gameService: GameService,
+    private socketService: SocketService,
     private dialog: MatDialog,
     private playerDisplayName: PlayerDisplayNamePipe
   ) {
-    this.gameService.recieveStartingCards().subscribe((data: GameState) => {
+    this.socketService.recieveStartingCards().subscribe((data: GameState) => {
       this.clearOldGameInfo();
       this.cardsInHand = data.playersCards;
       this.player = data.player;
@@ -66,18 +66,20 @@ export class GameRoomComponent {
         (card) => card.suit === 'rocket' && card.value === 4
       );
     });
-    this.gameService.recievePlayedCard().subscribe((data: PlayerCard) => {
+    this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
       this.resolvePlayedCard(data);
     });
-    this.gameService.recieveCommunication().subscribe((data: Communication) => {
-      const uniqueCommunications = this.revealedCommunications.filter(
-        ({ card }) =>
-          !(card.suit === data.card.suit && card.value === data.card.value)
-      );
-      this.revealedCommunications = [...uniqueCommunications, data];
-    });
-    this.gameService
+    this.socketService
+      .recieveCommunication()
+      .subscribe((data: Communication) => {
+        const uniqueCommunications = this.revealedCommunications.filter(
+          ({ card }) =>
+            !(card.suit === data.card.suit && card.value === data.card.value)
+        );
+        this.revealedCommunications = [...uniqueCommunications, data];
+      });
+    this.socketService
       .recieveCardFromAnotherPlayer()
       .subscribe((data: PlayerCard) => {
         this.handleRecievedCardFromAnotherPlayer(data);
@@ -144,7 +146,7 @@ export class GameRoomComponent {
     const message = `You gave this card to ${displayName}.`;
     const afterClose = () => {
       this.cardsInHand.splice(cardIndex, 1);
-      this.gameService.moveCardToAnotherPlayer(cardToMove, player);
+      this.socketService.moveCardToAnotherPlayer(cardToMove, player);
     };
     this.openAcknowledgeDialog(message, cardToMove, afterClose);
   }
@@ -188,7 +190,7 @@ export class GameRoomComponent {
   openTaskDealDialog(): void {
     const dialogRef = this.dialog.open(DealTaskDialogComponent);
     dialogRef.afterClosed().subscribe((options: TaskOptions) => {
-      this.gameService.dealTaskCards(options);
+      this.socketService.dealTaskCards(options);
     });
   }
 
@@ -239,7 +241,7 @@ export class GameRoomComponent {
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
     this.handleDrop(event);
     const card = event.container.data[event.currentIndex];
-    this.gameService.cardPlayed(card);
+    this.socketService.cardPlayed(card);
     this.resolvePlayedCard(card);
   }
 
@@ -279,7 +281,7 @@ export class GameRoomComponent {
   }
 
   handleCommunication(event: MatSelectChange): void {
-    this.gameService.sendCommunication({
+    this.socketService.sendCommunication({
       type: event.value,
       card: this.communicationCard[0],
     });
@@ -344,6 +346,6 @@ export class GameRoomComponent {
   }
 
   dealCards(): void {
-    this.gameService.dealTheCards();
+    this.socketService.dealTheCards();
   }
 }
