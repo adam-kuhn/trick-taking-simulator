@@ -36,19 +36,21 @@ describe('PlayersHandComponent', () => {
       username: USERNAME_TWO,
     };
     component.communicationCard = [communicationCard];
-    component.gameStateService.updateRevealedCommunication({
-      type: 'highest',
-      card: communicationCard,
-    });
-    component.gameStateService.updateRevealedCommunication({
-      type: 'lowest',
-      card: {
-        suit: 'green',
-        value: 3,
-        playerPosition: 2,
-        username: USERNAME_TWO,
+    component.revealedCommunications = [
+      {
+        type: 'highest',
+        card: communicationCard,
       },
-    });
+      {
+        type: 'lowest',
+        card: {
+          suit: 'green',
+          value: 3,
+          playerPosition: 2,
+          username: USERNAME_TWO,
+        },
+      },
+    ];
 
     const expected = 'playing-mat';
     const actual = component.communicationDragTo();
@@ -63,15 +65,17 @@ describe('PlayersHandComponent', () => {
       username: USERNAME_ONE,
     };
     component.communicationCard = [communicationCard];
-    component.gameStateService.updateRevealedCommunication({
-      type: 'lowest',
-      card: {
-        suit: 'green',
-        value: 3,
-        playerPosition: 2,
-        username: USERNAME_ONE,
+    component.revealedCommunications = [
+      {
+        type: 'lowest',
+        card: {
+          suit: 'green',
+          value: 3,
+          playerPosition: 2,
+          username: USERNAME_ONE,
+        },
       },
-    });
+    ];
     const expected = ['playing-mat', 'players-hand'];
     const actual = component.communicationDragTo();
     expect(actual).toEqual(expected);
