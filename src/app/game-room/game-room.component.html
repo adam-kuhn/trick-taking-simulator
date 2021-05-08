@@ -1,7 +1,7 @@
 <p>Welcome to the game room</p>
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
-<button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openTaskDealDialog()">Tasks</button>
+<button mat-raised-button [disabled]="!dealingCompleted" (click)="openTaskDealDialog()">Tasks</button>
 
 <app-game-summary
   [winningCard]="winningCard"
@@ -20,7 +20,7 @@
         <p class="player-summary" *ngIf="numberOfPlayers === 5"> {{ playersTableText(findPlayerBySeatOrder(3)) }}</p>
       </div>
       <div class="table-middle">
-        <p class="player-summary"> {{ playersTableText(playerToTheLeft())}}</p>
+        <p class="player-summary"> {{ playersTableText(findPlayerBySeatOrder(1)) }}</p>
         <div 
           class="playing-mat arranged-cards"
           cdkDropList 
@@ -29,10 +29,11 @@
           (cdkDropListDropped)="cardPlayed($event)">
           <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
         </div>
-        <p class="player-summary"> {{ playersTableText(playerToTheRight()) }}</p>
+        <p class="player-summary"> {{ playersTableText(findPlayerBySeatOrder(-1)) }}</p>
       </div>
     </div>
-    <div class='players-hand'>
+    <app-players-hand></app-players-hand>
+    <!-- <div class='players-hand'>
       <h3 *ngIf="player && player.playerPosition !== 0">{{ player | playerDisplayName }}'s hand</h3>
       <p>tricks {{ wonTricks() }}</p>
       <div class="players-cards">
@@ -74,7 +75,7 @@
           <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="task-selection-container" *ngIf="playerSummary.length">
     <app-task-selection [playerSummary]="playerSummary" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>

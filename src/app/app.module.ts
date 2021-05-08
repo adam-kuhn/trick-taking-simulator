@@ -21,10 +21,11 @@ import { InformationCardsComponent } from './communication-cards/information-car
 import { GameSummaryComponent } from './game-summary/game-summary.component';
 
 import { SocketService } from './services/socket.service';
-import { GameStateService } from './services/game-state.service';
+import { SharedGameStateService } from './services/shared-game-state.service';
 import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { PlayersHandComponent } from './players-hand/players-hand.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     JoinGameDialogComponent,
     PlayerDisplayNamePipe,
     ConfirmDialogComponent,
+    PlayersHandComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +55,7 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [SocketService, GameStateService, PlayerDisplayNamePipe],
+  providers: [SocketService, SharedGameStateService, PlayerDisplayNamePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
