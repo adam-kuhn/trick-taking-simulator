@@ -1,11 +1,10 @@
-import { Component, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
 import { SharedGameStateService } from '../../services/shared-game-state.service';
 import { PlayerCard, Player } from '../../types/game';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
-import { EventEmitter } from '@angular/core';
 
 export interface CompleteTrick {
   trick: PlayerCard[];
@@ -20,8 +19,6 @@ export interface CompleteTrick {
 export class GameTableComponent {
   playedCards: PlayerCard[] = [];
   leadCard: PlayerCard | null = null;
-  @Input() numberOfPlayers!: number;
-  @Output() completedTrick: EventEmitter<CompleteTrick> = new EventEmitter();
 
   constructor(
     private socketService: SocketService,
