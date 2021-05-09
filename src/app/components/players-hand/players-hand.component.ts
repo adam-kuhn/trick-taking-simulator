@@ -28,6 +28,14 @@ export class PlayersHandComponent {
   communicationCard: PlayerCard[] = [];
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
   @Input() revealedCommunications!: Communication[];
+  @Input() set playerSummary(value: Player[]) {
+    const currentPlayer = value.find(
+      (player) => player.playerPosition === this.player?.playerPosition
+    );
+    if (currentPlayer) {
+      this.player = currentPlayer;
+    }
+  }
 
   constructor(
     public gameStateService: SharedGameStateService,
@@ -45,9 +53,6 @@ export class PlayersHandComponent {
       .subscribe((data: PlayerCard) => {
         this.handleRecievedCardFromAnotherPlayer(data);
       });
-  }
-  get wonTricks(): number | null {
-    return this.gameStateService.wonTricks();
   }
 
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {

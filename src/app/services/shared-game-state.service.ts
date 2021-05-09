@@ -64,13 +64,6 @@ export class SharedGameStateService {
     );
   }
 
-  wonTricks(): number | null {
-    const playerSummary = this._playerSummary.find(
-      (summary) => summary.playerPosition === this.player?.playerPosition
-    );
-    if (!playerSummary || playerSummary.tricks < 0) return null;
-    return playerSummary.tricks;
-  }
   completedTrick(trick: PlayerCard[], winningCard: PlayerCard): void {
     this._winningCard = winningCard;
     this._lastTrick = trick;

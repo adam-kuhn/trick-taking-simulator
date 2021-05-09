@@ -1,6 +1,6 @@
 <div class='players-hand'>
   <h3 *ngIf="player && player.playerPosition !== 0">{{ player | playerDisplayName }}'s hand</h3>
-  <p>tricks {{ wonTricks }}</p>
+  <p>tricks {{ player?.tricks }}</p>
   <div class="players-cards">
     <div
       cdkDropList
