@@ -20,6 +20,10 @@ export class GameTableComponent {
   playedCards: PlayerCard[] = [];
   leadCard: PlayerCard | null = null;
   @Input() numberOfPlayers!: number;
+  @Input() playerToTheLeft: Player | undefined;
+  @Input() playerToTheRight: Player | undefined;
+  @Input() playerTwoToTheLeft: Player | undefined;
+  @Input() playerThreeToTheRight: Player | undefined;
 
   constructor(
     private socketService: SocketService,
@@ -71,10 +75,6 @@ export class GameTableComponent {
     if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
-  }
-
-  findPlayerBySeatOrder(positionFromCurrentPlayer: number): Player | undefined {
-    return this.gameStateService.playerBySeatOrder(positionFromCurrentPlayer);
   }
 
   playersTableText(player: Player | undefined): string {

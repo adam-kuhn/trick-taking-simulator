@@ -35,6 +35,18 @@ export class SharedGameStateService {
   get isPlayerCommander(): boolean {
     return this._isPlayerCommander;
   }
+  get playerToTheLeft(): Player | undefined {
+    return this.playerBySeatOrder(1);
+  }
+  get playerToTheRight(): Player | undefined {
+    return this.playerBySeatOrder(-1);
+  }
+  get playerTwoToTheLeft(): Player | undefined {
+    return this.playerBySeatOrder(2);
+  }
+  get playerThreeToTheRight(): Player | undefined {
+    return this.playerBySeatOrder(3);
+  }
 
   handleStartingCards(data: GameState): void {
     this._revealedCommunications = [];
@@ -70,17 +82,9 @@ export class SharedGameStateService {
     this.incrementWinningPlayersTrickCount(winningCard);
   }
 
-  incrementWinningPlayersTrickCount(winningCard: PlayerCard): void {
-    const winningPlayer = this._playerSummary.find(
-      (summary) =>
-        winningCard && winningCard.playerPosition === summary.playerPosition
-    );
-    if (winningPlayer && winningPlayer.tricks >= 0) {
-      winningPlayer.tricks = winningPlayer.tricks + 1;
-    }
-  }
-
-  playerBySeatOrder(seatsFromCurrentPlayer: number): Player | undefined {
+  private playerBySeatOrder(
+    seatsFromCurrentPlayer: number
+  ): Player | undefined {
     if (!this.player) return;
     let otherPlayer = this.player.playerPosition + seatsFromCurrentPlayer;
     if (otherPlayer > this._numberOfPlayers) {
@@ -93,10 +97,14 @@ export class SharedGameStateService {
     );
     return playerSummary;
   }
-  playerToTheLeft(): Player | undefined {
-    return this.playerBySeatOrder(1);
-  }
-  playerToTheRight(): Player | undefined {
-    return this.playerBySeatOrder(-1);
+
+  private incrementWinningPlayersTrickCount(winningCard: PlayerCard): void {
+    const winningPlayer = this._playerSummary.find(
+      (summary) =>
+        winningCard && winningCard.playerPosition === summary.playerPosition
+    );
+    if (winningPlayer && winningPlayer.tricks >= 0) {
+      winningPlayer.tricks = winningPlayer.tricks + 1;
+    }
   }
 }

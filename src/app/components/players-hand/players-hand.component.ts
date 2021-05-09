@@ -15,7 +15,6 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
-import { SharedGameStateService } from '../../services/shared-game-state.service';
 
 @Component({
   selector: 'app-players-hand',
@@ -28,6 +27,8 @@ export class PlayersHandComponent {
   communicationCard: PlayerCard[] = [];
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
   @Input() revealedCommunications!: Communication[];
+  @Input() playerToTheLeft: Player | undefined;
+  @Input() playerToTheRight: Player | undefined;
   @Input() set playerSummary(value: Player[]) {
     const currentPlayer = value.find(
       (player) => player.playerPosition === this.player?.playerPosition
@@ -38,7 +39,6 @@ export class PlayersHandComponent {
   }
 
   constructor(
-    public gameStateService: SharedGameStateService,
     private socketService: SocketService,
     private dialog: MatDialog,
     private playerDisplayName: PlayerDisplayNamePipe
@@ -60,7 +60,7 @@ export class PlayersHandComponent {
   }
 
   openConfirmDrawCard(): void {
-    const playerToRecieveCard = this.gameStateService.playerToTheLeft();
+    const playerToRecieveCard = this.playerToTheLeft;
     if (!playerToRecieveCard) throw new Error('No player to the left');
     const data = {
       message: `Give a random card from your hand to ${this.playerDisplayName.transform(
@@ -99,9 +99,7 @@ export class PlayersHandComponent {
       dialogRef.afterClosed().subscribe((direction: string) => {
         if (!direction) return;
         const player =
-          direction === 'left'
-            ? this.gameStateService.playerToTheLeft()
-            : this.gameStateService.playerToTheRight();
+          direction === 'left' ? this.playerToTheLeft : this.playerToTheRight;
         if (!player) throw new Error('No players beside current player');
         this.handleGivingACardToAnotherPlayer(card, player);
       });

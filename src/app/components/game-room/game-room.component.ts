@@ -55,6 +55,19 @@ export class GameRoomComponent {
     return this.gameStateService.isPlayerCommander;
   }
 
+  get playerToTheRight(): Player | undefined {
+    return this.gameStateService.playerToTheRight;
+  }
+  get playerToTheLeft(): Player | undefined {
+    return this.gameStateService.playerToTheLeft;
+  }
+  get playerThreeToTheRight(): Player | undefined {
+    return this.gameStateService.playerThreeToTheRight;
+  }
+  get playerTwoToTheLeft(): Player | undefined {
+    return this.gameStateService.playerTwoToTheLeft;
+  }
+
   openTaskDealDialog(): void {
     const dialogRef = this.dialog.open(DealTaskDialogComponent);
     dialogRef.afterClosed().subscribe((options: TaskOptions) => {
