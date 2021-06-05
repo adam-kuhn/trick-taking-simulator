@@ -2,10 +2,10 @@ import axios from 'axios';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FormGroup } from '@angular/forms';
-import { GameService } from './services/game.service';
+import { SocketService } from './services/socket.service';
 
 import { environment } from '../environments/environment';
-import { JoinGameDialogComponent } from './join-game-dialog/join-game-dialog.component';
+import { JoinGameDialogComponent } from './components/join-game-dialog/join-game-dialog.component';
 
 interface ConnectionResponse {
   connections: number;
@@ -23,8 +23,8 @@ export class AppComponent implements OnInit {
   connectedClients = 5;
   requestConnections = 0;
 
-  constructor(private dialog: MatDialog, private gameService: GameService) {
-    this.gameService.playerNameUpdated().subscribe(() => {
+  constructor(private dialog: MatDialog, private socketService: SocketService) {
+    this.socketService.playerNameUpdated().subscribe(() => {
       this.joinGame();
     });
   }
@@ -54,7 +54,7 @@ export class AppComponent implements OnInit {
     const dialogRef = this.dialog.open(JoinGameDialogComponent);
     dialogRef.afterClosed().subscribe((gameInfo: FormGroup | undefined) => {
       if (gameInfo && gameInfo.value) {
-        this.gameService.updatePlayerName(gameInfo.value.username);
+        this.socketService.updatePlayerName(gameInfo.value.username);
       }
     });
   }

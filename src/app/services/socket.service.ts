@@ -10,7 +10,7 @@ import {
   InitialTasks,
   Communication,
 } from '../types/game';
-import { TaskOptions } from '../deal-task-dialog/deal-task-dialog.component';
+import { TaskOptions } from '../components/deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
 
 /* NOTE TO SELF
@@ -27,7 +27,7 @@ and is accessible by all components in that module. Therefore only one socket pe
 and updates occur without the need of ngZone
 */
 @Injectable({ providedIn: 'root' })
-export class GameService {
+export class SocketService {
   private socket = io(environment.backEndUrl);
   private createObservalble<T>(message: string): Observable<T> {
     const observable = new Observable<T>((observer) => {

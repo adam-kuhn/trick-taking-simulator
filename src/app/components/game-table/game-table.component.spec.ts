@@ -1,32 +1,32 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-import { OverlayModule } from '@angular/cdk/overlay';
 
-import { MatDialogModule } from '@angular/material/dialog';
-import { GameRoomComponent } from './game-room.component';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
+import { GameTableComponent } from './game-table.component';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 const USERNAME_ONE = 'Custom name 1';
-const USERNAME_TWO = 'Cusom name 2';
+const USERNAME_TWO = 'Custom name 2';
 
-describe('GameRoomComponent', () => {
-  let component: GameRoomComponent;
-  let fixture: ComponentFixture<GameRoomComponent>;
+describe('GameTableComponent', () => {
+  let component: GameTableComponent;
+  let fixture: ComponentFixture<GameTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [GameRoomComponent],
-      imports: [DragDropModule, OverlayModule, MatDialogModule],
+      declarations: [GameTableComponent],
       providers: [PlayerDisplayNamePipe],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GameRoomComponent);
+    fixture = TestBed.createComponent(GameTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    spyOn(component, 'cleanUpTrick');
   });
 
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
   it('should find the winning card, when all play the same suit', () => {
     const winningCard = {
       suit: 'green',
@@ -47,8 +47,7 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, playerPosition: 4, username: USERNAME_ONE },
     ];
     component.resolveTrick();
-    const actual = component.winningCard;
-    expect(actual).toEqual(winningCard);
+    expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   it('should find the winning card, when trump (a rocket) is played', () => {
     const winningCard = {
@@ -70,8 +69,8 @@ describe('GameRoomComponent', () => {
       { suit: 'green', value: 4, playerPosition: 4, username: '' },
     ];
     component.resolveTrick();
-    const actual = component.winningCard;
-    expect(actual).toEqual(winningCard);
+    // const actual = component.winningCard;
+    expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   it("should find the winning card, when players can't follow the lead suit", () => {
     const winningCard = {
@@ -93,56 +92,7 @@ describe('GameRoomComponent', () => {
       { suit: 'violet', value: 4, playerPosition: 4, username: '' },
     ];
     component.resolveTrick();
-    const actual = component.winningCard;
-    expect(actual).toEqual(winningCard);
-  });
-
-  it('should prevent dragging to players hand if they have communicated', () => {
-    const communicationCard = {
-      suit: 'pink',
-      value: 2,
-      playerPosition: 1,
-      username: USERNAME_TWO,
-    };
-    component.communicationCard = [communicationCard];
-    component.revealedCommunications = [
-      { type: 'highest', card: communicationCard },
-      {
-        type: 'lowest',
-        card: {
-          suit: 'green',
-          value: 3,
-          playerPosition: 2,
-          username: USERNAME_TWO,
-        },
-      },
-    ];
-    const expected = 'playing-mat';
-    const actual = component.communicationDragTo();
-    expect(actual).toBe(expected);
-  });
-
-  it('should allow dragging to players hand if they have not communicated', () => {
-    const communicationCard = {
-      suit: 'pink',
-      value: 2,
-      playerPosition: 1,
-      username: USERNAME_ONE,
-    };
-    component.communicationCard = [communicationCard];
-    component.revealedCommunications = [
-      {
-        type: 'lowest',
-        card: {
-          suit: 'green',
-          value: 3,
-          playerPosition: 2,
-          username: USERNAME_ONE,
-        },
-      },
-    ];
-    const expected = ['playing-mat', 'players-hand'];
-    const actual = component.communicationDragTo();
-    expect(actual).toEqual(expected);
+    // const actual = component.winningCard;
+    expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
 });

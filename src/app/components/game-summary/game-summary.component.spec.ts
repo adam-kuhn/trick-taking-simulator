@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PlayerDisplayNamePipe } from '../pipes/player-display-name/player-display-name.pipe';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 import { GameSummaryComponent } from './game-summary.component';
 

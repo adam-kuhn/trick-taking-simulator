@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { InitialTasks, TaskCard, Player } from '../types/game';
+import { InitialTasks, TaskCard, Player } from '../../types/game';
 import { MatSelectChange } from '@angular/material/select';
-import { GameService } from '../services/game.service';
+import { SocketService } from '../../services/socket.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 enum SpecificOrder {
@@ -29,8 +29,8 @@ export class TaskSelectionComponent {
   showTasks = true;
   revealOnlyToCommander = false;
 
-  constructor(private gameService: GameService) {
-    this.gameService.recieveAssignedTask().subscribe((data: TaskCard) => {
+  constructor(private socketService: SocketService) {
+    this.socketService.recieveAssignedTask().subscribe((data: TaskCard) => {
       const assignedTask = this.tasks.find(
         (task) => task.suit === data.suit && task.value === data.value
       );
@@ -38,19 +38,19 @@ export class TaskSelectionComponent {
       assignedTask.playerPosition = data.playerPosition;
     });
 
-    this.gameService.recieveCompletedTask().subscribe((data: TaskCard) => {
+    this.socketService.recieveCompletedTask().subscribe((data: TaskCard) => {
       const completedTask = this.tasks.find(
         (task) => task.suit === data.suit && task.value === data.value
       );
       if (!completedTask) return;
       completedTask.completed = data.completed;
     });
-    this.gameService.recieveTaskCards().subscribe((data: InitialTasks) => {
+    this.socketService.recieveTaskCards().subscribe((data: InitialTasks) => {
       this.tasks = data.taskCards;
       this.revealOnlyToCommander = data.revealOnlyToCommander;
       this.showTasks = this.canPlayerSeeTasks(data.revealOnlyToCommander);
     });
-    this.gameService.revealTaskToPlayers().subscribe(() => {
+    this.socketService.revealTaskToPlayers().subscribe(() => {
       this.showTasks = true;
       this.revealOnlyToCommander = false;
     });
@@ -77,14 +77,14 @@ export class TaskSelectionComponent {
     );
     if (!task) return;
     task.playerPosition = event.value;
-    this.gameService.assignTask(task);
+    this.socketService.assignTask(task);
   }
   completeTask(event: MatCheckboxChange, task: TaskCard): void {
     task.completed = event.checked;
-    this.gameService.completeTask(task);
+    this.socketService.completeTask(task);
   }
   revealTasks(): void {
     this.revealOnlyToCommander = false;
-    this.gameService.revealTasks();
+    this.socketService.revealTasks();
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { Card, PlayerCard } from '../types/game';
+import { Card, PlayerCard } from '../../types/game';
 
 @Component({
   selector: 'app-playing-card',

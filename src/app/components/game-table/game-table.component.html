@@ -1,0 +1,18 @@
+<div class="game-table">
+  <div class="table-top" *ngIf="numberOfPlayers > 3">
+    <p class="player-summary">{{ playersTableText(playerTwoToTheLeft) }}</p>
+    <p class="player-summary" *ngIf="numberOfPlayers === 5"> {{ playersTableText(playerThreeToTheRight) }}</p>
+  </div>
+  <div class="table-middle">
+    <p class="player-summary"> {{ playersTableText(playerToTheLeft) }}</p>
+    <div 
+      class="playing-mat arranged-cards"
+      cdkDropList 
+      id="playing-mat" 
+      [cdkDropListData]="playedCards"
+      (cdkDropListDropped)="cardPlayed($event)">
+      <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
+    </div>
+    <p class="player-summary"> {{ playersTableText(playerToTheRight) }}</p>
+  </div>
+</div>
