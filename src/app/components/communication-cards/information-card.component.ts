@@ -8,4 +8,6 @@ import { PlayerCard } from '../../types/game';
 export class InformationCardsComponent {
   @Input() information!: string;
   @Input() card!: PlayerCard;
+  @Input() showBackOfCard!: boolean;
+  @Input() smallCard!: boolean;
 }
