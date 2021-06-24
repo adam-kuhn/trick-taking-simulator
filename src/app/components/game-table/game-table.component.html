@@ -15,5 +15,7 @@
     </div>
     <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" ></app-player-summary>
   </div>
-  <app-player-summary *ngIf="player"  [playerInfo]="player" ></app-player-summary>
+  <div class="current-player-tasks">
+    <app-player-summary *ngIf="player" [playerInfo]="player" ></app-player-summary>
+  </div>
 </div>

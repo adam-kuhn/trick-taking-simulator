@@ -45,6 +45,7 @@ export class PlayerSummaryComponent {
     const card = event.container.data[event.currentIndex];
     card.playerPosition = this.playerInfo?.playerPosition ?? 0;
     this.socketService.assignTask(card);
+  }
   completeTask(event: MatCheckboxChange, task: TaskCard): void {
     task.completed = event.checked;
     this.socketService.completeTask(task);
