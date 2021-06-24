@@ -3,20 +3,6 @@ import { InitialTasks, TaskCard, Player } from '../../types/game';
 import { MatSelectChange } from '@angular/material/select';
 import { SocketService } from '../../services/socket.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-
-enum SpecificOrder {
-  First = 1,
-  Second,
-  Third,
-  Fourth,
-  Fifth,
-}
-enum RelativeOrder {
-  I = 1,
-  II,
-  III,
-  IV,
-}
 @Component({
   selector: 'app-task-selection',
   templateUrl: './task-selection.component.html',
@@ -62,13 +48,6 @@ export class TaskSelectionComponent {
       showTasks = this.isPlayerCommander;
     }
     return showTasks;
-  }
-  // TODO move to pipe
-  getTaskText(task: TaskCard): string {
-    if (task.specificOrder) return SpecificOrder[task.specificOrder];
-    if (task.relativeOrder)
-      return `Relative-${RelativeOrder[task.relativeOrder]}`;
-    return task.lastTask ? 'Last Task' : '';
   }
   setTaskToPlayer(event: MatSelectChange, selectedTask: TaskCard): void {
     const task = this.tasks.find(

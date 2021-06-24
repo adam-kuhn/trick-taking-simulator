@@ -17,7 +17,7 @@
       <app-information-card
         
         [card]="task" 
-        [information]="getTaskText(task)" 
+        [information]="task | taskOrderText" 
         [showBackOfCard]="!showTasks || task.completed" 
         [smallCard]='true'>
       </app-information-card>
