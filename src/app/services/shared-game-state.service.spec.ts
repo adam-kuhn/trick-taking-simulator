@@ -42,7 +42,7 @@ const initialData: GameState = {
     playerInPositionFour,
     playerInPositionFive,
   ],
-  player: userPlayer,
+  player: { ...userPlayer },
   playersCards: [],
 };
 
@@ -112,30 +112,56 @@ describe('SharedGameStateService', () => {
     expect(service.revealedCommunications[0]).toEqual(communicationTwo);
   });
 
-  it('Updates last hand information on a completed trick', () => {
+  it('Updates last hand information on a completed trick - current player wins', () => {
     const winningCard = {
       value: 5,
       suit: 'green',
-      playerPosition: 1,
-      username: 'User 1',
+      playerPosition: userPlayer.playerPosition,
+      username: userPlayer.username,
     };
     const cardInTrick = {
       value: 1,
       suit: 'blue',
-      playerPosition: 2,
-      username: 'User 2',
+      playerPosition: playerInPositionTwo.playerPosition,
+      username: playerInPositionTwo.username,
     };
     const cardInTrickTwo = {
       value: 1,
       suit: 'green',
-      playerPosition: 3,
-      username: 'User 3',
+      playerPosition: playerInPositionTwo.playerPosition,
+      username: playerInPositionTwo.username,
+    };
+    service.handleStartingCards(initialData);
+    const trick = [winningCard, cardInTrick, cardInTrickTwo];
+    service.completedTrick(trick, winningCard);
+    expect(service.winningCard).toEqual(winningCard);
+    expect(service.lastTrick).toEqual(trick);
+    expect(service.player?.tricks).toEqual(1);
+  });
+  it('Updates last hand information on a completed trick - other player wins', () => {
+    const winningCard = {
+      value: 5,
+      suit: 'green',
+      playerPosition: playerInPositionTwo.playerPosition,
+      username: playerInPositionTwo.username,
+    };
+    const cardInTrick = {
+      value: 1,
+      suit: 'blue',
+      playerPosition: userPlayer.playerPosition,
+      username: userPlayer.username,
+    };
+    const cardInTrickTwo = {
+      value: 1,
+      suit: 'green',
+      playerPosition: playerInPositionTwo.playerPosition,
+      username: playerInPositionTwo.username,
     };
     service.handleStartingCards(initialData);
     const trick = [winningCard, cardInTrick, cardInTrickTwo];
     service.completedTrick(trick, winningCard);
     const winningPlayer = service.playerSummary.find(
-      (player) => player.playerPosition === 1
+      (player) => player.playerPosition === playerInPositionTwo.playerPosition
     );
     expect(service.winningCard).toEqual(winningCard);
     expect(service.lastTrick).toEqual(trick);
