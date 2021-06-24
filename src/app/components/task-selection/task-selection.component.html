@@ -1,17 +1,18 @@
 <h5>Task Selection</h5>
 <div class="arranged-cards task-cards">
-  <div 
+  <div
+    class="task-card-container"
     cdkDropList
     id="unassigned-tasks"
     [cdkDropListData]="tasks"
     [cdkDropListConnectedTo]="playerTaskLists()">
-    <div class="task-card-container" cdkDrag *ngFor="let task of tasks">
       <app-information-card
+        *ngFor="let task of tasks"
+        cdkDrag
         [card]="task" 
         [information]="task | taskOrderText" 
         [showBackOfCard]="!showTasks || task.completed" 
         [smallCard]='true'>
       </app-information-card>
-    </div>
   </div>
 </div>
