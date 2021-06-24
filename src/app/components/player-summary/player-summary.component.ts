@@ -11,7 +11,7 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
   styleUrls: ['./player-summary.component.sass'],
 })
 export class PlayerSummaryComponent {
-  @Input() playerInfo!: Player | undefined;
+  @Input() playerInfo!: Player | undefined; // TODO remove this undefied
   taskCards: TaskCard[] = [];
   constructor(
     private socketService: SocketService,
@@ -19,6 +19,11 @@ export class PlayerSummaryComponent {
   ) {
     this.socketService.recieveTaskCards().subscribe(() => {
       this.taskCards = [];
+    });
+    this.socketService.recieveAssignedTask().subscribe((data: TaskCard) => {
+      if (data.playerPosition === this.playerInfo?.playerPosition) {
+        this.taskCards = [...this.taskCards, data];
+      }
     });
   }
 
@@ -30,4 +35,6 @@ export class PlayerSummaryComponent {
   taskSelected(event: CdkDragDrop<TaskCard[]>): void {
     handleCardDropEvent<TaskCard>(event);
     const card = event.container.data[event.currentIndex];
+    card.playerPosition = this.playerInfo?.playerPosition ?? 0;
+    this.socketService.assignTask(card);
 }

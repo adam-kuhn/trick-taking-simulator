@@ -21,11 +21,9 @@ export class TaskSelectionComponent {
     private playerTaskList: PlayerTaskListPipe
   ) {
     this.socketService.recieveAssignedTask().subscribe((data: TaskCard) => {
-      const assignedTask = this.tasks.find(
-        (task) => task.suit === data.suit && task.value === data.value
+      this.tasks = this.tasks.filter(
+        (task) => !(task.value === data.value && task.suit === data.suit)
       );
-      if (!assignedTask) return;
-      assignedTask.playerPosition = data.playerPosition;
     });
 
     this.socketService.recieveCompletedTask().subscribe((data: TaskCard) => {
