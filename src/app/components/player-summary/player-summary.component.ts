@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { TaskCard, Player } from '../../types/game';
-import { PlayerDisplayNamePipe } from 'src/app/pipes/player-display-name/player-display-name.pipe';
+import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 @Component({
   selector: 'app-player-summary',
