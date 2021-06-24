@@ -6,7 +6,7 @@ import { PlayerCard, Communication, Player, GameState } from '../types/game';
 })
 export class SharedGameStateService {
   private _numberOfPlayers = 0;
-  private player: Player | null = null;
+  private _player: Player | null = null;
   private _revealedCommunications: Communication[] = [];
   private _playerSummary: Player[] = []; // will include tasks
   private _winningCard: PlayerCard | null = null;
@@ -16,6 +16,9 @@ export class SharedGameStateService {
 
   get numberOfPlayers(): number {
     return this._numberOfPlayers;
+  }
+  get player(): Player | null {
+    return this._player;
   }
   get revealedCommunications(): Communication[] {
     return this._revealedCommunications;
@@ -54,7 +57,7 @@ export class SharedGameStateService {
     this._lastTrick = [];
     this._winningCard = null;
     this._numberOfPlayers = data.playersInGame.length;
-    this.player = data.player;
+    this._player = data.player;
     this._playerSummary = data.playersInGame;
     this._isPlayerCommander = !!data.playersCards.find(
       (card) => card.suit === 'rocket' && card.value === 4
@@ -85,8 +88,8 @@ export class SharedGameStateService {
   private playerBySeatOrder(
     seatsFromCurrentPlayer: number
   ): Player | undefined {
-    if (!this.player) return;
-    let otherPlayer = this.player.playerPosition + seatsFromCurrentPlayer;
+    if (!this._player) return;
+    let otherPlayer = this._player.playerPosition + seatsFromCurrentPlayer;
     if (otherPlayer > this._numberOfPlayers) {
       otherPlayer = otherPlayer - this._numberOfPlayers;
     } else if (otherPlayer === 0) {

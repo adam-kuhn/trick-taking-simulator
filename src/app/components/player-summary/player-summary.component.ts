@@ -11,7 +11,7 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
   styleUrls: ['./player-summary.component.sass'],
 })
 export class PlayerSummaryComponent {
-  @Input() playerInfo!: Player | undefined; // TODO remove this undefied
+  @Input() playerInfo!: Player;
   taskCards: TaskCard[] = [];
   constructor(
     private socketService: SocketService,

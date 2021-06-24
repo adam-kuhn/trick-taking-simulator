@@ -54,7 +54,9 @@ export class GameRoomComponent {
   get isPlayerCommander(): boolean {
     return this.gameStateService.isPlayerCommander;
   }
-
+  get player(): Player | null {
+    return this.gameStateService.player;
+  }
   get playerToTheRight(): Player | undefined {
     return this.gameStateService.playerToTheRight;
   }
