@@ -87,4 +87,9 @@ export class TaskSelectionComponent {
     this.revealOnlyToCommander = false;
     this.socketService.revealTasks();
   }
+  playerTaskLists(): string[] {
+    return this.playerSummary.map(
+      (player) => `player-${player.playerPosition}-tasks`
+    );
+  }
 }

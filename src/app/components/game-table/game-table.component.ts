@@ -4,7 +4,6 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
 import { SharedGameStateService } from '../../services/shared-game-state.service';
 import { PlayerCard, Player } from '../../types/game';
-import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 export interface CompleteTrick {
   trick: PlayerCard[];
@@ -27,8 +26,7 @@ export class GameTableComponent {
 
   constructor(
     private socketService: SocketService,
-    private gameStateService: SharedGameStateService,
-    private playerDisplayName: PlayerDisplayNamePipe
+    private gameStateService: SharedGameStateService
   ) {
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
@@ -63,7 +61,7 @@ export class GameTableComponent {
   }
 
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
-    handleCardDropEvent(event);
+    handleCardDropEvent<PlayerCard>(event);
     const card = event.container.data[event.currentIndex];
     this.socketService.cardPlayed(card);
     this.resolvePlayedCard(card);
@@ -75,11 +73,5 @@ export class GameTableComponent {
     if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
-  }
-
-  playersTableText(player: Player | undefined): string {
-    if (!player) return '';
-    const displayName = this.playerDisplayName.transform(player);
-    return `${displayName}: tricks ${player.tricks}`;
   }
 }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { PlayerCard } from '../../types/game';
+import { PlayerCard, TaskCard } from '../../types/game';
 
 @Component({
   selector: 'app-information-card',
@@ -7,7 +7,7 @@ import { PlayerCard } from '../../types/game';
 })
 export class InformationCardsComponent {
   @Input() information!: string;
-  @Input() card!: PlayerCard;
+  @Input() card!: PlayerCard | TaskCard;
   @Input() showBackOfCard!: boolean;
   @Input() smallCard!: boolean;
 }

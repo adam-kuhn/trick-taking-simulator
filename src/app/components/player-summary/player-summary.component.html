@@ -1,1 +1,11 @@
-    <p class="player-summary"> {{ playerInfo }}</p>
+<p class="player-summary"> {{ playersTableText() }}</p>
+<div
+	class="player-tasks"
+	cdkDropList
+	[id]="playerTasksList()"
+	[cdkDropListData]="taskCards"
+	(cdkDropListDropped)="taskSelected($event)"
+	>
+	<app-information-card *ngFor="let card of taskCards" [card]="card" [smallCard]="true"></app-information-card>
+</div>
+
