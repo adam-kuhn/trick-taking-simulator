@@ -19,9 +19,6 @@ export class PlayerSummaryComponent {
     const displayName = this.playerDisplayName.transform(this.playerInfo);
     return `${displayName}: tricks ${this.playerInfo.tricks}`;
   }
-  playerTasksList(): string {
-    return `player-${this.playerInfo?.playerPosition}-tasks`;
-  }
   taskSelected(event: CdkDragDrop<TaskCard[]>): void {
     handleCardDropEvent<TaskCard>(event);
     const card = event.container.data[event.currentIndex];

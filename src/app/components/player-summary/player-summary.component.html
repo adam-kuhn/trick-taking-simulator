@@ -2,7 +2,7 @@
 <div
 	class="player-tasks"
 	cdkDropList
-	[id]="playerTasksList()"
+	[id]=" playerInfo | playerTaskList"
 	[cdkDropListData]="taskCards"
 	(cdkDropListDropped)="taskSelected($event)"
 	>

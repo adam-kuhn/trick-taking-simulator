@@ -3,6 +3,7 @@ import { InitialTasks, TaskCard, Player } from '../../types/game';
 import { MatSelectChange } from '@angular/material/select';
 import { SocketService } from '../../services/socket.service';
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { PlayerTaskListPipe } from '../../pipes/player-task-list/player-task-list.pipe';
 @Component({
   selector: 'app-task-selection',
   templateUrl: './task-selection.component.html',
@@ -15,7 +16,10 @@ export class TaskSelectionComponent {
   showTasks = true;
   revealOnlyToCommander = false;
 
-  constructor(private socketService: SocketService) {
+  constructor(
+    private socketService: SocketService,
+    private playerTaskList: PlayerTaskListPipe
+  ) {
     this.socketService.recieveAssignedTask().subscribe((data: TaskCard) => {
       const assignedTask = this.tasks.find(
         (task) => task.suit === data.suit && task.value === data.value
@@ -67,8 +71,8 @@ export class TaskSelectionComponent {
     this.socketService.revealTasks();
   }
   playerTaskLists(): string[] {
-    return this.playerSummary.map(
-      (player) => `player-${player.playerPosition}-tasks`
+    return this.playerSummary.map((player) =>
+      this.playerTaskList.transform(player)
     );
   }
 }
