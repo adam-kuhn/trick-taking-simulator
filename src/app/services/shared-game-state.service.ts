@@ -109,5 +109,12 @@ export class SharedGameStateService {
     if (winningPlayer && winningPlayer.tricks >= 0) {
       winningPlayer.tricks = winningPlayer.tricks + 1;
     }
+    if (
+      winningPlayer &&
+      this._player &&
+      winningPlayer.playerPosition === this._player?.playerPosition
+    ) {
+      this._player.tricks = this._player.tricks + 1;
+    }
   }
 }
