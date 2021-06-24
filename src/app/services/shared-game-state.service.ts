@@ -107,17 +107,14 @@ export class SharedGameStateService {
       (summary) =>
         winningCard && winningCard.playerPosition === summary.playerPosition
     );
-    /* This is a flaky way to increment trick count for the current player, becuase of
-    what object we are using to display the current players info.
-    A better solution may be to this.playerBySeatOrder, but set a flag of
-    some sort to determine we want the current player */
     if (
       winningPlayer &&
       this._player &&
       winningPlayer.playerPosition === this._player?.playerPosition
     ) {
       this._player.tricks = this._player.tricks + 1;
-    } else if (winningPlayer && winningPlayer.tricks >= 0) {
+    }
+    if (winningPlayer && winningPlayer.tricks >= 0) {
       winningPlayer.tricks = winningPlayer.tricks + 1;
     }
   }
