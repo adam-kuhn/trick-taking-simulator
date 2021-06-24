@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { SocketService } from '../../services/socket.service';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { TaskCard, Player } from '../../types/game';
@@ -25,6 +26,13 @@ export class PlayerSummaryComponent {
         this.taskCards = [...this.taskCards, data];
       }
     });
+    this.socketService.recieveCompletedTask().subscribe((data: TaskCard) => {
+      const completedTask = this.taskCards.find(
+        (task) => task.suit === data.suit && task.value === data.value
+      );
+      if (!completedTask) return;
+      completedTask.completed = data.completed;
+    });
   }
 
   playersTableText(): string {
@@ -37,4 +45,8 @@ export class PlayerSummaryComponent {
     const card = event.container.data[event.currentIndex];
     card.playerPosition = this.playerInfo?.playerPosition ?? 0;
     this.socketService.assignTask(card);
+  completeTask(event: MatCheckboxChange, task: TaskCard): void {
+    task.completed = event.checked;
+    this.socketService.completeTask(task);
+  }
 }
