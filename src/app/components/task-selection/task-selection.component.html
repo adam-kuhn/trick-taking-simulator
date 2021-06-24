@@ -15,7 +15,6 @@
         </mat-select>
       </div>
       <app-information-card
-        
         [card]="task" 
         [information]="task | taskOrderText" 
         [showBackOfCard]="!showTasks || task.completed" 
@@ -23,6 +22,4 @@
       </app-information-card>
     </div>
   </div>
-  
 </div>
-<button mat-raised-button color="secondary" *ngIf="revealOnlyToCommander && isPlayerCommander" (click)="revealTasks()">Reveal tasks</button>
