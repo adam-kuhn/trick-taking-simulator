@@ -6,14 +6,6 @@
     [cdkDropListData]="tasks"
     [cdkDropListConnectedTo]="playerTaskLists()">
     <div class="task-card-container" cdkDrag *ngFor="let task of tasks">
-      <div *ngIf="showTasks">
-        <mat-checkbox [checked]="task.completed" (change)="completeTask($event, task)">complete</mat-checkbox>
-        <mat-select (selectionChange)="setTaskToPlayer($event, task)" [value]="task.playerPosition">
-          <mat-option *ngFor="let player of playerSummary" [value]="player.playerPosition">
-           {{ player | playerDisplayName}}
-          </mat-option>
-        </mat-select>
-      </div>
       <app-information-card
         [card]="task" 
         [information]="task | taskOrderText" 
