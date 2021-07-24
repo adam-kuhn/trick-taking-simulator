@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSelectChange } from '@angular/material/select';
 import { TaskSelectionComponent } from './task-selection.component';
+import { PlayerTaskListPipe } from '../../pipes/player-task-list/player-task-list.pipe';
 
 describe('TaskSelectionComponent', () => {
   let component: TaskSelectionComponent;
@@ -9,27 +9,29 @@ describe('TaskSelectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TaskSelectionComponent],
+      providers: [PlayerTaskListPipe],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TaskSelectionComponent);
     component = fixture.componentInstance;
+    component.playerSummary = [];
     fixture.detectChanges();
   });
-
-  it('assign selected player to the correct task', () => {
-    const selectedTask = {
-      suit: 'green',
-      value: 1,
-      playerPosition: 0,
-      completed: false,
-      username: '',
-    };
-    component.tasks = [selectedTask];
-    const matSelectEvent = { value: 3 } as MatSelectChange;
-    const expected = { ...selectedTask, playerPosition: 3 };
-    component.setTaskToPlayer(matSelectEvent, selectedTask);
-    expect(component.tasks[0].playerPosition).toBe(expected.playerPosition);
+  it('shows tasks to all players', () => {
+    component.isPlayerCommander = false;
+    const actual = component.canPlayerSeeTasks(false);
+    expect(actual).toEqual(true);
+  });
+  it('shows tasks to commander when it is commander only', () => {
+    component.isPlayerCommander = true;
+    const actual = component.canPlayerSeeTasks(true);
+    expect(actual).toEqual(true);
+  });
+  it('does not show tasks to all players who are not the commander, when it is commander only', () => {
+    component.isPlayerCommander = false;
+    const actual = component.canPlayerSeeTasks(true);
+    expect(actual).toEqual(false);
   });
 });

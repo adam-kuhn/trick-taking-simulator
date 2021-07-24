@@ -56,7 +56,7 @@ export class PlayersHandComponent {
   }
 
   handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
-    handleCardDropEvent(event);
+    handleCardDropEvent<PlayerCard>(event);
   }
 
   openConfirmDrawCard(): void {

@@ -1,10 +1,10 @@
 <div class="game-table">
   <div class="table-top" *ngIf="numberOfPlayers > 3">
-    <p class="player-summary">{{ playersTableText(playerTwoToTheLeft) }}</p>
-    <p class="player-summary" *ngIf="numberOfPlayers === 5"> {{ playersTableText(playerThreeToTheRight) }}</p>
+    <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'"></app-player-summary>
+    <app-player-summary *ngIf="numberOfPlayers === 5 && playerThreeToTheRight" [playerInfo]="playerThreeToTheRight" [orientation]="'landscape'"></app-player-summary>
   </div>
   <div class="table-middle">
-    <p class="player-summary"> {{ playersTableText(playerToTheLeft) }}</p>
+    <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'"></app-player-summary>
     <div 
       class="playing-mat arranged-cards"
       cdkDropList 
@@ -13,6 +13,9 @@
       (cdkDropListDropped)="cardPlayed($event)">
       <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
     </div>
-    <p class="player-summary"> {{ playersTableText(playerToTheRight) }}</p>
+    <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
+  </div>
+  <div class="current-player-tasks">
+    <app-player-summary *ngIf="player" [playerInfo]="player" [orientation]="'landscape'"></app-player-summary>
   </div>
 </div>

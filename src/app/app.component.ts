@@ -18,9 +18,9 @@ interface ConnectionResponse {
 export class AppComponent implements OnInit {
   title = 'trick-taking-simulator';
   inGame = false;
-  // set default to player limit, so button is disabled
+  // set default to above player limit, so button is disabled
   // until connections request comes back
-  connectedClients = 5;
+  connectedClients = 6;
   requestConnections = 0;
 
   constructor(private dialog: MatDialog, private socketService: SocketService) {

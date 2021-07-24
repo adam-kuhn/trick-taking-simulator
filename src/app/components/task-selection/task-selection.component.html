@@ -1,16 +1,18 @@
 <h5>Task Selection</h5>
 <div class="arranged-cards task-cards">
-  <div class="task-card-container" *ngFor="let task of tasks">
-    <p>{{ getTaskText(task) }}</p>
-    <div *ngIf="showTasks">
-      <mat-checkbox [checked]="task.completed" (change)="completeTask($event, task)">complete</mat-checkbox>
-      <mat-select (selectionChange)="setTaskToPlayer($event, task)" [value]="task.playerPosition">
-        <mat-option *ngFor="let player of playerSummary" [value]="player.playerPosition">
-         {{ player | playerDisplayName}}
-        </mat-option>
-      </mat-select>
-    </div>
-    <app-playing-card [card]="task" [showBackOfCard]="!showTasks || task.completed" [smallCard]='true'></app-playing-card>
+  <div
+    class="task-card-container"
+    cdkDropList
+    id="unassigned-tasks"
+    [cdkDropListData]="tasks"
+    [cdkDropListConnectedTo]="playerTaskLists()">
+      <app-information-card
+        *ngFor="let task of tasks"
+        cdkDrag
+        [card]="task" 
+        [information]="task | taskOrderText" 
+        [showBackOfCard]="!showTasks || task.completed" 
+        [smallCard]='true'>
+      </app-information-card>
   </div>
 </div>
-<button mat-raised-button color="secondary" *ngIf="revealOnlyToCommander && isPlayerCommander" (click)="revealTasks()">Reveal tasks</button>

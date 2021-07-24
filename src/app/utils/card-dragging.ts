@@ -3,9 +3,8 @@ import {
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
-import { PlayerCard } from '../types/game';
 
-export const handleCardDropEvent = (event: CdkDragDrop<PlayerCard[]>): void => {
+export const handleCardDropEvent = <T>(event: CdkDragDrop<T[]>): void => {
   const {
     container: currentContainer,
     previousContainer,

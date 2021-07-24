@@ -24,9 +24,12 @@ import { SocketService } from './services/socket.service';
 import { SharedGameStateService } from './services/shared-game-state.service';
 import { JoinGameDialogComponent } from './components/join-game-dialog/join-game-dialog.component';
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
+import { TaskOrderTextPipe } from './pipes/task-order-text/task-order-text.pipe';
+import { PlayerTaskListPipe } from './pipes/player-task-list/player-task-list.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { PlayersHandComponent } from './components/players-hand/players-hand.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
+import { PlayerSummaryComponent } from './components/player-summary/player-summary.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,9 @@ import { GameTableComponent } from './components/game-table/game-table.component
     ConfirmDialogComponent,
     PlayersHandComponent,
     GameTableComponent,
+    PlayerSummaryComponent,
+    TaskOrderTextPipe,
+    PlayerTaskListPipe,
   ],
   imports: [
     BrowserModule,
@@ -57,7 +63,12 @@ import { GameTableComponent } from './components/game-table/game-table.component
     MatFormFieldModule,
     MatInputModule,
   ],
-  providers: [SocketService, SharedGameStateService, PlayerDisplayNamePipe],
+  providers: [
+    SocketService,
+    SharedGameStateService,
+    PlayerDisplayNamePipe,
+    PlayerTaskListPipe,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
