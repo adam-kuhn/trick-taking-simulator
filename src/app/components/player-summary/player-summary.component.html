@@ -1,6 +1,6 @@
 <p class="player-summary"> {{ playersTableText() }}</p>
 <div
-	class="player-tasks"
+	[ngClass]="['player-tasks', orientation]"
 	cdkDropList
 	[id]=" playerInfo | playerTaskList"
 	[cdkDropListData]="taskCards"

@@ -13,6 +13,7 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
 })
 export class PlayerSummaryComponent {
   @Input() playerInfo!: Player;
+  @Input() orientation = 'landscape';
   taskCards: TaskCard[] = [];
   constructor(
     private socketService: SocketService,
