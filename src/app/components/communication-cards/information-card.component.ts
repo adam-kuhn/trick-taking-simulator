@@ -10,4 +10,5 @@ export class InformationCardsComponent {
   @Input() card!: PlayerCard | TaskCard;
   @Input() showBackOfCard!: boolean;
   @Input() smallCard!: boolean;
+  @Input() highlighted = false;
 }
