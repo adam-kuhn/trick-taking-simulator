@@ -26,6 +26,7 @@ import { JoinGameDialogComponent } from './components/join-game-dialog/join-game
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { TaskOrderTextPipe } from './pipes/task-order-text/task-order-text.pipe';
 import { PlayerTaskListPipe } from './pipes/player-task-list/player-task-list.pipe';
+import { CommunicationPositionPipe } from './pipes/communication-position/communication-position.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { PlayersHandComponent } from './components/players-hand/players-hand.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
@@ -48,6 +49,7 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
     PlayerSummaryComponent,
     TaskOrderTextPipe,
     PlayerTaskListPipe,
+    CommunicationPositionPipe,
   ],
   imports: [
     BrowserModule,
