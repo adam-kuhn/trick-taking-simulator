@@ -10,6 +10,7 @@ export class PlayingCardComponent implements OnChanges {
   @Input() card!: Card | PlayerCard;
   @Input() showBackOfCard = false;
   @Input() smallCard = false;
+  @Input() highlighted = false;
   imgUrl = '';
 
   ngOnChanges(): void {
