@@ -8,6 +8,10 @@ export interface PlayerCard extends Card {
   username?: string;
 }
 
+export interface Communicate extends Card {
+  type: string;
+}
+
 export interface TaskCard extends PlayerCard {
   completed: boolean;
   specificOrder?: number;

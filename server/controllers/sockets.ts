@@ -6,6 +6,7 @@ import {
   sortHandOfCards,
   TaskOptions,
   dealTaskCards,
+  Communicate,
 } from './cards';
 interface CustomSocket extends Socket {
   username?: string;
@@ -78,7 +79,7 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
     socket.broadcast.emit('reveal_tasks');
   });
 
-  socket.on('communicate', (data: { type: string; card: PlayerCard }) => {
+  socket.on('communicate', (data: Communicate) => {
     io.emit('communicate', data);
   });
 

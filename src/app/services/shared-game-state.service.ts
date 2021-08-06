@@ -67,16 +67,15 @@ export class SharedGameStateService {
 
   updateRevealedCommunication(data: Communication): void {
     const uniqueCommunications = this._revealedCommunications.filter(
-      ({ card }) =>
-        !(card.suit === data.card.suit && card.value === data.card.value)
+      ({ value, suit }) => !(suit === data.suit && value === data.value)
     );
     this._revealedCommunications = [...uniqueCommunications, data];
   }
 
   removePlayedCardFromCommunicationCards(playedCard: PlayerCard): void {
     this._revealedCommunications = this._revealedCommunications.filter(
-      ({ card }) =>
-        !(card.value === playedCard.value && card.suit === playedCard.suit)
+      ({ value, suit }) =>
+        !(value === playedCard.value && suit === playedCard.suit)
     );
   }
 
