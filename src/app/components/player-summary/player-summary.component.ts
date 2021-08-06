@@ -89,7 +89,10 @@ export class PlayerSummaryComponent {
 
   handleCommunication(event: MatSelectChange): void {
     this.cardCommunicated = true;
-    // disable DRAG into zone at this point
+    // TODO: disable DRAG into zone at this point
+    // TODO: style the layout of tasks and communication
+    // TODO: update style of communication zone
+    // TODO: communication zone should be its own component
     this.socketService.sendCommunication({
       ...this.communicationCard[0],
       type: event.value,
