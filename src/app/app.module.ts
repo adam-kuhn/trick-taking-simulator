@@ -17,7 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlayingCardComponent } from './components/playing-card/playing-card.component';
 import { DealTaskDialogComponent } from './components/deal-task-dialog/deal-task-dialog.component';
 import { TaskSelectionComponent } from './components/task-selection/task-selection.component';
-import { InformationCardsComponent } from './components/communication-cards/information-card.component';
+import { InformationCardsComponent } from './components/information-cards/information-card.component';
 import { GameSummaryComponent } from './components/game-summary/game-summary.component';
 
 import { SocketService } from './services/socket.service';
