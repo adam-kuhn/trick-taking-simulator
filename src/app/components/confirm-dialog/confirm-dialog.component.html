@@ -2,6 +2,14 @@
   <mat-dialog-content class="centered-column">
     <p>{{ data.message }}</p>
     <app-playing-card *ngIf="data.card" [card]="data.card"></app-playing-card>
+    <div *ngIf="data.taskCards" class="task-card">
+      <app-information-card
+        *ngFor="let task of data.taskCards"
+        [card]="task"
+        [information]="task | taskOrderText"
+        [smallCard]='true'>
+      </app-information-card>
+    </div>
   </mat-dialog-content>
 
   <div [ngSwitch]="data.actions">

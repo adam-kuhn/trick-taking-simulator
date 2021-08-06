@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PlayerCard } from '../../types/game';
+import { PlayerCard, TaskCard } from '../../types/game';
 
 export enum DialogActions {
   CONFIRM,
@@ -11,6 +11,7 @@ export enum DialogActions {
 export interface DialogData {
   message: string;
   card?: PlayerCard;
+  taskCards?: TaskCard[];
   actions: DialogActions;
 }
 @Component({

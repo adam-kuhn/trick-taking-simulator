@@ -6,6 +6,7 @@ import { PlayerTaskListPipe } from '../../pipes/player-task-list/player-task-lis
 import {
   ConfirmDialogComponent,
   DialogActions,
+  DialogData,
 } from '../confirm-dialog/confirm-dialog.component';
 @Component({
   selector: 'app-task-selection',
@@ -67,10 +68,10 @@ export class TaskSelectionComponent {
   }
   swapTaskOrder(): void {
     if (this.tasksToEdit.length !== 2) return;
-    const data = {
+    const data: DialogData = {
       message: 'Swap the order requirement of these two tasks?',
       actions: DialogActions.CONFIRM,
-      cards: this.tasksToEdit,
+      taskCards: this.tasksToEdit,
     };
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data });
     dialogRef.afterClosed().subscribe((confirmation: string) => {
