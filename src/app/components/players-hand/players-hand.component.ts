@@ -3,7 +3,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
 import { Player, PlayerCard, GameState, Communication } from '../../types/game';
 import { handleCardDropEvent } from '../../utils/card-dragging';
-import { MatSelectChange } from '@angular/material/select';
+
 import {
   ConfirmDialogComponent,
   DialogActions,
@@ -24,8 +24,6 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
 export class PlayersHandComponent {
   player: Player | null = null;
   cardsInHand: PlayerCard[] = [];
-  communicationCard: PlayerCard[] = [];
-  communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
   @Input() revealedCommunications!: Communication[];
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
@@ -44,7 +42,6 @@ export class PlayersHandComponent {
     private playerDisplayName: PlayerDisplayNamePipe
   ) {
     this.socketService.recieveStartingCards().subscribe((data: GameState) => {
-      this.communicationCard = [];
       this.cardsInHand = data.playersCards;
       this.player = data.player;
     });
@@ -156,29 +153,6 @@ export class PlayersHandComponent {
       ...config,
       data,
     });
-  }
-
-  communicationDragTo(): string[] | string {
-    const listsForDrag = ['playing-mat', 'players-hand'];
-    if (!this.communicationCard[0]) return listsForDrag;
-    const communicated = this.revealedCommunications.find(
-      ({ card }) =>
-        card.value === this.communicationCard[0].value &&
-        card.suit === this.communicationCard[0].suit
-    );
-    return communicated ? 'playing-mat' : listsForDrag;
-  }
-
-  handleCommunication(event: MatSelectChange): void {
-    this.socketService.sendCommunication({
-      type: event.value,
-      card: this.communicationCard[0],
-    });
-  }
-
-  cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
-    if (this.communicationCard.length === 1) return;
-    this.handleDrop(event);
   }
 
   getIndexOfRandomCardToMove(): number {
