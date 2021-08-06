@@ -52,7 +52,6 @@ export class SharedGameStateService {
     this._lastTrick = [];
     this._winningCard = null;
     this._numberOfPlayers = data.playersInGame.length;
-    console.log('DATA P', data.player);
     this._player = data.player;
     this._playerSummary = data.playersInGame;
     this._isPlayerCommander = !!data.playersCards.find(
