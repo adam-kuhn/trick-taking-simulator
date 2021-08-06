@@ -9,10 +9,11 @@
       <app-information-card
         *ngFor="let task of tasks"
         cdkDrag
-        [card]="task" 
-        [information]="task | taskOrderText" 
-        [showBackOfCard]="!showTasks || task.completed" 
-        [smallCard]='true'>
+        [card]="task"
+        [information]="task | taskOrderText"
+        [showBackOfCard]="!showTasks || task.completed"
+        [smallCard]='true'
+        (click)="handleTaskSelect(task)">
       </app-information-card>
   </div>
 </div>
