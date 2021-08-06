@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { TaskSelectionComponent } from './task-selection.component';
 import { PlayerTaskListPipe } from '../../pipes/player-task-list/player-task-list.pipe';
 
@@ -9,6 +10,7 @@ describe('TaskSelectionComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TaskSelectionComponent],
+      imports: [MatDialogModule],
       providers: [PlayerTaskListPipe],
     }).compileComponents();
   });
