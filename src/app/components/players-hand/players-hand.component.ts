@@ -24,7 +24,6 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
 export class PlayersHandComponent {
   player: Player | null = null;
   cardsInHand: PlayerCard[] = [];
-  @Input() revealedCommunications!: Communication[];
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
   @Input() set playerSummary(value: Player[]) {

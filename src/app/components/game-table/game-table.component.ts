@@ -31,7 +31,7 @@ export class GameTableComponent {
   ) {
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCards = [...this.playedCards, data];
-      this.resolvePlayedCard(data);
+      this.resolvePlayedCard();
     });
   }
 
@@ -65,12 +65,11 @@ export class GameTableComponent {
     handleCardDropEvent<PlayerCard>(event);
     const card = event.container.data[event.currentIndex];
     this.socketService.cardPlayed(card);
-    this.resolvePlayedCard(card);
+    this.resolvePlayedCard();
   }
 
-  resolvePlayedCard(playedCard: PlayerCard): void {
+  resolvePlayedCard(): void {
     const { playedCards } = this;
-    this.gameStateService.removePlayedCardFromCommunicationCards(playedCard);
     if (playedCards.length === 1) this.leadCard = playedCards[0];
     if (playedCards.length !== this.numberOfPlayers) return;
     this.resolveTrick();
