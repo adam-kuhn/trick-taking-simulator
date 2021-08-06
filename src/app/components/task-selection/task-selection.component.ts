@@ -60,9 +60,9 @@ export class TaskSelectionComponent {
       return;
     }
     this.tasksToEdit.push(task);
-    this.swapTaskOrder();
+    this.confirmTaskSwap();
   }
-  swapTaskOrder(): void {
+  confirmTaskSwap(): void {
     if (this.tasksToEdit.length !== 2) return;
     const data: DialogData = {
       message: 'Swap the order requirement of these two tasks?',
@@ -72,20 +72,23 @@ export class TaskSelectionComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data });
     dialogRef.afterClosed().subscribe((confirmation: string) => {
       if (confirmation === 'confirm') {
-        const [taskOne, taskTwo] = this.tasksToEdit;
-        const taskOneOrder = this.getTaskOrder(taskOne);
-        const taskTwoOrder = this.getTaskOrder(taskTwo);
-        this.updateTaskInplace(
-          taskOne,
-          this.updateTaskCardOrdering(taskOne, taskTwoOrder)
-        );
-        this.updateTaskInplace(
-          taskTwo,
-          this.updateTaskCardOrdering(taskTwo, taskOneOrder)
-        );
+        this.swapTasks();
       }
       this.tasksToEdit = [];
     });
+  }
+  swapTasks(): void {
+    const [taskOne, taskTwo] = this.tasksToEdit;
+    const taskOneOrder = this.getTaskOrder(taskOne);
+    const taskTwoOrder = this.getTaskOrder(taskTwo);
+    this.updateTaskInplace(
+      taskOne,
+      this.updateTaskCardOrdering(taskOne, taskTwoOrder)
+    );
+    this.updateTaskInplace(
+      taskTwo,
+      this.updateTaskCardOrdering(taskTwo, taskOneOrder)
+    );
   }
   getTaskOrder(
     task: TaskCard
