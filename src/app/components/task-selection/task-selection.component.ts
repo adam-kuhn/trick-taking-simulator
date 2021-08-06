@@ -55,15 +55,11 @@ export class TaskSelectionComponent {
     );
   }
   handleTaskSelect(task: TaskCard): void {
-    if (
-      this.tasksToEdit.length === 1 &&
-      this.tasksToEdit[0].suit !== task.suit &&
-      this.tasksToEdit[0].value !== task.value
-    ) {
-      this.tasksToEdit.push(task);
-    } else {
-      this.tasksToEdit.push(task);
+    if (this.tasksToEdit.includes(task)) {
+      this.tasksToEdit = [];
+      return;
     }
+    this.tasksToEdit.push(task);
     this.swapTaskOrder();
   }
   swapTaskOrder(): void {
