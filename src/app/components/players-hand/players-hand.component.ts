@@ -26,14 +26,6 @@ export class PlayersHandComponent {
   cardsInHand: PlayerCard[] = [];
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
-  @Input() set playerSummary(value: Player[]) {
-    const currentPlayer = value.find(
-      (player) => player.playerPosition === this.player?.playerPosition
-    );
-    if (currentPlayer) {
-      this.player = currentPlayer;
-    }
-  }
 
   constructor(
     private socketService: SocketService,
