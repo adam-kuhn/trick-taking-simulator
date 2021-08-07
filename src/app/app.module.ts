@@ -31,6 +31,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { PlayersHandComponent } from './components/players-hand/players-hand.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
 import { PlayerSummaryComponent } from './components/player-summary/player-summary.component';
+import { CommunicationZoneComponent } from './components/communication-zone/communication-zone.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
     TaskOrderTextPipe,
     PlayerTaskListPipe,
     CommunicationPositionPipe,
+    CommunicationZoneComponent,
   ],
   imports: [
     BrowserModule,

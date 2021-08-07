@@ -1,14 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatSelectChange } from '@angular/material/select';
 
 import { SocketService } from '../../services/socket.service';
 import { handleCardDropEvent } from '../../utils/card-dragging';
-import { TaskCard, PlayerCard, Player, Communication } from '../../types/game';
+import { TaskCard, Player } from '../../types/game';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
-import { CommunicationPositionPipe } from '../../pipes/communication-position/communication-position.pipe';
-import { SharedGameStateService } from 'src/app/services/shared-game-state.service';
 
 @Component({
   selector: 'app-player-summary',
@@ -18,23 +15,11 @@ import { SharedGameStateService } from 'src/app/services/shared-game-state.servi
 export class PlayerSummaryComponent {
   @Input() playerInfo!: Player;
   @Input() orientation = 'landscape';
-  @Input() communicationCard: Communication[] = [];
-
   taskCards: TaskCard[] = [];
-  communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
-  recievedCommunicationInfo = '';
-  cardCommunicated = false;
   constructor(
     private socketService: SocketService,
-    private playerDisplayName: PlayerDisplayNamePipe,
-    private communicationPosition: CommunicationPositionPipe,
-    private sharedGameState: SharedGameStateService
+    private playerDisplayName: PlayerDisplayNamePipe
   ) {
-    this.socketService.recieveStartingCards().subscribe(() => {
-      this.communicationCard = [];
-      this.cardCommunicated = false;
-      this.recievedCommunicationInfo = '';
-    });
     this.socketService.recieveTaskCards().subscribe(() => {
       this.taskCards = [];
     });
@@ -49,22 +34,6 @@ export class PlayerSummaryComponent {
       );
       if (!completedTask) return;
       completedTask.completed = data.completed;
-    });
-    this.socketService
-      .recieveCommunication()
-      .subscribe((data: Communication) => {
-        if (data.playerPosition === this.playerInfo?.playerPosition) {
-          this.communicationCard = [data];
-        }
-      });
-    this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
-      const [communicationCard] = this.communicationCard;
-      if (
-        communicationCard?.suit === data.suit &&
-        communicationCard?.value === data.value
-      ) {
-        this.communicationCard = [];
-      }
     });
   }
 
@@ -82,41 +51,5 @@ export class PlayerSummaryComponent {
   completeTask(event: MatCheckboxChange, task: TaskCard): void {
     task.completed = event.checked;
     this.socketService.completeTask(task);
-  }
-
-  getCommunicationPosition(): string {
-    if (this.cardCommunicated) {
-      return this.playerInfo.playerPosition + 'NO_DRAGGING_HERE';
-    }
-    return this.communicationPosition.transform(this.playerInfo);
-  }
-  communicationDragTo(): string[] | string {
-    const listsForDrag = ['playing-mat', 'players-hand'];
-    return this.cardCommunicated ? listsForDrag[0] : listsForDrag;
-  }
-
-  handleCommunication(event: MatSelectChange): void {
-    this.cardCommunicated = true;
-    // TODO: style the layout of tasks and communication
-    // TODO: update style of communication zone
-    // TODO: communication zone should be its own component
-    this.socketService.sendCommunication({
-      ...this.communicationCard[0],
-      type: event.value,
-    });
-  }
-
-  cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
-    if (this.communicationCard.length === 1) return;
-    this.handleDrop(event);
-  }
-  handleDrop(event: CdkDragDrop<PlayerCard[]>): void {
-    handleCardDropEvent<PlayerCard>(event);
-  }
-  isPlayerLocalPlayer(): boolean {
-    return (
-      this.sharedGameState.player?.playerPosition ===
-      this.playerInfo.playerPosition
-    );
   }
 }
