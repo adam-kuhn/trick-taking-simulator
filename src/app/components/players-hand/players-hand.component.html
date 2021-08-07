@@ -5,7 +5,7 @@
       cdkDropList
       id="players-hand"
       [cdkDropListData]="cardsInHand"
-      [cdkDropListConnectedTo]="['playing-mat', 'communication', player | communicationPosition]"
+      [cdkDropListConnectedTo]="['playing-mat', player | communicationPosition]"
       (cdkDropListDropped)="handleDrop($event)"
     >
       <div class="arranged-cards">
