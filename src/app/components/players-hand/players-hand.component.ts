@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
-import { Player, PlayerCard, GameState, Communication } from '../../types/game';
+import { Player, PlayerCard, GameState } from '../../types/game';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 
 import {
