@@ -57,8 +57,6 @@ export class CommunicationZoneComponent {
 
   handleCommunication(event: MatSelectChange): void {
     this.cardCommunicated = true;
-    // TODO: update style of communication zone
-    // TODO: communication zone should be its own component
     this.socketService.sendCommunication({
       ...this.communicationCard[0],
       type: event.value,
