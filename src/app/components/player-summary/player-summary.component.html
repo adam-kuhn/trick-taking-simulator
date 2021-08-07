@@ -21,7 +21,7 @@
     <div
       class="communication-area"
       cdkDropList
-      [id]="playerInfo | communicationPosition"
+      [id]="getCommunicationPosition()"
       [cdkDropListData]="communicationCard"
       [cdkDropListConnectedTo]="communicationDragTo()"
       (cdkDropListDropped)="cardPlacedInCommunication($event)"

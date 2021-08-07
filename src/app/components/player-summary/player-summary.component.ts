@@ -7,6 +7,7 @@ import { SocketService } from '../../services/socket.service';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { TaskCard, PlayerCard, Player, Communication } from '../../types/game';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
+import { CommunicationPositionPipe } from '../../pipes/communication-position/communication-position.pipe';
 import { SharedGameStateService } from 'src/app/services/shared-game-state.service';
 
 @Component({
@@ -26,6 +27,7 @@ export class PlayerSummaryComponent {
   constructor(
     private socketService: SocketService,
     private playerDisplayName: PlayerDisplayNamePipe,
+    private communicationPosition: CommunicationPositionPipe,
     private sharedGameState: SharedGameStateService
   ) {
     this.socketService.recieveStartingCards().subscribe(() => {
@@ -82,6 +84,12 @@ export class PlayerSummaryComponent {
     this.socketService.completeTask(task);
   }
 
+  getCommunicationPosition(): string {
+    if (this.cardCommunicated) {
+      return this.playerInfo.playerPosition + 'NO_DRAGGING_HERE';
+    }
+    return this.communicationPosition.transform(this.playerInfo);
+  }
   communicationDragTo(): string[] | string {
     const listsForDrag = ['playing-mat', 'players-hand'];
     return this.cardCommunicated ? listsForDrag[0] : listsForDrag;
@@ -89,7 +97,6 @@ export class PlayerSummaryComponent {
 
   handleCommunication(event: MatSelectChange): void {
     this.cardCommunicated = true;
-    // TODO: disable DRAG into zone at this point
     // TODO: style the layout of tasks and communication
     // TODO: update style of communication zone
     // TODO: communication zone should be its own component

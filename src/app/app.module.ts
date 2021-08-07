@@ -69,6 +69,7 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
     SocketService,
     SharedGameStateService,
     PlayerDisplayNamePipe,
+    CommunicationPositionPipe,
     PlayerTaskListPipe,
   ],
   bootstrap: [AppComponent],
