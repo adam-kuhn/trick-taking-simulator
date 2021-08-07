@@ -22,8 +22,8 @@ import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-di
   styleUrls: ['./players-hand.component.sass'],
 })
 export class PlayersHandComponent {
-  player: Player | null = null;
   cardsInHand: PlayerCard[] = [];
+  @Input() player: Player | null = null;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
 
@@ -34,7 +34,6 @@ export class PlayersHandComponent {
   ) {
     this.socketService.recieveStartingCards().subscribe((data: GameState) => {
       this.cardsInHand = data.playersCards;
-      this.player = data.player;
     });
     this.socketService
       .recieveCardFromAnotherPlayer()
