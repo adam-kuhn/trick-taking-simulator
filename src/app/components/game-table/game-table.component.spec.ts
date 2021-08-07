@@ -102,25 +102,27 @@ describe('GameTableComponent', () => {
     // const actual = component.winningCard;
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
-  describe('players spots', () => {
+  describe('other players spots (does not include current player)', () => {
     afterEach(() => {
       component.playerToTheLeft = undefined;
       component.playerToTheRight = undefined;
       component.playerTwoToTheLeft = undefined;
       component.playerThreeToTheRight = undefined;
     });
-    it('renders 3 players around the table', () => {
-      component.numberOfPlayers = 3;
+    it('renders 2 other players around the table', () => {
+      const players = 3;
+      component.numberOfPlayers = players;
       component.playerToTheLeft = createPlayerFixture();
       component.playerToTheRight = createPlayerFixture();
       fixture.detectChanges();
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
       );
-      expect(playerTableSpots.length).toEqual(3);
+      expect(playerTableSpots.length).toEqual(players - 1);
     });
-    it('renders 4 players around the table', () => {
-      component.numberOfPlayers = 4;
+    it('renders 3 other players around the table', () => {
+      const players = 4;
+      component.numberOfPlayers = players;
       component.playerToTheLeft = createPlayerFixture();
       component.playerToTheRight = createPlayerFixture();
       component.playerTwoToTheLeft = createPlayerFixture();
@@ -128,10 +130,12 @@ describe('GameTableComponent', () => {
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
       );
-      expect(playerTableSpots.length).toEqual(4);
+      expect(playerTableSpots.length).toEqual(players - 1);
     });
-    it('renders 5 players around the table', () => {
-      component.numberOfPlayers = 5;
+    it('renders 4 other players around the table', () => {
+      const players = 5;
+
+      component.numberOfPlayers = players;
       component.playerToTheLeft = createPlayerFixture();
       component.playerToTheRight = createPlayerFixture();
       component.playerTwoToTheLeft = createPlayerFixture();
@@ -140,7 +144,7 @@ describe('GameTableComponent', () => {
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
       );
-      expect(playerTableSpots.length).toEqual(5);
+      expect(playerTableSpots.length).toEqual(players - 1);
     });
   });
 });
