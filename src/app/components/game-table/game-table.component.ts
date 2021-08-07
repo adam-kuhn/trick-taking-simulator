@@ -19,7 +19,6 @@ export class GameTableComponent {
   playedCards: PlayerCard[] = [];
   leadCard: PlayerCard | null = null;
   @Input() numberOfPlayers!: number;
-  @Input() player!: Player | null;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
   @Input() playerTwoToTheLeft: Player | undefined;

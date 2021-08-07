@@ -103,11 +103,7 @@ describe('GameTableComponent', () => {
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   describe('players spots', () => {
-    beforeEach(() => {
-      component.player = createPlayerFixture();
-    });
     afterEach(() => {
-      component.player = null;
       component.playerToTheLeft = undefined;
       component.playerToTheRight = undefined;
       component.playerTwoToTheLeft = undefined;
