@@ -9,6 +9,8 @@
   [lastTrick]="lastTrick"
 ></app-game-summary>
 
+<app-task-selection  *ngIf="playerSummary.length" [playerSummary]="playerSummary" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
+
 <div class="game-area-container">
   <div class="game-area">
     <app-game-table
@@ -22,8 +24,5 @@
       [playerToTheRight]="playerToTheRight"
       [playerToTheLeft]="playerToTheLeft">
     </app-players-hand>
-  </div>
-  <div class="task-selection-container" *ngIf="playerSummary.length">
-    <app-task-selection [playerSummary]="playerSummary" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
   </div>
 </div>
