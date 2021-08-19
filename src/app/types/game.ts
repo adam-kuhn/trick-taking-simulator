@@ -14,6 +14,9 @@ export interface TaskCard extends PlayerCard {
   relativeOrder?: number;
   lastTask?: boolean;
 }
+export interface Communication extends PlayerCard {
+  type: string;
+}
 
 export interface InitialTasks {
   taskCards: TaskCard[];
@@ -31,9 +34,4 @@ export interface GameState {
   player: Player;
   playersInGame: Player[];
   playersCards: PlayerCard[];
-}
-
-export interface Communication {
-  type: string;
-  card: PlayerCard;
 }

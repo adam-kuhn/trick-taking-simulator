@@ -1,0 +1,24 @@
+<div class="communication-container">
+  <h3>Communicate</h3>
+  <div
+    class="communication-area"
+    cdkDropList
+    [id]="getCommunicationPosition()"
+    [cdkDropListData]="communicationCard"
+    [cdkDropListConnectedTo]="communicationDragTo()"
+    (cdkDropListDropped)="cardPlacedInCommunication($event)"
+    color="secondary"
+  >
+    <div *ngIf="communicationCard[0]">
+      <div *ngIf="isPlayerLocalPlayer()" >
+        <mat-select (selectionChange)="handleCommunication($event)">
+          <mat-option *ngFor="let option of communicationOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+        <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
+      </div>
+      <app-information-card  *ngIf="!isPlayerLocalPlayer()" [card]="communicationCard[0]" [information]="communicationCard[0].type"></app-information-card>
+    </div>
+  </div>
+</div>

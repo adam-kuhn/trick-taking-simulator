@@ -1,19 +1,23 @@
 <p class="player-summary"> {{ playersTableText() }}</p>
-<div
-	[ngClass]="['player-tasks', orientation]"
-	cdkDropList
-	[id]=" playerInfo | playerTaskList"
-	[cdkDropListData]="taskCards"
-	(cdkDropListDropped)="taskSelected($event)"
-	>
-	<div *ngFor="let card of taskCards" >
-		<mat-checkbox [checked]="card.completed" (change)="completeTask($event, card)">complete</mat-checkbox>
-		<app-information-card 
-			[card]="card" 
-			[smallCard]="true"
-			[information]="card | taskOrderText" 
-			[showBackOfCard]="card.completed" >
-		</app-information-card>
-	</div>
+  <div class='card-summary-container'>
+    <div
+  	[ngClass]="['player-tasks', orientation]"
+  	cdkDropList
+  	[id]="playerInfo | playerTaskList"
+  	[cdkDropListData]="taskCards"
+  	(cdkDropListDropped)="taskSelected($event)"
+  	>
+  	<div *ngFor="let card of taskCards" >
+  		<mat-checkbox [checked]="card.completed" (change)="completeTask($event, card)">complete</mat-checkbox>
+  		<app-information-card
+  			[card]="card"
+  			[smallCard]="true"
+  			[information]="card | taskOrderText"
+  			[showBackOfCard]="card.completed" >
+  		</app-information-card>
+  	</div>
+  </div>
+  <app-communication-zone [playerInfo]="playerInfo"></app-communication-zone>
 </div>
+
 

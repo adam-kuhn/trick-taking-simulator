@@ -1,42 +1,20 @@
-<div class='players-hand'>
-  <h3 *ngIf="player && player.playerPosition !== 0">{{ player | playerDisplayName }}'s hand</h3>
-  <div class="players-cards">
-    <div
-      cdkDropList
-      id="players-hand" 
-      [cdkDropListData]="cardsInHand"
-      [cdkDropListConnectedTo]="['playing-mat', 'communication']"
-      (cdkDropListDropped)="handleDrop($event)"
-    >
-      <div class="arranged-cards">
-        <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card" (dblclick)="handleConfirmPassingCardDialog(card)"></app-playing-card>
-      </div>
-    </div>
-  
-    <div class="interaction-container">
-      <div class="communication-container">
-        <h3>Communicate</h3>
-        <div
-          class="communication-area"
-          cdkDropList
-          id="communication" 
-          [cdkDropListData]="communicationCard" 
-          [cdkDropListConnectedTo]="communicationDragTo()"
-          (cdkDropListDropped)="cardPlacedInCommunication($event)"
-          color="secondary"
-        >
-          <div *ngIf="communicationCard[0]">
-            <mat-select (selectionChange)="handleCommunication($event)">
-              <mat-option *ngFor="let option of communicationOptions" [value]="option">
-                {{ option }}
-              </mat-option>
-            </mat-select>
-            <app-playing-card cdkDrag [card]="communicationCard[0]"></app-playing-card>
-          </div>
+<div *ngIf="player && player.playerPosition !== 0">
+  <h3>{{ player | playerDisplayName }}'s hand</h3>
+  <div class='players-hand-container'>
+    <div class="players-cards">
+      <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
+      <div
+        cdkDropList
+        id="players-hand"
+        [cdkDropListData]="cardsInHand"
+        [cdkDropListConnectedTo]="['playing-mat', player | communicationPosition]"
+        (cdkDropListDropped)="handleDrop($event)"
+      >
+        <div class="arranged-cards">
+          <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card" (dblclick)="handleConfirmPassingCardDialog(card)"></app-playing-card>
         </div>
       </div>
-      
-      <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
     </div>
+    <app-player-summary *ngIf="player" [playerInfo]="player" [orientation]="'landscape'"></app-player-summary>
   </div>
 </div>

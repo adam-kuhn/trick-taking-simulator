@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { SocketService } from '../../services/socket.service';
-import { GameState, Communication, Player, PlayerCard } from '../../types/game';
+import { GameState, Player, PlayerCard } from '../../types/game';
 import {
   DealTaskDialogComponent,
   TaskOptions,
@@ -26,12 +26,6 @@ export class GameRoomComponent {
       this.gameStateService.handleStartingCards(data);
       this.dealingCompleted = true;
     });
-
-    this.socketService
-      .recieveCommunication()
-      .subscribe((data: Communication) => {
-        this.gameStateService.updateRevealedCommunication(data);
-      });
   }
   get numberOfPlayers(): number {
     return this.gameStateService.numberOfPlayers;
@@ -47,9 +41,6 @@ export class GameRoomComponent {
   }
   get playerSummary(): Player[] {
     return this.gameStateService.playerSummary;
-  }
-  get revealedCommunications(): Communication[] {
-    return this.gameStateService.revealedCommunications;
   }
   get isPlayerCommander(): boolean {
     return this.gameStateService.isPlayerCommander;

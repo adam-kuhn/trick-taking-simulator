@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
-import { Communication, PlayerCard } from '../../types/game';
+import { PlayerCard } from '../../types/game';
 
 @Component({
   selector: 'app-game-summary',
@@ -11,7 +11,6 @@ export class GameSummaryComponent {
   @Input() winningCard!: PlayerCard | null;
   @Input() leadCard!: PlayerCard | null;
   @Input() lastTrick!: PlayerCard[];
-  @Input() revealedCommunications!: Communication[];
 
   constructor(private playerDisplayName: PlayerDisplayNamePipe) {}
 

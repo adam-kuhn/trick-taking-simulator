@@ -7,7 +7,6 @@ import { PlayerCard, Communication, Player, GameState } from '../types/game';
 export class SharedGameStateService {
   private _numberOfPlayers = 0;
   private _player: Player | null = null;
-  private _revealedCommunications: Communication[] = [];
   private _playerSummary: Player[] = []; // will include tasks
   private _winningCard: PlayerCard | null = null;
   private _leadCard: PlayerCard | null = null;
@@ -19,9 +18,6 @@ export class SharedGameStateService {
   }
   get player(): Player | null {
     return this._player;
-  }
-  get revealedCommunications(): Communication[] {
-    return this._revealedCommunications;
   }
   get playerSummary(): Player[] {
     return this._playerSummary;
@@ -52,31 +48,14 @@ export class SharedGameStateService {
   }
 
   handleStartingCards(data: GameState): void {
-    this._revealedCommunications = [];
     this._leadCard = null;
     this._lastTrick = [];
     this._winningCard = null;
     this._numberOfPlayers = data.playersInGame.length;
-    console.log('DATA P', data.player);
     this._player = data.player;
     this._playerSummary = data.playersInGame;
     this._isPlayerCommander = !!data.playersCards.find(
       (card) => card.suit === 'rocket' && card.value === 4
-    );
-  }
-
-  updateRevealedCommunication(data: Communication): void {
-    const uniqueCommunications = this._revealedCommunications.filter(
-      ({ card }) =>
-        !(card.suit === data.card.suit && card.value === data.card.value)
-    );
-    this._revealedCommunications = [...uniqueCommunications, data];
-  }
-
-  removePlayedCardFromCommunicationCards(playedCard: PlayerCard): void {
-    this._revealedCommunications = this._revealedCommunications.filter(
-      ({ card }) =>
-        !(card.value === playedCard.value && card.suit === playedCard.suit)
     );
   }
 

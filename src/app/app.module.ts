@@ -17,7 +17,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { PlayingCardComponent } from './components/playing-card/playing-card.component';
 import { DealTaskDialogComponent } from './components/deal-task-dialog/deal-task-dialog.component';
 import { TaskSelectionComponent } from './components/task-selection/task-selection.component';
-import { InformationCardsComponent } from './components/communication-cards/information-card.component';
+import { InformationCardsComponent } from './components/information-cards/information-card.component';
 import { GameSummaryComponent } from './components/game-summary/game-summary.component';
 
 import { SocketService } from './services/socket.service';
@@ -26,10 +26,12 @@ import { JoinGameDialogComponent } from './components/join-game-dialog/join-game
 import { PlayerDisplayNamePipe } from './pipes/player-display-name/player-display-name.pipe';
 import { TaskOrderTextPipe } from './pipes/task-order-text/task-order-text.pipe';
 import { PlayerTaskListPipe } from './pipes/player-task-list/player-task-list.pipe';
+import { CommunicationPositionPipe } from './pipes/communication-position/communication-position.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { PlayersHandComponent } from './components/players-hand/players-hand.component';
 import { GameTableComponent } from './components/game-table/game-table.component';
 import { PlayerSummaryComponent } from './components/player-summary/player-summary.component';
+import { CommunicationZoneComponent } from './components/communication-zone/communication-zone.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +50,8 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
     PlayerSummaryComponent,
     TaskOrderTextPipe,
     PlayerTaskListPipe,
+    CommunicationPositionPipe,
+    CommunicationZoneComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +71,7 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
     SocketService,
     SharedGameStateService,
     PlayerDisplayNamePipe,
+    CommunicationPositionPipe,
     PlayerTaskListPipe,
   ],
   bootstrap: [AppComponent],
