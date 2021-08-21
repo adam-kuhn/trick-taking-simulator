@@ -21,6 +21,18 @@ export class GameTableComponent {
   get leadCard(): PlayerCard | null {
     return this.gameStateService.leadCard;
   }
+  get cardPlayedToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerToTheLeft);
+  }
+  get cardPlayedToTheRight(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerToTheRight);
+  }
+  get cardPlayedTwoToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerTwoToTheLeft);
+  }
+  get cardPlayedThreeToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerThreeToTheleft);
+  }
   @Input() numberOfPlayers!: number;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
@@ -100,5 +112,10 @@ export class GameTableComponent {
       ? playedCardCurrentPlayer[0]
       : playedCardsOtherPlayers[0];
     this.gameStateService.leadCard = leadCard;
+  }
+  getCardByPlayerPosition(player: Player | undefined): PlayerCard | undefined {
+    return this.playedCardsOtherPlayers.find(
+      (card) => card.playerPosition === player?.playerPosition
+    );
   }
 }
