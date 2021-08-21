@@ -4,7 +4,7 @@
     <app-player-summary *ngIf="numberOfPlayers === 5 && playerThreeToTheRight" [playerInfo]="playerThreeToTheRight" [orientation]="'landscape'"></app-player-summary>
   </div>
   <div class="table-middle">
-    <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'"></app-player-summary>
+    <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
     <div 
       class="playing-mat arranged-cards"
       cdkDropList 
