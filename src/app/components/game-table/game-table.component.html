@@ -5,13 +5,17 @@
   </div>
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
+    <div>
+      <h2>Other players cards</h2>
+      <app-information-card *ngFor="let card of playedCardsOtherPlayers" [card]="card" [information]="card | playerDisplayName"></app-information-card>
+    </div>
     <div 
       class="playing-mat arranged-cards"
       cdkDropList 
       id="playing-mat" 
-      [cdkDropListData]="playedCards"
+      [cdkDropListData]="playedCardCurrentPlayer"
       (cdkDropListDropped)="cardPlayed($event)">
-      <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
+      <app-information-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]" [information]="playedCardCurrentPlayer[0] | playerDisplayName"></app-information-card>
     </div>
     <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
   </div>

@@ -16,7 +16,8 @@ export interface CompleteTrick {
   styleUrls: ['./game-table.component.sass'],
 })
 export class GameTableComponent {
-  playedCards: PlayerCard[] = [];
+  playedCardsOtherPlayers: PlayerCard[] = [];
+  playedCardCurrentPlayer: PlayerCard[] = [];
   leadCard: PlayerCard | null = null;
   @Input() numberOfPlayers!: number;
   @Input() playerToTheLeft: Player | undefined;
@@ -29,13 +30,13 @@ export class GameTableComponent {
     private gameStateService: SharedGameStateService
   ) {
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
-      this.playedCards = [...this.playedCards, data];
+      this.playedCardsOtherPlayers = [...this.playedCardsOtherPlayers, data];
       this.resolvePlayedCard();
     });
   }
 
   resolveTrick(): void {
-    const playedTrump = this.playedCards.filter(
+    const playedTrump = this.playedCardsOtherPlayers.filter(
       (card: PlayerCard) => card.suit === 'rocket'
     );
     let winningCard: PlayerCard;
@@ -43,7 +44,7 @@ export class GameTableComponent {
       playedTrump.sort((a, b) => b.value - a.value);
       winningCard = playedTrump[0];
     } else {
-      const followedSuit = this.playedCards.filter(
+      const followedSuit = this.playedCardsOtherPlayers.filter(
         (card: PlayerCard) => this.leadCard && this.leadCard.suit === card.suit
       );
       followedSuit.sort((a, b) => b.value - a.value);
@@ -54,8 +55,12 @@ export class GameTableComponent {
 
   cleanUpTrick(winningCard: PlayerCard): void {
     setTimeout(() => {
-      this.gameStateService.completedTrick(this.playedCards, winningCard);
-      this.playedCards = [];
+      this.gameStateService.completedTrick(
+        this.playedCardsOtherPlayers,
+        winningCard
+      );
+      this.playedCardsOtherPlayers = [];
+      this.playedCardCurrentPlayer = [];
       this.leadCard = null;
     }, 3000);
   }
@@ -68,9 +73,23 @@ export class GameTableComponent {
   }
 
   resolvePlayedCard(): void {
-    const { playedCards } = this;
-    if (playedCards.length === 1) this.leadCard = playedCards[0];
-    if (playedCards.length !== this.numberOfPlayers) return;
+    const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
+    const currentPlayerHasPlayedACard = playedCardCurrentPlayer.length === 1;
+    const currentPlayersLead =
+      currentPlayerHasPlayedACard && playedCardsOtherPlayers.length === 0;
+    const otherPlayersLead =
+      playedCardsOtherPlayers.length === 1 && !currentPlayerHasPlayedACard;
+    const isLeadCard = currentPlayersLead || otherPlayersLead;
+    if (isLeadCard) {
+      this.leadCard = currentPlayersLead
+        ? playedCardCurrentPlayer[0]
+        : playedCardsOtherPlayers[0];
+    }
+    if (
+      playedCardsOtherPlayers.length + playedCardCurrentPlayer.length !==
+      this.numberOfPlayers
+    )
+      return;
     this.resolveTrick();
   }
 }
