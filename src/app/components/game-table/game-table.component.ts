@@ -36,7 +36,10 @@ export class GameTableComponent {
   }
 
   resolveTrick(): void {
-    const playedTrump = this.playedCardsOtherPlayers.filter(
+    const cardsInTrick = this.playedCardCurrentPlayer.concat(
+      this.playedCardsOtherPlayers
+    );
+    const playedTrump = cardsInTrick.filter(
       (card: PlayerCard) => card.suit === 'rocket'
     );
     let winningCard: PlayerCard;
@@ -44,7 +47,7 @@ export class GameTableComponent {
       playedTrump.sort((a, b) => b.value - a.value);
       winningCard = playedTrump[0];
     } else {
-      const followedSuit = this.playedCardsOtherPlayers.filter(
+      const followedSuit = cardsInTrick.filter(
         (card: PlayerCard) => this.leadCard && this.leadCard.suit === card.suit
       );
       followedSuit.sort((a, b) => b.value - a.value);

@@ -34,7 +34,7 @@ describe('GameTableComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-  it('should find the winning card, when all play the same suit', () => {
+  it('should find the winning card, when all play the same suit - current player wins', () => {
     const winningCard = {
       suit: 'green',
       value: 4,
@@ -47,16 +47,16 @@ describe('GameTableComponent', () => {
       playerPosition: 1,
       username: USERNAME_TWO,
     };
-    component.playedCards = [
+    component.playedCardsOtherPlayers = [
       { suit: 'green', value: 1, playerPosition: 1, username: USERNAME_TWO },
       { suit: 'green', value: 2, playerPosition: 2, username: '' },
       { suit: 'green', value: 3, playerPosition: 3, username: '' },
-      { suit: 'green', value: 4, playerPosition: 4, username: USERNAME_ONE },
     ];
+    component.playedCardCurrentPlayer = [winningCard];
     component.resolveTrick();
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
-  it('should find the winning card, when trump (a rocket) is played', () => {
+  it('should find the winning card, when trump (a rocket) is played - other player wins', () => {
     const winningCard = {
       suit: 'rocket',
       value: 1,
@@ -69,17 +69,19 @@ describe('GameTableComponent', () => {
       playerPosition: 1,
       username: USERNAME_ONE,
     };
-    component.playedCards = [
+    component.playedCardsOtherPlayers = [
       { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_ONE },
-      { suit: 'rocket', value: 1, playerPosition: 2, username: USERNAME_TWO },
+      winningCard,
       { suit: 'green', value: 3, playerPosition: 3, username: '' },
+    ];
+    component.playedCardCurrentPlayer = [
       { suit: 'green', value: 4, playerPosition: 4, username: '' },
     ];
     component.resolveTrick();
     // const actual = component.winningCard;
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
-  it("should find the winning card, when players can't follow the lead suit", () => {
+  it("should find the winning card, when players can't follow the lead suit - current play wins", () => {
     const winningCard = {
       suit: 'pink',
       value: 1,
@@ -92,12 +94,12 @@ describe('GameTableComponent', () => {
       playerPosition: 1,
       username: USERNAME_TWO,
     };
-    component.playedCards = [
-      { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_TWO },
+    component.playedCardsOtherPlayers = [
       { suit: 'green', value: 5, playerPosition: 2, username: '' },
       { suit: 'blue', value: 9, playerPosition: 3, username: '' },
       { suit: 'violet', value: 4, playerPosition: 4, username: '' },
     ];
+    component.playedCardCurrentPlayer = [winningCard];
     component.resolveTrick();
     // const actual = component.winningCard;
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
