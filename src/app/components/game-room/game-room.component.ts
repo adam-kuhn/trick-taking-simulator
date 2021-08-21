@@ -51,8 +51,8 @@ export class GameRoomComponent {
   get playerToTheLeft(): Player | undefined {
     return this.gameStateService.playerToTheLeft;
   }
-  get playerThreeToTheRight(): Player | undefined {
-    return this.gameStateService.playerThreeToTheRight;
+  get playerThreeToTheleft(): Player | undefined {
+    return this.gameStateService.playerThreeToTheleft;
   }
   get playerTwoToTheLeft(): Player | undefined {
     return this.gameStateService.playerTwoToTheLeft;

@@ -1,7 +1,7 @@
 <div class="game-table">
   <div class="table-top" *ngIf="numberOfPlayers > 3">
     <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'"></app-player-summary>
-    <app-player-summary *ngIf="numberOfPlayers === 5 && playerThreeToTheRight" [playerInfo]="playerThreeToTheRight" [orientation]="'landscape'"></app-player-summary>
+    <app-player-summary *ngIf="numberOfPlayers === 5 && playerThreeToTheleft" [playerInfo]="playerThreeToTheleft" [orientation]="'landscape'"></app-player-summary>
   </div>
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>

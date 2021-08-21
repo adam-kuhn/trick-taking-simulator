@@ -40,7 +40,7 @@ export class SharedGameStateService {
   get playerTwoToTheLeft(): Player | undefined {
     return this.playerBySeatOrder(2);
   }
-  get playerThreeToTheRight(): Player | undefined {
+  get playerThreeToTheleft(): Player | undefined {
     return this.playerBySeatOrder(3);
   }
 

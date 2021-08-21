@@ -25,7 +25,7 @@ export class GameTableComponent {
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
   @Input() playerTwoToTheLeft: Player | undefined;
-  @Input() playerThreeToTheRight: Player | undefined;
+  @Input() playerThreeToTheleft: Player | undefined;
 
   constructor(
     private socketService: SocketService,

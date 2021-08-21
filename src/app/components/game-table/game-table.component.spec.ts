@@ -113,7 +113,7 @@ describe('GameTableComponent', () => {
       component.playerToTheLeft = undefined;
       component.playerToTheRight = undefined;
       component.playerTwoToTheLeft = undefined;
-      component.playerThreeToTheRight = undefined;
+      component.playerThreeToTheleft = undefined;
     });
     it('renders 2 other players around the table', () => {
       const players = 3;
@@ -145,7 +145,7 @@ describe('GameTableComponent', () => {
       component.playerToTheLeft = createPlayerFixture();
       component.playerToTheRight = createPlayerFixture();
       component.playerTwoToTheLeft = createPlayerFixture();
-      component.playerThreeToTheRight = createPlayerFixture();
+      component.playerThreeToTheleft = createPlayerFixture();
       fixture.detectChanges();
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
