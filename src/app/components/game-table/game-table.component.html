@@ -6,7 +6,7 @@
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
     <div class="card-play-area">
-      <div class="top-card">
+      <div class="top-card" *ngIf="numberOfPlayers > 3">
         <div class="card-spot" *ngIf="playerTwoToTheLeft">
           <app-playing-card *ngIf="cardPlayedTwoToTheLeft" [card]="cardPlayedTwoToTheLeft"></app-playing-card> 
         </div>
