@@ -1,3 +1,5 @@
+@import '../../card.dimensions'
+
 .table-top
   display: flex
   justify-content: space-around
@@ -10,14 +12,18 @@
 .card-play-area
   display: flex
   flex-direction: column
+  width: 350px
 
 .top-card
   display: flex
-  justify-content: space-between
+  justify-content: space-around
+  height: $card-height
+  margin: 5px 0
 
 .bottom-card
   display: flex
   justify-content: space-between
+  height: $card-height
 
 .playing-mat
   min-height: 155px
@@ -27,3 +33,7 @@
 .current-player-tasks
   display: flex
   justify-content: center
+
+.card-spot
+  height: $card-height
+  width: $card-width

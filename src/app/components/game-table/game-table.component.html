@@ -7,24 +7,31 @@
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
     <div class="card-play-area">
       <div class="top-card">
-        <app-information-card *ngIf="cardPlayedTwoToTheLeft" [card]="cardPlayedTwoToTheLeft" [information]="cardPlayedTwoToTheLeft | playerDisplayName"></app-information-card>
-        <app-information-card *ngIf="cardPlayedThreeToTheLeft" [card]="cardPlayedThreeToTheLeft" [information]="cardPlayedThreeToTheLeft | playerDisplayName"></app-information-card>  
+        <div class="card-spot">
+          <app-playing-card *ngIf="cardPlayedTwoToTheLeft" [card]="cardPlayedTwoToTheLeft"></app-playing-card> 
+        </div>
+        <div class="card-spot">
+          <app-playing-card *ngIf="cardPlayedThreeToTheLeft" [card]="cardPlayedThreeToTheLeft"></app-playing-card> 
+        </div>
       </div>
   
       <div class="bottom-card">
-        <app-information-card *ngIf="cardPlayedToTheLeft" [card]="cardPlayedToTheLeft" [information]="cardPlayedToTheLeft | playerDisplayName"></app-information-card>
+        <div class="card-spot">
+          <app-playing-card *ngIf="cardPlayedToTheLeft" [card]="cardPlayedToTheLeft"></app-playing-card> 
+        </div>
         <div 
         class="playing-mat arranged-cards"
         cdkDropList 
         id="playing-mat" 
         [cdkDropListData]="playedCardCurrentPlayer"
         (cdkDropListDropped)="cardPlayed($event)">
-        <app-information-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]" [information]="playedCardCurrentPlayer[0] | playerDisplayName"></app-information-card>
+        <app-playing-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]"></app-playing-card> 
       </div>
-      <app-information-card *ngIf="cardPlayedToTheRight" [card]="cardPlayedToTheRight" [information]="cardPlayedToTheRight | playerDisplayName"></app-information-card> 
+      <div class="card-spot">
+        <app-playing-card *ngIf="cardPlayedToTheRight" [card]="cardPlayedToTheRight"></app-playing-card> 
+      </div>
     </div>
-    </div>
-   
-    <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
+  </div> 
+  <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
   </div>
 </div>
