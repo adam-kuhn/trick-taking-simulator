@@ -59,7 +59,7 @@ export class GameTableComponent {
   cleanUpTrick(winningCard: PlayerCard): void {
     setTimeout(() => {
       this.gameStateService.completedTrick(
-        this.playedCardsOtherPlayers,
+        this.playedCardCurrentPlayer.concat(this.playedCardsOtherPlayers),
         winningCard
       );
       this.playedCardsOtherPlayers = [];
