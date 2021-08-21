@@ -30,9 +30,6 @@ export class GameRoomComponent {
   get numberOfPlayers(): number {
     return this.gameStateService.numberOfPlayers;
   }
-  get leadCard(): PlayerCard | null {
-    return this.gameStateService.leadCard;
-  }
   get winningCard(): PlayerCard | null {
     return this.gameStateService.winningCard;
   }

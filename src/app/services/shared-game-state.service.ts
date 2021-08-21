@@ -5,11 +5,11 @@ import { PlayerCard, Player, GameState } from '../types/game';
   providedIn: 'root',
 })
 export class SharedGameStateService {
+  public leadCard: PlayerCard | null = null;
   private _numberOfPlayers = 0;
   private _player: Player | null = null;
   private _playerSummary: Player[] = []; // will include tasks
   private _winningCard: PlayerCard | null = null;
-  private _leadCard: PlayerCard | null = null;
   private _lastTrick: PlayerCard[] = [];
   private _isPlayerCommander = false;
 
@@ -24,12 +24,6 @@ export class SharedGameStateService {
   }
   get winningCard(): PlayerCard | null {
     return this._winningCard;
-  }
-  get leadCard(): PlayerCard | null {
-    return this._leadCard;
-  }
-  set leadCard(value: PlayerCard | null) {
-    this._leadCard = value;
   }
   get lastTrick(): PlayerCard[] {
     return this._lastTrick;
@@ -51,7 +45,7 @@ export class SharedGameStateService {
   }
 
   handleStartingCards(data: GameState): void {
-    this._leadCard = null;
+    this.leadCard = null;
     this._lastTrick = [];
     this._winningCard = null;
     this._numberOfPlayers = data.playersInGame.length;
