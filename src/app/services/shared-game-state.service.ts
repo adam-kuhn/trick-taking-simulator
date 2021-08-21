@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayerCard, Communication, Player, GameState } from '../types/game';
+import { PlayerCard, Player, GameState } from '../types/game';
 
 @Injectable({
   providedIn: 'root',
