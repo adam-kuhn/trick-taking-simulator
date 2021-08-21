@@ -66,6 +66,7 @@ export class GameTableComponent {
   }
 
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
+    if (this.playedCardCurrentPlayer.length === 1) return;
     handleCardDropEvent<PlayerCard>(event);
     const card = event.container.data[event.currentIndex];
     this.socketService.cardPlayed(card);
