@@ -1,18 +1,47 @@
+@import '../../card.dimensions'
+
 .table-top
   display: flex
   justify-content: space-around
 
 .table-middle
   display: flex
-  align-items: center
+  align-items: flex-end
   justify-content: space-around
 
-.playing-mat
-  min-height: 155px
-  min-width: 450px
-  width: 40vw
-  background-color: orange
+.card-play-area
+  display: flex
+  flex-direction: column
+  width: 350px
+  box-shadow: inset 1px 0px 4px 5px #828081
+  background-color: #fff3f3
+  padding: 10px
+  margin: 10px 10px 0 10px
+  border-radius: 10px
+
+.top-card
+  display: flex
+  justify-content: space-around
+  height: $card-height
+  margin: 5px 0
+
+.bottom-card
+  display: flex
+  justify-content: space-between
+  height: $card-height
+
+.players-card-spot
+  background-color: #abbbf5
+  padding: 5px
+  border-radius: 10px
+  align-self: center
+  display: flex
+  justify-content: center
 
 .current-player-tasks
   display: flex
   justify-content: center
+
+.card-spot
+  height: $card-height
+  width: $card-width

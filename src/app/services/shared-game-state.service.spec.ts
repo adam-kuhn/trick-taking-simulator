@@ -128,7 +128,7 @@ describe('SharedGameStateService', () => {
 
   it('Finds the player two to the right of user', () => {
     service.handleStartingCards(initialData);
-    const actual = service.playerThreeToTheRight;
+    const actual = service.playerThreeToTheleft;
     expect(actual).toEqual(playerInPositionFour);
   });
 

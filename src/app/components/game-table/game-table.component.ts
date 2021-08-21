@@ -16,26 +16,44 @@ export interface CompleteTrick {
   styleUrls: ['./game-table.component.sass'],
 })
 export class GameTableComponent {
-  playedCards: PlayerCard[] = [];
-  leadCard: PlayerCard | null = null;
+  playedCardsOtherPlayers: PlayerCard[] = [];
+  playedCardCurrentPlayer: PlayerCard[] = [];
+  get leadCard(): PlayerCard | null {
+    return this.gameStateService.leadCard;
+  }
+  get cardPlayedToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerToTheLeft);
+  }
+  get cardPlayedToTheRight(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerToTheRight);
+  }
+  get cardPlayedTwoToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerTwoToTheLeft);
+  }
+  get cardPlayedThreeToTheLeft(): PlayerCard | undefined {
+    return this.getCardByPlayerPosition(this.playerThreeToTheleft);
+  }
   @Input() numberOfPlayers!: number;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
   @Input() playerTwoToTheLeft: Player | undefined;
-  @Input() playerThreeToTheRight: Player | undefined;
+  @Input() playerThreeToTheleft: Player | undefined;
 
   constructor(
     private socketService: SocketService,
     private gameStateService: SharedGameStateService
   ) {
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
-      this.playedCards = [...this.playedCards, data];
+      this.playedCardsOtherPlayers = [...this.playedCardsOtherPlayers, data];
       this.resolvePlayedCard();
     });
   }
 
   resolveTrick(): void {
-    const playedTrump = this.playedCards.filter(
+    const cardsInTrick = this.playedCardCurrentPlayer.concat(
+      this.playedCardsOtherPlayers
+    );
+    const playedTrump = cardsInTrick.filter(
       (card: PlayerCard) => card.suit === 'rocket'
     );
     let winningCard: PlayerCard;
@@ -43,7 +61,7 @@ export class GameTableComponent {
       playedTrump.sort((a, b) => b.value - a.value);
       winningCard = playedTrump[0];
     } else {
-      const followedSuit = this.playedCards.filter(
+      const followedSuit = cardsInTrick.filter(
         (card: PlayerCard) => this.leadCard && this.leadCard.suit === card.suit
       );
       followedSuit.sort((a, b) => b.value - a.value);
@@ -54,13 +72,18 @@ export class GameTableComponent {
 
   cleanUpTrick(winningCard: PlayerCard): void {
     setTimeout(() => {
-      this.gameStateService.completedTrick(this.playedCards, winningCard);
-      this.playedCards = [];
-      this.leadCard = null;
+      this.gameStateService.completedTrick(
+        this.playedCardCurrentPlayer.concat(this.playedCardsOtherPlayers),
+        winningCard
+      );
+      this.playedCardsOtherPlayers = [];
+      this.playedCardCurrentPlayer = [];
+      this.gameStateService.leadCard = null;
     }, 3000);
   }
 
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
+    if (this.playedCardCurrentPlayer.length === 1) return;
     handleCardDropEvent<PlayerCard>(event);
     const card = event.container.data[event.currentIndex];
     this.socketService.cardPlayed(card);
@@ -68,9 +91,31 @@ export class GameTableComponent {
   }
 
   resolvePlayedCard(): void {
-    const { playedCards } = this;
-    if (playedCards.length === 1) this.leadCard = playedCards[0];
-    if (playedCards.length !== this.numberOfPlayers) return;
+    const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
+    if (!this.leadCard) {
+      this.setLeadCard();
+    }
+    if (
+      playedCardsOtherPlayers.length + playedCardCurrentPlayer.length !==
+      this.numberOfPlayers
+    )
+      return;
     this.resolveTrick();
+  }
+
+  setLeadCard(): void {
+    const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
+    const playerCard = playedCardCurrentPlayer.length;
+    const otherCards = playedCardsOtherPlayers.length;
+    const currentPlayerHaslLead = playerCard === 1 && otherCards === 0;
+    const leadCard = currentPlayerHaslLead
+      ? playedCardCurrentPlayer[0]
+      : playedCardsOtherPlayers[0];
+    this.gameStateService.leadCard = leadCard;
+  }
+  getCardByPlayerPosition(player: Player | undefined): PlayerCard | undefined {
+    return this.playedCardsOtherPlayers.find(
+      (card) => card.playerPosition === player?.playerPosition
+    );
   }
 }

@@ -1,18 +1,37 @@
 <div class="game-table">
   <div class="table-top" *ngIf="numberOfPlayers > 3">
-    <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'"></app-player-summary>
-    <app-player-summary *ngIf="numberOfPlayers === 5 && playerThreeToTheRight" [playerInfo]="playerThreeToTheRight" [orientation]="'landscape'"></app-player-summary>
+    <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'" [reverseLayout]="numberOfPlayers === 5"></app-player-summary>
+    <app-player-summary *ngIf="playerThreeToTheleft && numberOfPlayers === 5" [playerInfo]="playerThreeToTheleft" [orientation]="'landscape'"></app-player-summary>
   </div>
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
-    <div 
-      class="playing-mat arranged-cards"
-      cdkDropList 
-      id="playing-mat" 
-      [cdkDropListData]="playedCards"
-      (cdkDropListDropped)="cardPlayed($event)">
-      <app-information-card *ngFor="let card of playedCards" [card]="card" [information]="card | playerDisplayName" ></app-information-card>
+    <div class="card-play-area">
+      <div class="top-card" *ngIf="numberOfPlayers > 3">
+        <div class="card-spot" *ngIf="playerTwoToTheLeft">
+          <app-playing-card *ngIf="cardPlayedTwoToTheLeft" [card]="cardPlayedTwoToTheLeft"></app-playing-card> 
+        </div>
+        <div class="card-spot" *ngIf="playerThreeToTheleft && numberOfPlayers === 5" >
+          <app-playing-card *ngIf="cardPlayedThreeToTheLeft" [card]="cardPlayedThreeToTheLeft"></app-playing-card> 
+        </div>
+      </div>
+  
+      <div class="bottom-card">
+        <div class="card-spot" *ngIf="playerToTheLeft">
+          <app-playing-card *ngIf="cardPlayedToTheLeft" [card]="cardPlayedToTheLeft"></app-playing-card> 
+        </div>
+        <div 
+        class="players-card-spot card-spot"
+        cdkDropList 
+        id="playing-mat" 
+        [cdkDropListData]="playedCardCurrentPlayer"
+        (cdkDropListDropped)="cardPlayed($event)">
+        <app-playing-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]"></app-playing-card> 
+      </div>
+      <div class="card-spot" *ngIf="playerToTheRight" >
+        <app-playing-card *ngIf="cardPlayedToTheRight" [card]="cardPlayedToTheRight"></app-playing-card> 
+      </div>
     </div>
-    <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
+  </div> 
+  <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
   </div>
 </div>
