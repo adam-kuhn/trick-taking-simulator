@@ -18,7 +18,9 @@ export interface CompleteTrick {
 export class GameTableComponent {
   playedCardsOtherPlayers: PlayerCard[] = [];
   playedCardCurrentPlayer: PlayerCard[] = [];
-  leadCard: PlayerCard | null = null;
+  get leadCard(): PlayerCard | null {
+    return this.gameStateService.leadCard;
+  }
   @Input() numberOfPlayers!: number;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
@@ -64,7 +66,7 @@ export class GameTableComponent {
       );
       this.playedCardsOtherPlayers = [];
       this.playedCardCurrentPlayer = [];
-      this.leadCard = null;
+      this.gameStateService.leadCard = null;
     }, 3000);
   }
 
@@ -78,16 +80,8 @@ export class GameTableComponent {
 
   resolvePlayedCard(): void {
     const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
-    const currentPlayerHasPlayedACard = playedCardCurrentPlayer.length === 1;
-    const currentPlayersLead =
-      currentPlayerHasPlayedACard && playedCardsOtherPlayers.length === 0;
-    const otherPlayersLead =
-      playedCardsOtherPlayers.length === 1 && !currentPlayerHasPlayedACard;
-    const isLeadCard = currentPlayersLead || otherPlayersLead;
-    if (isLeadCard) {
-      this.leadCard = currentPlayersLead
-        ? playedCardCurrentPlayer[0]
-        : playedCardsOtherPlayers[0];
+    if (!this.leadCard) {
+      this.setLeadCard();
     }
     if (
       playedCardsOtherPlayers.length + playedCardCurrentPlayer.length !==
@@ -95,5 +89,16 @@ export class GameTableComponent {
     )
       return;
     this.resolveTrick();
+  }
+
+  setLeadCard(): void {
+    const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
+    const playerCard = playedCardCurrentPlayer.length;
+    const otherCards = playedCardsOtherPlayers.length;
+    const currentPlayerHaslLead = playerCard === 1 && otherCards === 0;
+    const leadCard = currentPlayerHaslLead
+      ? playedCardCurrentPlayer[0]
+      : playedCardsOtherPlayers[0];
+    this.gameStateService.leadCard = leadCard;
   }
 }

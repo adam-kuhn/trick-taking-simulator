@@ -41,12 +41,14 @@ describe('GameTableComponent', () => {
       playerPosition: 4,
       username: USERNAME_ONE,
     };
-    component.leadCard = {
-      suit: 'green',
-      value: 1,
-      playerPosition: 1,
-      username: USERNAME_TWO,
-    };
+    Object.defineProperty(component, 'leadCard', {
+      value: {
+        suit: 'green',
+        value: 1,
+        playerPosition: 1,
+        username: USERNAME_TWO,
+      },
+    });
     component.playedCardsOtherPlayers = [
       { suit: 'green', value: 1, playerPosition: 1, username: USERNAME_TWO },
       { suit: 'green', value: 2, playerPosition: 2, username: '' },
@@ -63,12 +65,14 @@ describe('GameTableComponent', () => {
       playerPosition: 2,
       username: USERNAME_TWO,
     };
-    component.leadCard = {
-      suit: 'pink',
-      value: 1,
-      playerPosition: 1,
-      username: USERNAME_ONE,
-    };
+    Object.defineProperty(component, 'leadCard', {
+      value: {
+        suit: 'pink',
+        value: 1,
+        playerPosition: 1,
+        username: USERNAME_ONE,
+      },
+    });
     component.playedCardsOtherPlayers = [
       { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_ONE },
       winningCard,
@@ -78,7 +82,6 @@ describe('GameTableComponent', () => {
       { suit: 'green', value: 4, playerPosition: 4, username: '' },
     ];
     component.resolveTrick();
-    // const actual = component.winningCard;
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   it("should find the winning card, when players can't follow the lead suit - current play wins", () => {
@@ -88,12 +91,14 @@ describe('GameTableComponent', () => {
       playerPosition: 1,
       username: USERNAME_TWO,
     };
-    component.leadCard = {
-      suit: 'pink',
-      value: 1,
-      playerPosition: 1,
-      username: USERNAME_TWO,
-    };
+    Object.defineProperty(component, 'leadCard', {
+      value: {
+        suit: 'pink',
+        value: 1,
+        playerPosition: 1,
+        username: USERNAME_TWO,
+      },
+    });
     component.playedCardsOtherPlayers = [
       { suit: 'green', value: 5, playerPosition: 2, username: '' },
       { suit: 'blue', value: 9, playerPosition: 3, username: '' },
@@ -101,7 +106,6 @@ describe('GameTableComponent', () => {
     ];
     component.playedCardCurrentPlayer = [winningCard];
     component.resolveTrick();
-    // const actual = component.winningCard;
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   describe('other players spots (does not include current player)', () => {

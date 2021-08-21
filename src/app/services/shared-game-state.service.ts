@@ -28,6 +28,9 @@ export class SharedGameStateService {
   get leadCard(): PlayerCard | null {
     return this._leadCard;
   }
+  set leadCard(value: PlayerCard | null) {
+    this._leadCard = value;
+  }
   get lastTrick(): PlayerCard[] {
     return this._lastTrick;
   }
