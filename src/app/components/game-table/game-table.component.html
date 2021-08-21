@@ -1,6 +1,6 @@
 <div class="game-table">
   <div class="table-top" *ngIf="numberOfPlayers > 3">
-    <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'"></app-player-summary>
+    <app-player-summary *ngIf="playerTwoToTheLeft" [playerInfo]="playerTwoToTheLeft" [orientation]="'landscape'" [reverseLayout]="numberOfPlayers === 5"></app-player-summary>
     <app-player-summary *ngIf="playerThreeToTheleft && numberOfPlayers === 5" [playerInfo]="playerThreeToTheleft" [orientation]="'landscape'"></app-player-summary>
   </div>
   <div class="table-middle">
