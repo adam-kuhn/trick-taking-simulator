@@ -1,13 +1,21 @@
-.players-hand-container
+.players-interaction-container
   display: flex
 
 .players-cards
- display: flex
- flex-direction: column
- justify-content: space-between
  margin: 0 5px
+ width: 520px
  button
    width: 50%
+
+.players-hand-fixed-container
+  position: fixed
+  left: 10px
+  bottom: 0
+  width: inherit
+
+.players-hand
+  display: flex
+  justify-content: flex-end
 
 .arranged-cards > *
   margin-right: -50px
