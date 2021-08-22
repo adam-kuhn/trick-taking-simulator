@@ -43,6 +43,10 @@ export class GameTableComponent {
     private socketService: SocketService,
     private gameStateService: SharedGameStateService
   ) {
+    this.socketService.recieveStartingCards().subscribe(() => {
+      this.playedCardsOtherPlayers = [];
+      this.playedCardCurrentPlayer = [];
+    });
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCardsOtherPlayers = [...this.playedCardsOtherPlayers, data];
       this.resolvePlayedCard();
