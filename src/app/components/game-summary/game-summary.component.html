@@ -4,10 +4,10 @@
     <div class="card-info">
       <h3>Last Trick</h3>
       <div class="arranged-cards">
-       <app-information-card *ngFor="let card of lastTrick" [information]="formatInformation(card)" [card]="card"></app-information-card>
+       <app-information-card *ngFor="let card of lastTrick" [information]="formatInformation(card)" [card]="card" [smallCard]="true"></app-information-card>
       </div>
     </div>
   </div>
   <h4>Lead Card:</h4>
-  <app-playing-card *ngIf="leadCard" [card]="leadCard"></app-playing-card>
+  <app-playing-card *ngIf="leadCard" [card]="leadCard" [smallCard]="true"></app-playing-card>
 </div>
