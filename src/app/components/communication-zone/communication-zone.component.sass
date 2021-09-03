@@ -1,4 +1,6 @@
 @import ../../color
+@import ../../card.dimensions
+
 
 .communication-container
   display: flex
@@ -6,6 +8,11 @@
   align-items: center
 
 .communication-area
-  height: 135px
-  width: 86px
+  height: $card-height + 25
+  width: $card-width
   background-color: $purple
+  border-radius: $card-border-radius
+  align-self: center
+  display: flex
+  padding: 5px
+  justify-content: center

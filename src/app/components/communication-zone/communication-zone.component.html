@@ -7,7 +7,6 @@
     [cdkDropListData]="communicationCard"
     [cdkDropListConnectedTo]="communicationDragTo()"
     (cdkDropListDropped)="cardPlacedInCommunication($event)"
-    color="secondary"
   >
     <div *ngIf="communicationCard[0]">
       <div *ngIf="isPlayerLocalPlayer()" >

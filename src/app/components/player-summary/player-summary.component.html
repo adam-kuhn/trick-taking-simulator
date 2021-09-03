@@ -1,4 +1,5 @@
-<p class="player-summary"> {{ playersTableText() }}</p>
+<div class='summary-container'>
+  <p class="player-summary"> {{ playersTableText() }}</p>
   <div [ngClass]="['card-summary-container', reverseLayout ? 'reverse-layout' : '']">
 		<app-communication-zone [playerInfo]="playerInfo"></app-communication-zone>
     <div
@@ -8,16 +9,17 @@
   	[cdkDropListData]="taskCards"
   	(cdkDropListDropped)="taskSelected($event)"
   	>
-  		<div *ngFor="let card of taskCards" >
-  			<mat-checkbox [checked]="card.completed" (change)="completeTask($event, card)">complete</mat-checkbox>
+    <span>Task Area</span>
+  		<div class="player-task-cards">
   			<app-information-card
+          *ngFor="let card of taskCards"
   				[card]="card"
   				[smallCard]="true"
   				[information]="card | taskOrderText"
-  				[showBackOfCard]="card.completed" >
+  				[showBackOfCard]="card.completed"
+          (click)="completeTask(card)">
   			</app-information-card>
   		</div>
   	</div>
+  </div>
 </div>
-
-
