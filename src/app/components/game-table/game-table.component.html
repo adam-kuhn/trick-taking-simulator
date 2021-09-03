@@ -5,7 +5,7 @@
   </div>
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
-    <app-task-selection></app-task-selection>
+    <app-task-selection [ngClass]="{'task-selection-mat': tasks.length}"></app-task-selection>
     <div *ngIf="tasks.length === 0" class="card-play-area">
       <div class="top-card" *ngIf="numberOfPlayers > 3">
         <div class="card-spot" *ngIf="playerTwoToTheLeft">
