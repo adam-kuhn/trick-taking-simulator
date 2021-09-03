@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { InitialTasks, TaskCard, Player } from '../../types/game';
 import { SocketService } from '../../services/socket.service';
@@ -8,15 +8,25 @@ import {
   DialogActions,
   DialogData,
 } from '../confirm-dialog/confirm-dialog.component';
+import { SharedGameStateService } from 'src/app/services/shared-game-state.service';
 @Component({
   selector: 'app-task-selection',
   templateUrl: './task-selection.component.html',
   styleUrls: ['./task-selection.component.sass'],
 })
 export class TaskSelectionComponent {
-  @Input() isPlayerCommander = false;
-  @Input() playerSummary!: Player[];
-  tasks: TaskCard[] = [];
+  get isPlayerCommander(): boolean {
+    return this.gameStateService.isPlayerCommander;
+  }
+  get playerSummary(): Player[] {
+    return this.gameStateService.playerSummary;
+  }
+  get tasks(): TaskCard[] {
+    return this.gameStateService.tasks;
+  }
+  set tasks(value: TaskCard[]) {
+    this.gameStateService.tasks = value;
+  }
   showTasks = true;
   revealOnlyToCommander = false;
   tasksToEdit: TaskCard[] = [];
@@ -24,6 +34,7 @@ export class TaskSelectionComponent {
   constructor(
     private socketService: SocketService,
     private playerTaskList: PlayerTaskListPipe,
+    private gameStateService: SharedGameStateService,
     private dialog: MatDialog
   ) {
     this.socketService.recieveAssignedTask().subscribe((data: TaskCard) => {

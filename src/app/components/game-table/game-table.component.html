@@ -5,7 +5,8 @@
   </div>
   <div class="table-middle">
     <app-player-summary *ngIf="playerToTheLeft"  [playerInfo]="playerToTheLeft" [orientation]="'portrait'" [reverseLayout]="true"></app-player-summary>
-    <div class="card-play-area">
+    <app-task-selection></app-task-selection>
+    <div *ngIf="tasks.length === 0" class="card-play-area">
       <div class="top-card" *ngIf="numberOfPlayers > 3">
         <div class="card-spot" *ngIf="playerTwoToTheLeft">
           <app-playing-card *ngIf="cardPlayedTwoToTheLeft" [card]="cardPlayedTwoToTheLeft"></app-playing-card>
@@ -14,24 +15,24 @@
           <app-playing-card *ngIf="cardPlayedThreeToTheLeft" [card]="cardPlayedThreeToTheLeft"></app-playing-card>
         </div>
       </div>
-
       <div class="bottom-cards">
         <div class="card-spot adjacent-player" *ngIf="playerToTheLeft">
           <app-playing-card *ngIf="cardPlayedToTheLeft" [card]="cardPlayedToTheLeft"></app-playing-card>
         </div>
         <div
-        class="players-card-spot card-spot"
-        cdkDropList
-        id="playing-mat"
-        [cdkDropListData]="playedCardCurrentPlayer"
-        (cdkDropListDropped)="cardPlayed($event)">
+          class="players-card-spot card-spot"
+          cdkDropList
+          id="playing-mat"
+          [cdkDropListData]="playedCardCurrentPlayer"
+          (cdkDropListDropped)="cardPlayed($event)"
+        >
           <app-playing-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]"></app-playing-card>
         </div>
         <div class="card-spot adjacent-player" *ngIf="playerToTheRight" >
           <app-playing-card *ngIf="cardPlayedToTheRight" [card]="cardPlayedToTheRight"></app-playing-card>
         </div>
+      </div>
     </div>
-  </div>
   <app-player-summary *ngIf="playerToTheRight" [playerInfo]="playerToTheRight" [orientation]="'portrait'"></app-player-summary>
   </div>
 </div>
