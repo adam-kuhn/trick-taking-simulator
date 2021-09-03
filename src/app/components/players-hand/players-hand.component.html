@@ -1,7 +1,7 @@
 <div class="players-hand-container" *ngIf="player && player.playerPosition !== 0">
   <h3>Player interactions</h3>
   <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
-  <div class="players-hand-fixed-container">
+  <div [ngClass]="['hand-container', numberOfPlayers >= 4 ? 'fixed' : '']">
     <div
     class="players-hand"
     cdkDropList

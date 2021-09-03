@@ -26,6 +26,7 @@ export class PlayersHandComponent {
   @Input() player: Player | null = null;
   @Input() playerToTheLeft: Player | undefined;
   @Input() playerToTheRight: Player | undefined;
+  @Input() numberOfPlayers!: number;
 
   constructor(
     private socketService: SocketService,
