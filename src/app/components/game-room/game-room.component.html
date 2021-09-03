@@ -1,4 +1,3 @@
-<p>Welcome to the game room</p>
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <button mat-raised-button [disabled]="!dealingCompleted" (click)="openTaskDealDialog()">Tasks</button>
