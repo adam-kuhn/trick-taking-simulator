@@ -62,9 +62,6 @@ export class SocketService {
     this.socket.emit('complete_task', card);
   }
 
-  revealTasks(): void {
-    this.socket.emit('reveal_tasks');
-  }
   moveCardToAnotherPlayer(card: PlayerCard, player: Player): void {
     this.socket.emit('move_card', { card, sendToSocket: player.socket });
   }
@@ -95,10 +92,6 @@ export class SocketService {
 
   recieveCompletedTask(): Observable<TaskCard> {
     return this.createObservalble<TaskCard>('complete_task');
-  }
-
-  revealTaskToPlayers(): Observable<null> {
-    return this.createObservalble<null>('reveal_tasks');
   }
 
   recieveCommunication(): Observable<Communication> {

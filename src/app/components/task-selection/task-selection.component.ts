@@ -45,10 +45,6 @@ export class TaskSelectionComponent {
     }
     return showTasks;
   }
-  revealTasks(): void {
-    this.revealOnlyToCommander = false;
-    this.socketService.revealTasks();
-  }
   playerTaskLists(): string[] {
     return this.playerSummary.map((player) =>
       this.playerTaskList.transform(player)
