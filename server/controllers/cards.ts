@@ -27,6 +27,11 @@ export interface TaskOptions {
   lastCompletedTask: boolean;
 }
 
+export interface SwappingTasks {
+  taskOne: TaskCard;
+  taskTwo: TaskCard;
+}
+
 const CREW_TRUMP_CARDS: Card[] = [
   {
     suit: 'rocket',
@@ -168,4 +173,36 @@ function assignRelativeTaskOrder(
     order++;
     assignedTasks++;
   });
+}
+
+export function swapTaskCardRequirements(tasks: SwappingTasks): SwappingTasks {
+  const { taskOne, taskTwo } = tasks;
+  const taskOneOrder = getTaskOrder(taskOne);
+  const taskTwoOrder = getTaskOrder(taskTwo);
+  const updatedTaskOne = updateTaskCardOrdering(taskOne, taskTwoOrder);
+  const updatedTaskTwo = updateTaskCardOrdering(taskTwo, taskOneOrder);
+  return { taskOne: updatedTaskOne, taskTwo: updatedTaskTwo };
+}
+
+function getTaskOrder(
+  task: TaskCard
+): { relativeOrder?: number; specificOrder?: number; lastTask?: boolean } {
+  const { relativeOrder, specificOrder, lastTask } = task;
+  if (relativeOrder) return { relativeOrder };
+  if (specificOrder) return { specificOrder };
+  if (lastTask) return { lastTask };
+  return {};
+}
+function updateTaskCardOrdering(
+  task: TaskCard,
+  ordering: Partial<TaskCard>
+): TaskCard {
+  return {
+    suit: task.suit,
+    value: task.value,
+    playerPosition: task.playerPosition,
+    username: task.username,
+    completed: task.completed,
+    ...ordering,
+  };
 }

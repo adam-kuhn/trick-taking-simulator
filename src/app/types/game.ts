@@ -23,6 +23,11 @@ export interface InitialTasks {
   revealOnlyToCommander: boolean;
 }
 
+export interface SwappingTasks {
+  taskOne: TaskCard;
+  taskTwo: TaskCard;
+}
+
 export interface Player {
   socket: string;
   playerPosition: number;
