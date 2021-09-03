@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
-import { MatCheckboxChange } from '@angular/material/checkbox';
 
 import { SocketService } from '../../services/socket.service';
 import { handleCardDropEvent } from '../../utils/card-dragging';
@@ -49,8 +48,8 @@ export class PlayerSummaryComponent {
     card.playerPosition = this.playerInfo?.playerPosition ?? 0;
     this.socketService.assignTask(card);
   }
-  completeTask(event: MatCheckboxChange, task: TaskCard): void {
-    task.completed = event.checked;
+  completeTask(task: TaskCard): void {
+    task.completed = !task.completed;
     this.socketService.completeTask(task);
   }
 }

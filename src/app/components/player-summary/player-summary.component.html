@@ -9,12 +9,12 @@
   	(cdkDropListDropped)="taskSelected($event)"
   	>
   		<div *ngFor="let card of taskCards" >
-  			<mat-checkbox [checked]="card.completed" (change)="completeTask($event, card)">complete</mat-checkbox>
   			<app-information-card
   				[card]="card"
   				[smallCard]="true"
   				[information]="card | taskOrderText"
-  				[showBackOfCard]="card.completed" >
+  				[showBackOfCard]="card.completed"
+          (click)="completeTask(card)" >
   			</app-information-card>
   		</div>
   	</div>
