@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { InitialTasks, TaskCard, Player } from '../../types/game';
+import {
+  InitialTasks,
+  TaskCard,
+  Player,
+  SwappingTasks,
+} from '../../types/game';
 import { SocketService } from '../../services/socket.service';
 import { PlayerTaskListPipe } from '../../pipes/player-task-list/player-task-list.pipe';
 import {
@@ -47,6 +52,13 @@ export class TaskSelectionComponent {
       this.revealOnlyToCommander = data.revealOnlyToCommander;
       this.showTasks = this.canPlayerSeeTasks(data.revealOnlyToCommander);
     });
+    this.socketService
+      .recieveSwappedTaskRequirements()
+      .subscribe((data: SwappingTasks) => {
+        const { taskOne, taskTwo } = data;
+        this.updateTaskInplace(taskOne);
+        this.updateTaskInplace(taskTwo);
+      });
   }
 
   canPlayerSeeTasks(commanderOnly: boolean): boolean {
@@ -79,49 +91,18 @@ export class TaskSelectionComponent {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, { data });
     dialogRef.afterClosed().subscribe((confirmation: string) => {
       if (confirmation === 'confirm') {
-        this.swapTasks();
+        const [taskOne, taskTwo] = this.tasksToEdit;
+        this.socketService.swapTaskRequirements({ taskOne, taskTwo });
       }
       this.tasksToEdit = [];
     });
   }
-  swapTasks(): void {
-    const [taskOne, taskTwo] = this.tasksToEdit;
-    const taskOneOrder = this.getTaskOrder(taskOne);
-    const taskTwoOrder = this.getTaskOrder(taskTwo);
-    this.updateTaskInplace(
-      taskOne,
-      this.updateTaskCardOrdering(taskOne, taskTwoOrder)
-    );
-    this.updateTaskInplace(
-      taskTwo,
-      this.updateTaskCardOrdering(taskTwo, taskOneOrder)
-    );
-  }
-  getTaskOrder(
-    task: TaskCard
-  ): { relativeOrder?: number; specificOrder?: number; lastTask?: boolean } {
-    const { relativeOrder, specificOrder, lastTask } = task;
-    if (relativeOrder) return { relativeOrder };
-    if (specificOrder) return { specificOrder };
-    if (lastTask) return { lastTask };
-    return {};
-  }
-  updateTaskCardOrdering(
-    task: TaskCard,
-    ordering: Partial<TaskCard>
-  ): TaskCard {
-    return {
-      suit: task.suit,
-      value: task.value,
-      playerPosition: task.playerPosition,
-      username: task.username,
-      completed: task.completed,
-      ...ordering,
-    };
-  }
 
-  updateTaskInplace(task: TaskCard, updatedTask: TaskCard): void {
-    const taskIndex = this.tasks.indexOf(task);
+  updateTaskInplace(updatedTask: TaskCard): void {
+    const taskIndex = this.tasks.findIndex(
+      (task) =>
+        task.suit === updatedTask.suit && task.value === updatedTask.value
+    );
     this.tasks.splice(taskIndex, 1, updatedTask);
   }
 }

@@ -7,6 +7,8 @@ import {
   TaskOptions,
   dealTaskCards,
   Communicate,
+  swapTaskCardRequirements,
+  SwappingTasks,
 } from './cards';
 interface CustomSocket extends Socket {
   username?: string;
@@ -81,6 +83,10 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
 
   socket.on('move_card', (data: { card: PlayerCard; sendToSocket: string }) => {
     io.to(data.sendToSocket).emit('recieve_players_card', data.card);
+  });
+
+  socket.on('swap_task_requirements', (data: SwappingTasks) => {
+    io.emit('recieve_swapped_requirements', swapTaskCardRequirements(data));
   });
 
   socket.on('disconnect', () => {

@@ -4,6 +4,9 @@ import {
   dealCards,
   sortHandOfCards,
   dealTaskCards,
+  getTaskOrder,
+  TaskCard,
+  swapTaskCardRequirements,
 } from '../controllers/cards';
 
 describe('createCrewSuites', function () {
@@ -128,5 +131,72 @@ describe('dealTaskCards', function () {
     expect(actual[4]).to.not.have.property('relativeOrder');
     expect(actual[4]).to.not.have.property('specificOrder');
     expect(actual[4]).to.not.have.property('lastTask');
+  });
+});
+
+describe('getTaskOrder', () => {
+  let task: TaskCard;
+  beforeEach(() => {
+    task = {
+      playerPosition: 3,
+      username: '',
+      suit: 'yellow',
+      value: 1,
+      completed: false,
+    };
+  });
+  it('gets the task order - specificOrder', () => {
+    task = { ...task, specificOrder: 2 };
+    const expected = { specificOrder: task.specificOrder };
+    const actual = getTaskOrder(task);
+    expect(actual).to.deep.equal(expected);
+  });
+  it('gets the task order - relativeOrder', () => {
+    task = { ...task, relativeOrder: 1 };
+    const expected = { relativeOrder: task.relativeOrder };
+    const actual = getTaskOrder(task);
+    expect(actual).to.deep.equal(expected);
+  });
+  it('gets the task order - lastTask', () => {
+    task = { ...task, lastTask: true };
+    const expected = { lastTask: task.lastTask };
+    const actual = getTaskOrder(task);
+    expect(actual).to.deep.equal(expected);
+  });
+  it('gets the task order - no order', () => {
+    const expected = {};
+    const actual = getTaskOrder(task);
+    expect(actual).to.deep.equal(expected);
+  });
+});
+
+describe('swapping task requirements', () => {
+  it('swaps the requirements of two task', () => {
+    const taskOne = {
+      playerPosition: 3,
+      username: '',
+      suit: 'green',
+      value: 1,
+      completed: false,
+      lastTask: true,
+    };
+    const taskTwo = {
+      playerPosition: 3,
+      username: '',
+      suit: 'yellow',
+      value: 1,
+      completed: false,
+      specificOrder: 3,
+    };
+    const {
+      taskOne: actualTaskOne,
+      taskTwo: actualTaskTwo,
+    } = swapTaskCardRequirements({ taskOne, taskTwo });
+
+    expect(actualTaskOne.lastTask).to.be.undefined;
+    expect(actualTaskOne.specificOrder).to.equal(taskTwo.specificOrder);
+
+    expect(actualTaskTwo.specificOrder).to.be.undefined;
+    expect(actualTaskTwo.lastTask).to.equal(taskOne.lastTask);
   });
 });

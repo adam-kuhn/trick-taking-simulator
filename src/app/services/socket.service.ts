@@ -9,6 +9,7 @@ import {
   GameState,
   InitialTasks,
   Communication,
+  SwappingTasks,
 } from '../types/game';
 import { TaskOptions } from '../components/deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
@@ -66,6 +67,10 @@ export class SocketService {
     this.socket.emit('move_card', { card, sendToSocket: player.socket });
   }
 
+  swapTaskRequirements(tasksToSwap: SwappingTasks): void {
+    this.socket.emit('swap_task_requirements', tasksToSwap);
+  }
+
   playerNameUpdated(): Observable<null> {
     return this.createObservalble<null>('player_name_updated');
   }
@@ -100,5 +105,11 @@ export class SocketService {
 
   recieveCardFromAnotherPlayer(): Observable<PlayerCard> {
     return this.createObservalble<PlayerCard>('recieve_players_card');
+  }
+
+  recieveSwappedTaskRequirements(): Observable<SwappingTasks> {
+    return this.createObservalble<SwappingTasks>(
+      'recieve_swapped_requirements'
+    );
   }
 }
