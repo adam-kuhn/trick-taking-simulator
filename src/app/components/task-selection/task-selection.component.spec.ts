@@ -19,21 +19,20 @@ describe('TaskSelectionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(TaskSelectionComponent);
     component = fixture.componentInstance;
-    component.playerSummary = [];
     fixture.detectChanges();
   });
   it('shows tasks to all players', () => {
-    component.isPlayerCommander = false;
+    spyOnProperty(component, 'isPlayerCommander').and.returnValue(false);
     const actual = component.canPlayerSeeTasks(false);
     expect(actual).toEqual(true);
   });
   it('shows tasks to commander when it is commander only', () => {
-    component.isPlayerCommander = true;
+    spyOnProperty(component, 'isPlayerCommander').and.returnValue(true);
     const actual = component.canPlayerSeeTasks(true);
     expect(actual).toEqual(true);
   });
   it('does not show tasks to all players who are not the commander, when it is commander only', () => {
-    component.isPlayerCommander = false;
+    spyOnProperty(component, 'isPlayerCommander').and.returnValue(false);
     const actual = component.canPlayerSeeTasks(true);
     expect(actual).toEqual(false);
   });
