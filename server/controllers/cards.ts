@@ -184,7 +184,7 @@ export function swapTaskCardRequirements(tasks: SwappingTasks): SwappingTasks {
   return { taskOne: updatedTaskOne, taskTwo: updatedTaskTwo };
 }
 
-function getTaskOrder(
+export function getTaskOrder(
   task: TaskCard
 ): { relativeOrder?: number; specificOrder?: number; lastTask?: boolean } {
   const { relativeOrder, specificOrder, lastTask } = task;

@@ -61,75 +61,27 @@ describe('TaskSelectionComponent', () => {
     component.handleTaskSelect(selectedTask);
     expect(component.tasksToEdit.length).toEqual(0);
   });
-  it('swaps the order of tasks', () => {
-    const tasks: TaskCard[] = [
-      {
-        playerPosition: 1,
-        username: 'test-user',
-        suit: 'green',
-        value: 1,
-        completed: false,
-        specificOrder: 2,
-      },
-      {
-        playerPosition: 2,
-        username: '',
-        suit: 'green',
-        value: 2,
-        completed: false,
-        relativeOrder: 3,
-      },
-    ];
-    component.tasksToEdit = tasks;
-    component.tasks = [
-      ...tasks,
-      {
-        playerPosition: 3,
-        username: '',
-        suit: 'yellow',
-        value: 1,
-        completed: false,
-        relativeOrder: 2,
-      },
-    ];
-    component.swapTasks();
-    const [resultOne, resultTwo] = component.tasks;
-    expect(resultOne.relativeOrder).toEqual(tasks[1].relativeOrder);
-    expect(resultTwo.specificOrder).toEqual(tasks[0].specificOrder);
-  });
-  describe('getTaskOrder', () => {
-    let task: TaskCard;
-    beforeEach(() => {
-      task = {
-        playerPosition: 3,
-        username: '',
-        suit: 'yellow',
-        value: 1,
-        completed: false,
-      };
-    });
-    it('gets the task order - specificOrder', () => {
-      task = { ...task, specificOrder: 2 };
-      const expected = { specificOrder: task.specificOrder };
-      const actual = component.getTaskOrder(task);
-      expect(actual).toEqual(expected);
-    });
-    it('gets the task order - relativeOrder', () => {
-      task = { ...task, relativeOrder: 1 };
-      const expected = { relativeOrder: task.relativeOrder };
-      const actual = component.getTaskOrder(task);
-      expect(actual).toEqual(expected);
-    });
-    it('gets the task order - lastTask', () => {
-      task = { ...task, lastTask: true };
-      const expected = { lastTask: task.lastTask };
-      const actual = component.getTaskOrder(task);
-      expect(actual).toEqual(expected);
-    });
-    it('gets the task order - no order', () => {
-      const expected = {};
-      const actual = component.getTaskOrder(task);
-      expect(actual).toEqual(expected);
-    });
+  it('changes a tasks requiremet', () => {
+    const originalTask: TaskCard = {
+      playerPosition: 0,
+      username: 'test-user',
+      suit: 'green',
+      value: 1,
+      completed: false,
+      specificOrder: 2,
+    };
+    const updatedTask: TaskCard = {
+      playerPosition: 0,
+      username: '',
+      suit: 'green',
+      value: 1,
+      completed: false,
+      relativeOrder: 3,
+    };
+    component.tasks = [originalTask];
+    component.updateTaskInplace(updatedTask);
+    const actual = component.tasks[0];
+    expect(actual).toEqual(updatedTask);
+    expect(actual.specificOrder).toBeUndefined();
   });
 });
