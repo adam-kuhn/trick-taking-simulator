@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
