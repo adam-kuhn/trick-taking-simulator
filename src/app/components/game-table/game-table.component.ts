@@ -36,11 +36,21 @@ export class GameTableComponent {
   get tasks(): TaskCard[] {
     return this.gameStateService.tasks;
   }
-  @Input() numberOfPlayers!: number;
-  @Input() playerToTheLeft: Player | undefined;
-  @Input() playerToTheRight: Player | undefined;
-  @Input() playerTwoToTheLeft: Player | undefined;
-  @Input() playerThreeToTheleft: Player | undefined;
+  get numberOfPlayers(): number {
+    return this.gameStateService.numberOfPlayers;
+  }
+  get playerToTheLeft(): Player | undefined {
+    return this.gameStateService.playerToTheLeft;
+  }
+  get playerToTheRight(): Player | undefined {
+    return this.gameStateService.playerToTheRight;
+  }
+  get playerTwoToTheLeft(): Player | undefined {
+    return this.gameStateService.playerTwoToTheLeft;
+  }
+  get playerThreeToTheleft(): Player | undefined {
+    return this.gameStateService.playerThreeToTheleft;
+  }
 
   constructor(
     private socketService: SocketService,
