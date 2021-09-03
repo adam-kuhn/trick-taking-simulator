@@ -8,13 +8,15 @@
   	[cdkDropListData]="taskCards"
   	(cdkDropListDropped)="taskSelected($event)"
   	>
-  		<div *ngFor="let card of taskCards" >
+    <span>Task Area</span>
+  		<div class="player-task-cards">
   			<app-information-card
+          *ngFor="let card of taskCards"
   				[card]="card"
   				[smallCard]="true"
   				[information]="card | taskOrderText"
   				[showBackOfCard]="card.completed"
-          (click)="completeTask(card)" >
+          (click)="completeTask(card)">
   			</app-information-card>
   		</div>
   	</div>
