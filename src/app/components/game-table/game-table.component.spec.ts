@@ -109,17 +109,16 @@ describe('GameTableComponent', () => {
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   describe('other players spots (does not include current player)', () => {
-    afterEach(() => {
-      component.playerToTheLeft = undefined;
-      component.playerToTheRight = undefined;
-      component.playerTwoToTheLeft = undefined;
-      component.playerThreeToTheleft = undefined;
-    });
     it('renders 2 other players around the table', () => {
       const players = 3;
-      component.numberOfPlayers = players;
-      component.playerToTheLeft = createPlayerFixture();
-      component.playerToTheRight = createPlayerFixture();
+      spyOnProperty(component, 'numberOfPlayers').and.returnValue(players);
+      spyOnProperty(component, 'playerToTheLeft').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerToTheRight').and.returnValue(
+        createPlayerFixture()
+      );
+
       fixture.detectChanges();
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
@@ -128,10 +127,16 @@ describe('GameTableComponent', () => {
     });
     it('renders 3 other players around the table', () => {
       const players = 4;
-      component.numberOfPlayers = players;
-      component.playerToTheLeft = createPlayerFixture();
-      component.playerToTheRight = createPlayerFixture();
-      component.playerTwoToTheLeft = createPlayerFixture();
+      spyOnProperty(component, 'numberOfPlayers').and.returnValue(players);
+      spyOnProperty(component, 'playerToTheLeft').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerToTheRight').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerTwoToTheLeft').and.returnValue(
+        createPlayerFixture()
+      );
       fixture.detectChanges();
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
@@ -140,12 +145,19 @@ describe('GameTableComponent', () => {
     });
     it('renders 4 other players around the table', () => {
       const players = 5;
-
-      component.numberOfPlayers = players;
-      component.playerToTheLeft = createPlayerFixture();
-      component.playerToTheRight = createPlayerFixture();
-      component.playerTwoToTheLeft = createPlayerFixture();
-      component.playerThreeToTheleft = createPlayerFixture();
+      spyOnProperty(component, 'numberOfPlayers').and.returnValue(players);
+      spyOnProperty(component, 'playerToTheLeft').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerToTheRight').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerTwoToTheLeft').and.returnValue(
+        createPlayerFixture()
+      );
+      spyOnProperty(component, 'playerThreeToTheleft').and.returnValue(
+        createPlayerFixture()
+      );
       fixture.detectChanges();
       const playerTableSpots = fixture.debugElement.queryAll(
         By.directive(PlayerSummaryStub)
