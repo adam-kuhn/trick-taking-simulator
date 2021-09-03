@@ -1,4 +1,3 @@
-<p>Welcome to the game room</p>
 <p *ngIf="numberOfPlayers > 0">{{ numberOfPlayers }} Players in game</p>
 <button mat-raised-button (click)="dealCards()">Deal the Cards</button>
 <button mat-raised-button [disabled]="!dealingCompleted" (click)="openTaskDealDialog()">Tasks</button>
@@ -9,20 +8,14 @@
   [lastTrick]="lastTrick"
 ></app-game-summary>
 
-<app-task-selection  *ngIf="playerSummary.length" [playerSummary]="playerSummary" [isPlayerCommander]="isPlayerCommander" ></app-task-selection>
-
 <div class="game-area-container">
   <div class="game-area">
-    <app-game-table
-      [numberOfPlayers]="numberOfPlayers"
-      [playerToTheRight]="playerToTheRight"
-      [playerToTheLeft]="playerToTheLeft"
-      [playerThreeToTheleft]="playerThreeToTheleft"
-      [playerTwoToTheLeft]="playerTwoToTheLeft"></app-game-table>
+    <app-game-table></app-game-table>
     <app-players-hand
       [player]="player"
       [playerToTheRight]="playerToTheRight"
-      [playerToTheLeft]="playerToTheLeft">
+      [playerToTheLeft]="playerToTheLeft"
+      [numberOfPlayers]="numberOfPlayers">
     </app-players-hand>
   </div>
 </div>

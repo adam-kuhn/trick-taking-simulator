@@ -1,5 +1,14 @@
 @import ../../card.dimensions
 
+$bottom-row-height: 220px
+.play-area
+  width: 350px
+  box-shadow: inset 1px 0px 4px 5px #6f485c
+  background-color: #b98787
+  padding: 10px
+  margin: 10px
+  border-radius: 10px
+
 .table-top
   display: flex
   justify-content: space-around
@@ -10,14 +19,9 @@
   justify-content: space-around
 
 .card-play-area
+  @extend .play-area
   display: flex
   flex-direction: column
-  width: 350px
-  box-shadow: inset 1px 0px 4px 5px #6f485c
-  background-color: #b98787
-  padding: 10px
-  margin: 10px 10px 0 10px
-  border-radius: 10px
 
 .top-card
   display: flex
@@ -25,19 +29,25 @@
   height: $card-height
   margin: 5px 0
 
-.bottom-card
+.bottom-cards
   display: flex
   justify-content: space-between
-  height: $card-height
+  height: $bottom-row-height
+  .adjacent-player
+    align-self: center
 
 .players-card-spot
   background-color: #d09a95
   padding: 5px
   border-radius: $card-border-radius
-  align-self: center
+  align-self: flex-end
   display: flex
   justify-content: center
 
 .card-spot
   height: $card-height
   width: $card-width
+
+.task-selection-mat
+  @extend .play-area
+  height: $card-height + $bottom-row-height

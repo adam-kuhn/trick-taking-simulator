@@ -1,18 +1,20 @@
-<h5>Task Selection</h5>
-<div
-  class="arranged-cards task-cards"
-  cdkDropList
-  id="unassigned-tasks"
-  [cdkDropListData]="tasks"
-  [cdkDropListConnectedTo]="playerTaskLists()">
-    <app-information-card
-      *ngFor="let task of tasks"
-      cdkDrag
-      [card]="task"
-      [information]="task | taskOrderText"
-      [showBackOfCard]="!showTasks || task.completed"
-      [smallCard]='true'
-      [highlighted]="tasksToEdit.includes(task)"
-      (click)="handleTaskSelect(task)">
-    </app-information-card>
+<div *ngIf="tasks.length">
+  <h5>Drag tasks to your task area</h5>
+  <div
+    class="arranged-cards task-cards"
+    cdkDropList
+    id="unassigned-tasks"
+    [cdkDropListData]="tasks"
+    [cdkDropListConnectedTo]="playerTaskLists()">
+      <app-information-card
+        *ngFor="let task of tasks"
+        cdkDrag
+        [card]="task"
+        [information]="task | taskOrderText"
+        [showBackOfCard]="!showTasks || task.completed"
+        [smallCard]='true'
+        [highlighted]="tasksToEdit.includes(task)"
+        (click)="handleTaskSelect(task)">
+      </app-information-card>
+  </div>
 </div>

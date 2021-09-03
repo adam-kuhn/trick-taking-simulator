@@ -3,7 +3,7 @@ import { handleCardDropEvent } from '../../utils/card-dragging';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
 import { SharedGameStateService } from '../../services/shared-game-state.service';
-import { PlayerCard, Player } from '../../types/game';
+import { PlayerCard, Player, TaskCard } from '../../types/game';
 
 export interface CompleteTrick {
   trick: PlayerCard[];
@@ -33,11 +33,24 @@ export class GameTableComponent {
   get cardPlayedThreeToTheLeft(): PlayerCard | undefined {
     return this.getCardByPlayerPosition(this.playerThreeToTheleft);
   }
-  @Input() numberOfPlayers!: number;
-  @Input() playerToTheLeft: Player | undefined;
-  @Input() playerToTheRight: Player | undefined;
-  @Input() playerTwoToTheLeft: Player | undefined;
-  @Input() playerThreeToTheleft: Player | undefined;
+  get tasks(): TaskCard[] {
+    return this.gameStateService.tasks;
+  }
+  get numberOfPlayers(): number {
+    return this.gameStateService.numberOfPlayers;
+  }
+  get playerToTheLeft(): Player | undefined {
+    return this.gameStateService.playerToTheLeft;
+  }
+  get playerToTheRight(): Player | undefined {
+    return this.gameStateService.playerToTheRight;
+  }
+  get playerTwoToTheLeft(): Player | undefined {
+    return this.gameStateService.playerTwoToTheLeft;
+  }
+  get playerThreeToTheleft(): Player | undefined {
+    return this.gameStateService.playerThreeToTheleft;
+  }
 
   constructor(
     private socketService: SocketService,

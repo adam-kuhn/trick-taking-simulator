@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { PlayerCard, Player, GameState } from '../types/game';
+import { PlayerCard, Player, GameState, TaskCard } from '../types/game';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SharedGameStateService {
   public leadCard: PlayerCard | null = null;
+  public tasks: TaskCard[] = [];
   private _numberOfPlayers = 0;
   private _player: Player | null = null;
   private _playerSummary: Player[] = []; // will include tasks

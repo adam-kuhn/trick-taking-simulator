@@ -1,17 +1,25 @@
 .players-hand-container
   height: 300px
 
-.players-hand-fixed-container
-  position: fixed
-  left: 10px
-  bottom: 0
+.hand-container
   width: 100%
+  padding: 10px 0
   display: flex
   justify-content: space-evenly
+  background-color: rgba(102, 168, 249, 0.1)
+  overflow: hidden
+
+.fixed
+  position: fixed
+  left: 0
+  bottom: 0
 
 .players-hand
   align-self: flex-end
   min-width: 550px
+  display: flex
+  flex-direction: column
+  align-items: center
   .arranged-cards
     justify-content: flex-end
     padding-right: 50px

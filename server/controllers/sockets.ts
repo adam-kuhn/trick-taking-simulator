@@ -75,10 +75,6 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
     socket.broadcast.emit('complete_task', card);
   });
 
-  socket.on('reveal_tasks', () => {
-    socket.broadcast.emit('reveal_tasks');
-  });
-
   socket.on('communicate', (data: Communicate) => {
     io.emit('communicate', data);
   });
