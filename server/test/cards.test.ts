@@ -6,6 +6,7 @@ import {
   dealTaskCards,
   getTaskOrder,
   TaskCard,
+  swapTaskCardRequirements,
 } from '../controllers/cards';
 
 describe('createCrewSuites', function () {
@@ -166,5 +167,36 @@ describe('getTaskOrder', () => {
     const expected = {};
     const actual = getTaskOrder(task);
     expect(actual).to.deep.equal(expected);
+  });
+});
+
+describe('swapping task requirements', () => {
+  it('swaps the requirements of two task', () => {
+    const taskOne = {
+      playerPosition: 3,
+      username: '',
+      suit: 'green',
+      value: 1,
+      completed: false,
+      lastTask: true,
+    };
+    const taskTwo = {
+      playerPosition: 3,
+      username: '',
+      suit: 'yellow',
+      value: 1,
+      completed: false,
+      specificOrder: 3,
+    };
+    const {
+      taskOne: actualTaskOne,
+      taskTwo: actualTaskTwo,
+    } = swapTaskCardRequirements({ taskOne, taskTwo });
+
+    expect(actualTaskOne.lastTask).to.be.undefined;
+    expect(actualTaskOne.specificOrder).to.equal(taskTwo.specificOrder);
+
+    expect(actualTaskTwo.specificOrder).to.be.undefined;
+    expect(actualTaskTwo.lastTask).to.equal(taskOne.lastTask);
   });
 });
