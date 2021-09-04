@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
-import { Player, PlayerCard, GameState } from '../../types/game';
+import { Player, PlayerCard, GameState, Suits } from '../../types/game';
 import { handleCardDropEvent } from '../../utils/card-dragging';
 
 import {
@@ -70,7 +70,7 @@ export class PlayersHandComponent {
   }
 
   handleConfirmPassingCardDialog(card: PlayerCard): void {
-    if (card.suit === 'rocket') {
+    if (card.suit === Suits.Rocket) {
       const data = {
         message: "You can't pass rocket cards.",
         actions: DialogActions.ACKNOWLEDGE,
@@ -159,5 +159,26 @@ export class PlayersHandComponent {
       playerPosition: this.player.playerPosition,
       username: this.player.username,
     };
+  }
+
+  sortHandOfCards(): void {
+    const sortedBlues = this.sortSuit(Suits.Blue);
+    const sortedPinks = this.sortSuit(Suits.Pink);
+    const sortedGreens = this.sortSuit(Suits.Green);
+    const sortedViolets = this.sortSuit(Suits.Violet);
+
+    const sortedRockets = this.sortSuit(Suits.Rocket);
+    this.cardsInHand = [
+      ...sortedBlues,
+      ...sortedPinks,
+      ...sortedGreens,
+      ...sortedViolets,
+      ...sortedRockets,
+    ];
+  }
+  sortSuit(suit: Suits): PlayerCard[] {
+    return this.cardsInHand
+      .filter((card) => card.suit === suit)
+      .sort((a, b) => a.value - b.value);
   }
 }
