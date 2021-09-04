@@ -10,8 +10,10 @@
       <div class="arranged-cards">
         <app-playing-card *ngFor="let card of cardsInHand" cdkDrag [card]="card" (dblclick)="handleConfirmPassingCardDialog(card)"></app-playing-card>
       </div>
-      <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
-      <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="sortHandOfCards()">Sort Cards</button>
+      <div class='hand-interactions'>
+        <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="openConfirmDrawCard()">Pass a Random Card to the Left</button>
+        <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="sortHandOfCards()">Sort Cards</button>
+      </div>
     </div>
     <app-player-summary *ngIf="player" [playerInfo]="player" [orientation]="'landscape'"></app-player-summary>
   </div>
