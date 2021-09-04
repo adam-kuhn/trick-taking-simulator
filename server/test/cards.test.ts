@@ -7,15 +7,17 @@ import {
   getTaskOrder,
   TaskCard,
   swapTaskCardRequirements,
+  Suits,
 } from '../controllers/cards';
 
 describe('createCrewSuites', function () {
   it('generates a deck with 4 suits and 9 cards for each suit', function () {
     const cards = crewDeck;
-    const greenCards = cards.filter((card) => card.suit === 'green').length;
-    const pinkCards = cards.filter((card) => card.suit === 'pink').length;
-    const blueCards = cards.filter((card) => card.suit === 'blue').length;
-    const violetCards = cards.filter((card) => card.suit === 'violet').length;
+    const greenCards = cards.filter((card) => card.suit === Suits.Green).length;
+    const pinkCards = cards.filter((card) => card.suit === Suits.Pink).length;
+    const blueCards = cards.filter((card) => card.suit === Suits.Blue).length;
+    const violetCards = cards.filter((card) => card.suit === Suits.Violet)
+      .length;
     expect(cards.length).to.equal(36);
     expect(greenCards).to.equal(9);
     expect(pinkCards).to.equal(9);
@@ -65,26 +67,26 @@ describe('dealCards', function () {
 describe('sortHandOfCards', function () {
   it('sorts a hand of cards', function () {
     const playersHand = [
-      { suit: 'blue', value: 5, playerPosition: 1 },
-      { suit: 'violet', value: 2, playerPosition: 1 },
-      { suit: 'blue', value: 1, playerPosition: 1 },
-      { suit: 'pink', value: 9, playerPosition: 1 },
-      { suit: 'green', value: 4, playerPosition: 1 },
-      { suit: 'rocket', value: 3, playerPosition: 1 },
-      { suit: 'violet', value: 3, playerPosition: 1 },
-      { suit: 'pink', value: 5, playerPosition: 1 },
-      { suit: 'blue', value: 2, playerPosition: 1 },
+      { suit: Suits.Blue, value: 5, playerPosition: 1 },
+      { suit: Suits.Violet, value: 2, playerPosition: 1 },
+      { suit: Suits.Blue, value: 1, playerPosition: 1 },
+      { suit: Suits.Pink, value: 9, playerPosition: 1 },
+      { suit: Suits.Green, value: 4, playerPosition: 1 },
+      { suit: Suits.Rocket, value: 3, playerPosition: 1 },
+      { suit: Suits.Violet, value: 3, playerPosition: 1 },
+      { suit: Suits.Pink, value: 5, playerPosition: 1 },
+      { suit: Suits.Blue, value: 2, playerPosition: 1 },
     ];
     const expected = [
-      { suit: 'blue', value: 1, playerPosition: 1 },
-      { suit: 'blue', value: 2, playerPosition: 1 },
-      { suit: 'blue', value: 5, playerPosition: 1 },
-      { suit: 'pink', value: 5, playerPosition: 1 },
-      { suit: 'pink', value: 9, playerPosition: 1 },
-      { suit: 'green', value: 4, playerPosition: 1 },
-      { suit: 'violet', value: 2, playerPosition: 1 },
-      { suit: 'violet', value: 3, playerPosition: 1 },
-      { suit: 'rocket', value: 3, playerPosition: 1 },
+      { suit: Suits.Blue, value: 1, playerPosition: 1 },
+      { suit: Suits.Blue, value: 2, playerPosition: 1 },
+      { suit: Suits.Blue, value: 5, playerPosition: 1 },
+      { suit: Suits.Pink, value: 5, playerPosition: 1 },
+      { suit: Suits.Pink, value: 9, playerPosition: 1 },
+      { suit: Suits.Green, value: 4, playerPosition: 1 },
+      { suit: Suits.Violet, value: 2, playerPosition: 1 },
+      { suit: Suits.Violet, value: 3, playerPosition: 1 },
+      { suit: Suits.Rocket, value: 3, playerPosition: 1 },
     ];
     const actual = sortHandOfCards(playersHand);
     expect(actual).to.deep.equal(expected);
@@ -140,7 +142,7 @@ describe('getTaskOrder', () => {
     task = {
       playerPosition: 3,
       username: '',
-      suit: 'yellow',
+      suit: Suits.Violet,
       value: 1,
       completed: false,
     };
@@ -175,7 +177,7 @@ describe('swapping task requirements', () => {
     const taskOne = {
       playerPosition: 3,
       username: '',
-      suit: 'green',
+      suit: Suits.Green,
       value: 1,
       completed: false,
       lastTask: true,
@@ -183,7 +185,7 @@ describe('swapping task requirements', () => {
     const taskTwo = {
       playerPosition: 3,
       username: '',
-      suit: 'yellow',
+      suit: Suits.Violet,
       value: 1,
       completed: false,
       specificOrder: 3,

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { GameState } from '../types/game';
+import { GameState, Suits } from '../types/game';
 
 import { SharedGameStateService } from './shared-game-state.service';
 
@@ -61,19 +61,19 @@ describe('SharedGameStateService', () => {
   it('Updates last hand information on a completed trick - current player wins', () => {
     const winningCard = {
       value: 5,
-      suit: 'green',
+      suit: Suits.Green,
       playerPosition: userPlayer.playerPosition,
       username: userPlayer.username,
     };
     const cardInTrick = {
       value: 1,
-      suit: 'blue',
+      suit: Suits.Blue,
       playerPosition: playerInPositionTwo.playerPosition,
       username: playerInPositionTwo.username,
     };
     const cardInTrickTwo = {
       value: 1,
-      suit: 'green',
+      suit: Suits.Green,
       playerPosition: playerInPositionTwo.playerPosition,
       username: playerInPositionTwo.username,
     };
@@ -87,19 +87,19 @@ describe('SharedGameStateService', () => {
   it('Updates last hand information on a completed trick - other player wins', () => {
     const winningCard = {
       value: 5,
-      suit: 'green',
+      suit: Suits.Green,
       playerPosition: playerInPositionTwo.playerPosition,
       username: playerInPositionTwo.username,
     };
     const cardInTrick = {
       value: 1,
-      suit: 'blue',
+      suit: Suits.Blue,
       playerPosition: userPlayer.playerPosition,
       username: userPlayer.username,
     };
     const cardInTrickTwo = {
       value: 1,
-      suit: 'green',
+      suit: Suits.Green,
       playerPosition: playerInPositionTwo.playerPosition,
       username: playerInPositionTwo.username,
     };

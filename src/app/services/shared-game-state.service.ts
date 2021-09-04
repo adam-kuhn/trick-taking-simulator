@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PlayerCard, Player, GameState, TaskCard } from '../types/game';
+import { PlayerCard, Player, GameState, TaskCard, Suits } from '../types/game';
 
 @Injectable({
   providedIn: 'root',
@@ -53,7 +53,7 @@ export class SharedGameStateService {
     this._player = data.player;
     this._playerSummary = data.playersInGame;
     this._isPlayerCommander = !!data.playersCards.find(
-      (card) => card.suit === 'rocket' && card.value === 4
+      (card) => card.suit === Suits.Rocket && card.value === 4
     );
   }
 

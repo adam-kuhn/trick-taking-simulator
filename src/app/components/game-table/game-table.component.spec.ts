@@ -5,6 +5,7 @@ import { By } from '@angular/platform-browser';
 import { GameTableComponent } from './game-table.component';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 import { createPlayerFixture } from '../../test-utils/fixtures';
+import { Suits } from 'src/app/types/game';
 
 const USERNAME_ONE = 'Custom name 1';
 const USERNAME_TWO = 'Custom name 2';
@@ -36,23 +37,28 @@ describe('GameTableComponent', () => {
   });
   it('should find the winning card, when all play the same suit - current player wins', () => {
     const winningCard = {
-      suit: 'green',
+      suit: Suits.Green,
       value: 4,
       playerPosition: 4,
       username: USERNAME_ONE,
     };
     Object.defineProperty(component, 'leadCard', {
       value: {
-        suit: 'green',
+        suit: Suits.Green,
         value: 1,
         playerPosition: 1,
         username: USERNAME_TWO,
       },
     });
     component.playedCardsOtherPlayers = [
-      { suit: 'green', value: 1, playerPosition: 1, username: USERNAME_TWO },
-      { suit: 'green', value: 2, playerPosition: 2, username: '' },
-      { suit: 'green', value: 3, playerPosition: 3, username: '' },
+      {
+        suit: Suits.Green,
+        value: 1,
+        playerPosition: 1,
+        username: USERNAME_TWO,
+      },
+      { suit: Suits.Green, value: 2, playerPosition: 2, username: '' },
+      { suit: Suits.Green, value: 3, playerPosition: 3, username: '' },
     ];
     component.playedCardCurrentPlayer = [winningCard];
     component.resolveTrick();
@@ -60,49 +66,49 @@ describe('GameTableComponent', () => {
   });
   it('should find the winning card, when trump (a rocket) is played - other player wins', () => {
     const winningCard = {
-      suit: 'rocket',
+      suit: Suits.Rocket,
       value: 1,
       playerPosition: 2,
       username: USERNAME_TWO,
     };
     Object.defineProperty(component, 'leadCard', {
       value: {
-        suit: 'pink',
+        suit: Suits.Pink,
         value: 1,
         playerPosition: 1,
         username: USERNAME_ONE,
       },
     });
     component.playedCardsOtherPlayers = [
-      { suit: 'pink', value: 1, playerPosition: 1, username: USERNAME_ONE },
+      { suit: Suits.Pink, value: 1, playerPosition: 1, username: USERNAME_ONE },
       winningCard,
-      { suit: 'green', value: 3, playerPosition: 3, username: '' },
+      { suit: Suits.Green, value: 3, playerPosition: 3, username: '' },
     ];
     component.playedCardCurrentPlayer = [
-      { suit: 'green', value: 4, playerPosition: 4, username: '' },
+      { suit: Suits.Green, value: 4, playerPosition: 4, username: '' },
     ];
     component.resolveTrick();
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
   it("should find the winning card, when players can't follow the lead suit - current play wins", () => {
     const winningCard = {
-      suit: 'pink',
+      suit: Suits.Pink,
       value: 1,
       playerPosition: 1,
       username: USERNAME_TWO,
     };
     Object.defineProperty(component, 'leadCard', {
       value: {
-        suit: 'pink',
+        suit: Suits.Pink,
         value: 1,
         playerPosition: 1,
         username: USERNAME_TWO,
       },
     });
     component.playedCardsOtherPlayers = [
-      { suit: 'green', value: 5, playerPosition: 2, username: '' },
-      { suit: 'blue', value: 9, playerPosition: 3, username: '' },
-      { suit: 'violet', value: 4, playerPosition: 4, username: '' },
+      { suit: Suits.Green, value: 5, playerPosition: 2, username: '' },
+      { suit: Suits.Blue, value: 9, playerPosition: 3, username: '' },
+      { suit: Suits.Violet, value: 4, playerPosition: 4, username: '' },
     ];
     component.playedCardCurrentPlayer = [winningCard];
     component.resolveTrick();

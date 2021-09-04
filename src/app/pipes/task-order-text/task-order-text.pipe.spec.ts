@@ -1,11 +1,11 @@
 import { TaskOrderTextPipe } from './task-order-text.pipe';
-import { TaskCard } from '../../types/game';
+import { Suits, TaskCard } from '../../types/game';
 
 const taskCardFixture = (options?: Partial<TaskCard>): TaskCard => ({
   completed: false,
   username: 'joe',
   value: 1,
-  suit: 'red',
+  suit: Suits.Green,
   playerPosition: 1,
   ...options,
 });

@@ -3,7 +3,7 @@ import { handleCardDropEvent } from '../../utils/card-dragging';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { SocketService } from '../../services/socket.service';
 import { SharedGameStateService } from '../../services/shared-game-state.service';
-import { PlayerCard, Player, TaskCard } from '../../types/game';
+import { PlayerCard, Player, TaskCard, Suits } from '../../types/game';
 
 export interface CompleteTrick {
   trick: PlayerCard[];
@@ -71,7 +71,7 @@ export class GameTableComponent {
       this.playedCardsOtherPlayers
     );
     const playedTrump = cardsInTrick.filter(
-      (card: PlayerCard) => card.suit === 'rocket'
+      (card: PlayerCard) => card.suit === Suits.Rocket
     );
     let winningCard: PlayerCard;
     if (playedTrump.length > 0) {

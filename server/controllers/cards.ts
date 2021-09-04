@@ -1,6 +1,14 @@
 export interface Card {
   value: number;
-  suit: string;
+  suit: Suits;
+}
+
+export enum Suits {
+  Green = 'green',
+  Blue = 'blue',
+  Pink = 'pink',
+  Violet = 'violet',
+  Rocket = 'rocket',
 }
 
 export interface PlayerCard extends Card {
@@ -34,25 +42,25 @@ export interface SwappingTasks {
 
 const CREW_TRUMP_CARDS: Card[] = [
   {
-    suit: 'rocket',
+    suit: Suits.Rocket,
     value: 1,
   },
   {
-    suit: 'rocket',
+    suit: Suits.Rocket,
     value: 2,
   },
   {
-    suit: 'rocket',
+    suit: Suits.Rocket,
     value: 3,
   },
   {
-    suit: 'rocket',
+    suit: Suits.Rocket,
     value: 4,
   },
 ];
 
 export const crewDeck: Card[] = (() => {
-  const suits = ['green', 'blue', 'pink', 'violet'];
+  const suits = [Suits.Green, Suits.Blue, Suits.Pink, Suits.Violet];
   let deck: Card[] = [];
   suits.forEach((suit) => {
     for (let i = 1; i < 10; i++) {
@@ -98,11 +106,11 @@ export function dealCards(
 
 export function sortHandOfCards(cards: PlayerCard[]): PlayerCard[] {
   return [
-    ...sortCardsBySuit('blue', cards),
-    ...sortCardsBySuit('pink', cards),
-    ...sortCardsBySuit('green', cards),
-    ...sortCardsBySuit('violet', cards),
-    ...sortCardsBySuit('rocket', cards),
+    ...sortCardsBySuit(Suits.Blue, cards),
+    ...sortCardsBySuit(Suits.Pink, cards),
+    ...sortCardsBySuit(Suits.Green, cards),
+    ...sortCardsBySuit(Suits.Violet, cards),
+    ...sortCardsBySuit(Suits.Rocket, cards),
   ];
 }
 

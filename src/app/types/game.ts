@@ -1,6 +1,14 @@
 export interface Card {
-  suit: string;
+  suit: Suits;
   value: number;
+}
+
+export enum Suits {
+  Green = 'green',
+  Blue = 'blue',
+  Pink = 'pink',
+  Violet = 'violet',
+  Rocket = 'rocket',
 }
 
 export interface PlayerCard extends Card {
