@@ -101,12 +101,20 @@ export class GameTableComponent {
 
   cardPlayed(event: CdkDragDrop<PlayerCard[]>): void {
     if (this.playedCardCurrentPlayer.length === 1) return;
+    const card = event.previousContainer.data[event.previousIndex];
+    if (!this.playedCardIsLegal(card, event.previousContainer.data)) return;
+
     handleCardDropEvent<PlayerCard>(event);
-    const card = event.container.data[event.currentIndex];
     this.socketService.cardPlayed(card);
     this.resolvePlayedCard();
   }
 
+  playedCardIsLegal(card: PlayerCard, playersHand: PlayerCard[]): boolean {
+    if (this.leadCard === null) return true;
+    const { suit: leadSuit } = this.leadCard;
+    if (card.suit === leadSuit) return true;
+    return !playersHand.some((cardInHand) => cardInHand.suit === leadSuit);
+  }
   resolvePlayedCard(): void {
     const { playedCardCurrentPlayer, playedCardsOtherPlayers } = this;
     if (!this.leadCard) {

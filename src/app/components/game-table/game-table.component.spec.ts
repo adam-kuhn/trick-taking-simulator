@@ -114,6 +114,72 @@ describe('GameTableComponent', () => {
     component.resolveTrick();
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
+  describe('legal plays', () => {
+    const leadCard = {
+      suit: Suits.Blue,
+      value: 5,
+      playerPosition: 2,
+      username: '',
+    };
+
+    it('forces a player to follow suit when they can', () => {
+      spyOnProperty(component, 'leadCard').and.returnValue(leadCard);
+      fixture.detectChanges();
+      const playedCard = {
+        suit: Suits.Green,
+        value: 5,
+        playerPosition: 2,
+        username: '',
+      };
+      const cardsInPlayersHand = [
+        { suit: Suits.Green, value: 5, playerPosition: 2, username: '' },
+        { suit: Suits.Blue, value: 9, playerPosition: 2, username: '' },
+        { suit: Suits.Violet, value: 4, playerPosition: 2, username: '' },
+      ];
+      const actual = component.playedCardIsLegal(
+        playedCard,
+        cardsInPlayersHand
+      );
+      expect(actual).toEqual(false);
+    });
+    it('allows a player to play any card as the lead card', () => {
+      const playedCard = {
+        suit: Suits.Green,
+        value: 5,
+        playerPosition: 2,
+        username: '',
+      };
+      const cardsInPlayersHand = [
+        { suit: Suits.Green, value: 5, playerPosition: 2, username: '' },
+        { suit: Suits.Blue, value: 9, playerPosition: 2, username: '' },
+        { suit: Suits.Violet, value: 4, playerPosition: 2, username: '' },
+      ];
+      const actual = component.playedCardIsLegal(
+        playedCard,
+        cardsInPlayersHand
+      );
+      expect(actual).toEqual(true);
+    });
+    it('allows a player to not follow suit when they can not do so', () => {
+      spyOnProperty(component, 'leadCard').and.returnValue(leadCard);
+      fixture.detectChanges();
+      const playedCard = {
+        suit: Suits.Green,
+        value: 5,
+        playerPosition: 2,
+        username: '',
+      };
+      const cardsInPlayersHand = [
+        { suit: Suits.Green, value: 5, playerPosition: 2, username: '' },
+        { suit: Suits.Violet, value: 4, playerPosition: 2, username: '' },
+      ];
+      const actual = component.playedCardIsLegal(
+        playedCard,
+        cardsInPlayersHand
+      );
+      expect(actual).toEqual(true);
+    });
+  });
   describe('other players spots (does not include current player)', () => {
     it('renders 2 other players around the table', () => {
       const players = 3;
