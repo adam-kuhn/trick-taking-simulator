@@ -63,6 +63,10 @@ export class SharedGameStateService {
     this.incrementWinningPlayersTrickCount(winningCard);
   }
 
+  didCurrentPlayerWinTheTrick(): boolean {
+    return this._winningCard?.playerPosition === this._player?.playerPosition;
+  }
+
   private playerBySeatOrder(
     seatsFromCurrentPlayer: number
   ): Player | undefined {

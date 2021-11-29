@@ -18,6 +18,7 @@ export interface CompleteTrick {
 export class GameTableComponent {
   playedCardsOtherPlayers: PlayerCard[] = [];
   playedCardCurrentPlayer: PlayerCard[] = [];
+  isItCurrentPlayersTurn = false;
   get leadCard(): PlayerCard | null {
     return this.gameStateService.leadCard;
   }
@@ -59,9 +60,13 @@ export class GameTableComponent {
     this.socketService.recieveStartingCards().subscribe(() => {
       this.playedCardsOtherPlayers = [];
       this.playedCardCurrentPlayer = [];
+      this.isItCurrentPlayersTurn = this.gameStateService.isPlayerCommander;
     });
     this.socketService.recievePlayedCard().subscribe((data: PlayerCard) => {
       this.playedCardsOtherPlayers = [...this.playedCardsOtherPlayers, data];
+      if (data.playerPosition === this.playerToTheRight?.playerPosition) {
+        this.isItCurrentPlayersTurn = true;
+      }
       this.resolvePlayedCard();
     });
   }
@@ -96,6 +101,7 @@ export class GameTableComponent {
       this.playedCardsOtherPlayers = [];
       this.playedCardCurrentPlayer = [];
       this.gameStateService.leadCard = null;
+      this.isItCurrentPlayersTurn = this.gameStateService.didCurrentPlayerWinTheTrick();
     }, 3000);
   }
 
@@ -138,6 +144,7 @@ export class GameTableComponent {
       : playedCardsOtherPlayers[0];
     this.gameStateService.leadCard = leadCard;
   }
+
   getCardByPlayerPosition(player: Player | undefined): PlayerCard | undefined {
     return this.playedCardsOtherPlayers.find(
       (card) => card.playerPosition === player?.playerPosition
