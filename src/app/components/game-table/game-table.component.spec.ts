@@ -114,6 +114,12 @@ describe('GameTableComponent', () => {
     component.resolveTrick();
     expect(component.cleanUpTrick).toHaveBeenCalledWith(winningCard);
   });
+  it('should tell the player when it is there turn', () => {
+    component.isItCurrentPlayersTurn = true;
+    fixture.detectChanges();
+    const cardSport = fixture.nativeElement.querySelector('.active-border');
+    expect(cardSport.childNodes[0].textContent).toEqual('Your Turn');
+  });
   describe('legal plays', () => {
     const leadCard = {
       suit: Suits.Blue,
