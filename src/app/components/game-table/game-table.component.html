@@ -20,12 +20,13 @@
           <app-playing-card *ngIf="cardPlayedToTheLeft" [card]="cardPlayedToTheLeft"></app-playing-card>
         </div>
         <div
-          class="players-card-spot card-spot"
+          [ngClass]="['players-card-spot', 'card-spot', isItCurrentPlayersTurn ? 'active-border' : '']"
           cdkDropList
           id="playing-mat"
           [cdkDropListData]="playedCardCurrentPlayer"
           (cdkDropListDropped)="cardPlayed($event)"
         >
+          <p *ngIf='isItCurrentPlayersTurn'>Your Turn</p>
           <app-playing-card *ngIf="playedCardCurrentPlayer[0]" [card]="playedCardCurrentPlayer[0]"></app-playing-card>
         </div>
         <div class="card-spot adjacent-player" *ngIf="playerToTheRight" >
