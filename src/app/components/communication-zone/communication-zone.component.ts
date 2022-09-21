@@ -57,10 +57,30 @@ export class CommunicationZoneComponent {
 
   handleCommunication(event: MatSelectChange): void {
     this.cardCommunicated = true;
-    this.socketService.sendCommunication({
-      ...this.communicationCard[0],
-      type: event.value,
-    });
+
+    if (this.validateCommunication(event.value)) {
+      this.socketService.sendCommunication({
+        ...this.communicationCard[0],
+        type: event.value,
+      });
+    }
+  }
+
+  private validateCommunication(communcationOption: string): boolean {
+    switch (communcationOption) {
+      case 'highest':
+        return true;
+      case 'lowest':
+        return false;
+      case 'only':
+        return false;
+      case 'unknown':
+        return false;
+      default:
+        throw new Error(
+          `Communcation option ${communcationOption} is not recognized`
+        );
+    }
   }
 
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
