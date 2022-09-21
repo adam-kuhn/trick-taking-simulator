@@ -19,6 +19,7 @@ export class CommunicationZoneComponent {
   communicationCard: Communication[] = [];
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
   cardCommunicated = false;
+  invalidCommunication = false;
   constructor(
     private socketService: SocketService,
     private communicationPosition: CommunicationPositionPipe,
@@ -58,14 +59,16 @@ export class CommunicationZoneComponent {
   }
 
   handleCommunication(event: MatSelectChange): void {
-    this.cardCommunicated = true;
-
     if (this.validateCommunication(event.value)) {
+      this.cardCommunicated = true;
+      this.invalidCommunication = false;
       this.socketService.sendCommunication({
         ...this.communicationCard[0],
         type: event.value,
       });
+      return;
     }
+    this.invalidCommunication = true;
   }
 
   private validateCommunication(communcationOption: string): boolean {
@@ -102,9 +105,11 @@ export class CommunicationZoneComponent {
     if (
       this.communicationCard.length === 1 ||
       previousContainer.data[previousIndex].suit === Suits.Rocket
-    )
+    ) {
       return;
+    }
     handleCardDropEvent<PlayerCard>(event);
+    this.invalidCommunication = false;
   }
 
   isPlayerLocalPlayer(): boolean {

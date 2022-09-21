@@ -1,5 +1,6 @@
 <div class="communication-container">
   <h3>Communicate</h3>
+  <p [style.visibility]="invalidCommunication ? 'visible' : 'hidden'">Invalid communication</p>
   <div
     class="communication-area"
     cdkDropList
