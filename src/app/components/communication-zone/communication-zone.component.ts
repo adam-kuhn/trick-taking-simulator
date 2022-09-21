@@ -69,15 +69,27 @@ export class CommunicationZoneComponent {
   }
 
   private validateCommunication(communcationOption: string): boolean {
+    const commmunicationCard = this.communicationCard[0];
+    const cardsBySuit = this.cardsInHand.filter(
+      (card) => card.suit === commmunicationCard.suit
+    );
+    const isOnly = cardsBySuit.length === 0;
+    const isHighest =
+      !isOnly &&
+      cardsBySuit.every((card) => card.value < commmunicationCard.value);
+    const isLowest =
+      !isOnly &&
+      cardsBySuit.every((card) => card.value > commmunicationCard.value);
+
     switch (communcationOption) {
       case 'highest':
-        return true;
+        return isHighest;
       case 'lowest':
-        return false;
+        return isLowest;
       case 'only':
-        return false;
+        return isOnly;
       case 'unknown':
-        return false;
+        return isHighest || isLowest || isOnly;
       default:
         throw new Error(
           `Communcation option ${communcationOption} is not recognized`
