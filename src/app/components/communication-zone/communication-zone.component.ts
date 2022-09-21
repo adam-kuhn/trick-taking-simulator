@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { handleCardDropEvent } from '../../utils/card-dragging';
-import { PlayerCard, Player, Communication } from '../../types/game';
+import { PlayerCard, Player, Communication, Suits } from '../../types/game';
 import { SocketService } from '../../services/socket.service';
 import { CommunicationPositionPipe } from '../../pipes/communication-position/communication-position.pipe';
 import { SharedGameStateService } from 'src/app/services/shared-game-state.service';
@@ -64,7 +64,12 @@ export class CommunicationZoneComponent {
   }
 
   cardPlacedInCommunication(event: CdkDragDrop<PlayerCard[]>): void {
-    if (this.communicationCard.length === 1) return;
+    const { previousContainer, previousIndex } = event;
+    if (
+      this.communicationCard.length === 1 ||
+      previousContainer.data[previousIndex].suit === Suits.Rocket
+    )
+      return;
     handleCardDropEvent<PlayerCard>(event);
   }
 
