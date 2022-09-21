@@ -1,7 +1,7 @@
 <div class='summary-container'>
   <p class="player-summary"> {{ playersTableText() }}</p>
   <div [ngClass]="['card-summary-container', reverseLayout ? 'reverse-layout' : '']">
-		<app-communication-zone [playerInfo]="playerInfo"></app-communication-zone>
+		<app-communication-zone [playerInfo]="playerInfo" [cardsInHand]="cardsInHand"></app-communication-zone>
     <div
   	[ngClass]="['player-tasks', orientation]"
   	cdkDropList

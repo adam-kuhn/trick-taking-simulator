@@ -14,6 +14,8 @@ import { SharedGameStateService } from 'src/app/services/shared-game-state.servi
 })
 export class CommunicationZoneComponent {
   @Input() playerInfo!: Player;
+  @Input() cardsInHand: PlayerCard[] = [];
+
   communicationCard: Communication[] = [];
   communicationOptions = ['unknown', 'highest', 'lowest', 'only'];
   cardCommunicated = false;
