@@ -15,6 +15,6 @@
         <button mat-raised-button [disabled]="cardsInHand.length === 0" (click)="sortHandOfCards()">Sort Cards</button>
       </div>
     </div>
-    <app-player-summary *ngIf="player" [playerInfo]="player" [orientation]="'landscape'"></app-player-summary>
+    <app-player-summary *ngIf="player" [playerInfo]="player" [orientation]="'landscape'" [cardsInHand]="cardsInHand"></app-player-summary>
   </div>
 </div>

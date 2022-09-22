@@ -3,7 +3,7 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 
 import { SocketService } from '../../services/socket.service';
 import { handleCardDropEvent } from '../../utils/card-dragging';
-import { TaskCard, Player } from '../../types/game';
+import { TaskCard, Player, PlayerCard } from '../../types/game';
 import { PlayerDisplayNamePipe } from '../../pipes/player-display-name/player-display-name.pipe';
 
 @Component({
@@ -15,6 +15,8 @@ export class PlayerSummaryComponent {
   @Input() playerInfo!: Player;
   @Input() orientation = 'landscape';
   @Input() reverseLayout = false;
+  @Input() cardsInHand: PlayerCard[] = [];
+
   taskCards: TaskCard[] = [];
   constructor(
     private socketService: SocketService,
