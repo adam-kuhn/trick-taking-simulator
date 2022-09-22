@@ -21,7 +21,7 @@ export class CommunicationZoneComponent {
   cardCommunicated = false;
   invalidCommunication = false;
   constructor(
-    private socketService: SocketService,
+    public socketService: SocketService,
     private communicationPosition: CommunicationPositionPipe,
     private sharedGameState: SharedGameStateService
   ) {
