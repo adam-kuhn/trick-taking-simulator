@@ -22,7 +22,7 @@ export const createGameCode = (): string => {
 @Component({
   selector: 'app-join-game-dialog',
   templateUrl: './join-game-dialog.component.html',
-  styleUrls: ['./join-game-dialog.component.sass'],
+  styleUrls: ['../shared-styles/dialog.sass'],
 })
 export class JoinGameDialogComponent {
   gameInfo = new FormGroup({

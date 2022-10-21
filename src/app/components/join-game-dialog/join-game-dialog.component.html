@@ -1,12 +1,12 @@
 <mat-dialog-content>
-  <form id="join-game" class="game-info-form" [formGroup]="gameInfo">
-    <mat-form-field class="form-field" appearance="fill">
+  <form id="join-game" class="dialog-form" [formGroup]="gameInfo">
+    <mat-form-field class="dialog-form-field" appearance="fill">
       <mat-label>Game Code</mat-label>
       <input matInput formControlName="gameCode"/>
       <mat-error *ngIf="gameCode && gameCode.hasError('pattern')">Invalid game code.</mat-error>
       <mat-error *ngIf="gameCode && gameCode.hasError('required')">Game code is required.</mat-error>
     </mat-form-field>
-    <mat-form-field class="form-field" appearance="fill">
+    <mat-form-field class="dialog-form-field" appearance="fill">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username">
       <mat-error *ngIf="username && username.hasError('pattern')">Letters and numbers only.</mat-error>
