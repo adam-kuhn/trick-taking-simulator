@@ -11,7 +11,7 @@
       <input matInput formControlName="code">
       <mat-error *ngIf="code && code.hasError('pattern')">Letters and numbers only.</mat-error>
       <mat-error *ngIf="code && code.hasError('required')">Code is required.</mat-error>
-      <mat-error *ngIf="code && code.hasError('maxlength')">Code must be &gt; 3 characters.</mat-error>
+      <mat-error *ngIf="code && code.hasError('maxlength')">Code must be at least 3 characters.</mat-error>
     </mat-form-field>
   </form>
 </mat-dialog-content>

@@ -19,7 +19,7 @@ export class CreateRoomDialogComponent {
     ]),
     code: new FormControl('', [
       Validators.required,
-      Validators.minLength(4),
+      Validators.minLength(3),
       Validators.pattern('(?=[^a-zA-Z0-9]*[a-zA-Z0-9])[a-zA-Z0-9\\s]*'),
     ]),
   });
