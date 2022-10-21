@@ -5,6 +5,10 @@ class GameRooms {
     return Object.keys(this.roomAndCodes);
   }
 
+  getRoomCode(room: string) {
+    return this.roomAndCodes[room];
+  }
+
   addNewRoom(newRoom: string, code: string): void {
     this.roomAndCodes = {
       ...this.roomAndCodes,
