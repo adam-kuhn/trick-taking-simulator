@@ -7,6 +7,8 @@ import { SocketService } from './services/socket.service';
 import { environment } from '../environments/environment';
 import { JoinGameDialogComponent } from './components/join-game-dialog/join-game-dialog.component';
 import { CreateRoomDialogComponent } from './components/create-room-dialog/create-room-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from './components/snackbar/snackbar.component';
 
 interface ConnectionResponse {
   connections: number;
@@ -24,9 +26,21 @@ export class AppComponent implements OnInit {
   connectedClients = 6;
   requestConnections = 0;
 
-  constructor(private dialog: MatDialog, private socketService: SocketService) {
+  constructor(
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar,
+    private socketService: SocketService
+  ) {
     this.socketService.playerNameUpdated().subscribe(() => {
       this.joinGame();
+    });
+    this.socketService.createRoomSuccess().subscribe((data) => {
+      this.snackbar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: `Room ${data.roomName} created!`,
+          success: true,
+        },
+      });
     });
   }
 
