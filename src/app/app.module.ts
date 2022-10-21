@@ -32,6 +32,7 @@ import { PlayersHandComponent } from './components/players-hand/players-hand.com
 import { GameTableComponent } from './components/game-table/game-table.component';
 import { PlayerSummaryComponent } from './components/player-summary/player-summary.component';
 import { CommunicationZoneComponent } from './components/communication-zone/communication-zone.component';
+import { CreateRoomDialogComponent } from './components/create-room-dialog/create-room-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { CommunicationZoneComponent } from './components/communication-zone/comm
     PlayerTaskListPipe,
     CommunicationPositionPipe,
     CommunicationZoneComponent,
+    CreateRoomDialogComponent,
   ],
   imports: [
     BrowserModule,

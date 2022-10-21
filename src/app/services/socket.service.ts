@@ -43,7 +43,7 @@ export class SocketService {
     return observable;
   }
   createRoom({ name, code }: Room): void {
-    this.socket.emit('create_room', {
+    this.socket.emit('create_new_room', {
       name: name,
       code: code,
       requestingSocket: this.socket.id,

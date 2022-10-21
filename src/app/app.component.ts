@@ -6,6 +6,7 @@ import { SocketService } from './services/socket.service';
 
 import { environment } from '../environments/environment';
 import { JoinGameDialogComponent } from './components/join-game-dialog/join-game-dialog.component';
+import { CreateRoomDialogComponent } from './components/create-room-dialog/create-room-dialog.component';
 
 interface ConnectionResponse {
   connections: number;
@@ -55,6 +56,17 @@ export class AppComponent implements OnInit {
     dialogRef.afterClosed().subscribe((gameInfo: FormGroup | undefined) => {
       if (gameInfo && gameInfo.value) {
         this.socketService.updatePlayerName(gameInfo.value.username);
+      }
+    });
+  }
+  openCreateRoomDialog(): void {
+    const dialogRef = this.dialog.open(CreateRoomDialogComponent);
+    dialogRef.afterClosed().subscribe((room: FormGroup | undefined) => {
+      if (room?.value) {
+        this.socketService.createRoom({
+          name: room.value.name,
+          code: room.value.code,
+        });
       }
     });
   }

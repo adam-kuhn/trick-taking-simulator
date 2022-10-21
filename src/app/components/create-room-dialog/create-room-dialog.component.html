@@ -1,0 +1,22 @@
+<mat-dialog-content>
+  <form id="create-room" class="create-info-form" [formGroup]="createRoom">
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Room Name</mat-label>
+      <input matInput formControlName="name"/>
+      <mat-error *ngIf="name && name.hasError('pattern')">Letters and numbers only.</mat-error>
+      <mat-error *ngIf="name && name.hasError('required')">Room name is required.</mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-field" appearance="fill">
+      <mat-label>Code</mat-label>
+      <input matInput formControlName="code">
+      <mat-error *ngIf="code && code.hasError('pattern')">Letters and numbers only.</mat-error>
+      <mat-error *ngIf="code && code.hasError('required')">Code is required.</mat-error>
+      <mat-error *ngIf="code && code.hasError('maxlength')">Code must be &gt; 3 characters.</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button type="submit" form="create-room" [mat-dialog-close]="createRoom" [disabled]="createRoom.status === 'INVALID'">Create Room</button>
+  <button mat-button mat-dialog-close>Cancel</button>
+</mat-dialog-actions>

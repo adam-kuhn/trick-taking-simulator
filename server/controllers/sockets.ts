@@ -20,7 +20,7 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
   activeSockets = [...activeSockets, socket];
 
   socket.on(
-    'create-new-room',
+    'create_new_room',
     (data: { name: string; code: string; requestingSocket: string }) => {
       if (GameRooms.roomNames.includes(data.name)) {
         io.to(data.requestingSocket).emit('create_room_failed', {

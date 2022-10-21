@@ -1,5 +1,6 @@
 <div *ngIf="!inGame">
   <h1>Welcome to Trick Taking Simulator</h1>
-  <button mat-raised-button color="primary" (click)="openJoinGameDialog()" [disabled]="connectedClients > 5">Join The Game</button>
+  <button mat-raised-button color="primary" (click)="openJoinGameDialog()" [disabled]="connectedClients > 5">Join Game Room</button>
+  <button mat-raised-button color="primary" (click)="openCreateRoomDialog()" [disabled]="connectedClients > 5">Create Game Room</button>
 </div>
 <app-game-room *ngIf="inGame"></app-game-room>
