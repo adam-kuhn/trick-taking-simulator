@@ -1,4 +1,4 @@
-import GameRooms from 'server/storage/rooms';
+import GameRooms from '../storage/rooms';
 import { Socket, Server } from 'socket.io';
 import {
   dealCards,
@@ -21,16 +21,16 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
 
   socket.on(
     'create-new-room',
-    (data: { room: string; code: string; requestingSocket: string }) => {
-      if (GameRooms.roomNames.includes(data.room)) {
+    (data: { name: string; code: string; requestingSocket: string }) => {
+      if (GameRooms.roomNames.includes(data.name)) {
         io.to(data.requestingSocket).emit('create_room_failed', {
           reason: 'Room already exists',
         });
         return;
       }
-      GameRooms.addNewRoom(data.room, data.code);
+      GameRooms.addNewRoom(data.name, data.code);
       io.to(data.requestingSocket).emit('create_room_success', {
-        room: data.room,
+        room: data.name,
       });
     }
   );

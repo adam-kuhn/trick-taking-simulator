@@ -13,6 +13,8 @@ import {
 } from '../types/game';
 import { TaskOptions } from '../components/deal-task-dialog/deal-task-dialog.component';
 import { environment } from '../../environments/environment';
+import { CreateRoomSuccess, Room } from '../types/rooms';
+import { FailedRequest } from '../types/responses';
 
 /* NOTE TO SELF
 I was originally injecting this service at the component level. Doing so created two instances
@@ -39,6 +41,13 @@ export class SocketService {
       });
     });
     return observable;
+  }
+  createRoom({ name, code }: Room): void {
+    this.socket.emit('create_room', {
+      name: name,
+      code: code,
+      requestingSocket: this.socket.id,
+    });
   }
   updatePlayerName(username: string): void {
     this.socket.emit('update_player_name', { username, id: this.socket.id });
@@ -77,6 +86,14 @@ export class SocketService {
 
   sendCommunication(data: Communication): void {
     this.socket.emit('communicate', data);
+  }
+
+  createRoomFailed(): Observable<FailedRequest> {
+    return this.createObservalble<FailedRequest>('create_room_failed');
+  }
+
+  createRoomSuccess(): Observable<CreateRoomSuccess> {
+    return this.createObservalble<CreateRoomSuccess>('create_room_success');
   }
 
   recievePlayedCard(): Observable<PlayerCard> {
