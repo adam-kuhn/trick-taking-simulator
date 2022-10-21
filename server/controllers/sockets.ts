@@ -30,7 +30,7 @@ export function socketCommunication(socket: CustomSocket, io: Server): void {
       }
       GameRooms.addNewRoom(data.name, data.code);
       io.to(data.requestingSocket).emit('create_room_success', {
-        room: data.name,
+        roomName: data.name,
       });
     }
   );

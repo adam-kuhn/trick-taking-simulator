@@ -16,7 +16,10 @@ interface ConnectionResponse {
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.sass'],
+  styleUrls: [
+    './app.component.sass',
+    './components/snackbar/snackbar.component.sass',
+  ],
 })
 export class AppComponent implements OnInit {
   title = 'trick-taking-simulator';
@@ -28,6 +31,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
+
     private snackbar: MatSnackBar,
     private socketService: SocketService
   ) {
@@ -40,6 +44,8 @@ export class AppComponent implements OnInit {
           message: `Room ${data.roomName} created!`,
           success: true,
         },
+        duration: 100000,
+        panelClass: ['snackbar-container'],
       });
     });
   }

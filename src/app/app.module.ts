@@ -34,7 +34,7 @@ import { PlayerSummaryComponent } from './components/player-summary/player-summa
 import { CommunicationZoneComponent } from './components/communication-zone/communication-zone.component';
 import { CreateRoomDialogComponent } from './components/create-room-dialog/create-room-dialog.component';
 import { SnackbarComponent } from './components/snackbar/snackbar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatButtonModule,
     OverlayModule,
     MatDialogModule,
-    MatSnackBar,
+    MatSnackBarModule,
     HttpClientModule,
     DragDropModule,
     MatSelectModule,

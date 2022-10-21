@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-snackbar',
@@ -6,6 +7,13 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./snackbar.component.sass'],
 })
 export class SnackbarComponent {
-  @Input() message = '';
-  @Input() success = false;
+  message: string;
+  success: boolean;
+  constructor(
+    @Inject(MAT_SNACK_BAR_DATA)
+    public data: { message: string; success: boolean }
+  ) {
+    this.message = data.message;
+    this.success = data.success;
+  }
 }
