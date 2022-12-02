@@ -18,7 +18,7 @@ export let activeSockets: CustomSocket[] = [];
 
 export function socketCommunication(socket: CustomSocket, io: Server): void {
   activeSockets = [...activeSockets, socket];
-
+  // TODO: implement a time to live. If a socket has been used in X time (1 hour? 1 day?) kill it
   socket.on(
     'create_new_room',
     (data: { name: string; code: string; requestingSocket: string }) => {

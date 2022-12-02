@@ -12,7 +12,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export const createGameCode = (): string => {
   /* stupid simple password to enter the game this is just
   to prevent randoms for joining the game and is not meant to be secure
-  TODO: make individual game rooms */
+  TODO: individual rooms in progress - delete this soon */
   const now = new Date();
   const month = now.getMonth() + 1;
   const date = now.getDate();

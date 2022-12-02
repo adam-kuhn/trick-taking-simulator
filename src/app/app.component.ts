@@ -64,6 +64,8 @@ export class AppComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.requestConnections = window.setInterval(async () => {
       await this.getConnections();
+      /* TODO: move this to only
+      make the call when the join dialog is opened */
       this.getGameRooms();
     }, 1000);
   }
@@ -83,7 +85,6 @@ export class AppComponent implements OnInit {
     try {
       const { data } = await axios.get(`${environment.backEndUrl}/rooms`);
       this.gameRooms = data.rooms;
-      console.log(this.gameRooms, 'what');
     } catch (error) {
       console.error('Oops, something went wrong!', error.message);
     }
@@ -94,6 +95,8 @@ export class AppComponent implements OnInit {
     window.clearInterval(this.requestConnections);
   }
   openJoinGameDialog(): void {
+    // also need to limit the number of people in a room
+    // can show the number of players currently in the room when trying to join
     const dialogRef = this.dialog.open(JoinGameDialogComponent, {
       data: {
         rooms: this.gameRooms,
@@ -106,6 +109,10 @@ export class AppComponent implements OnInit {
     });
   }
   openCreateRoomDialog(): void {
+    /*TODO: after creating a room you should join
+    it automatically or have another dialog
+    that asks "join new room" */
+
     const dialogRef = this.dialog.open(CreateRoomDialogComponent);
     dialogRef.afterClosed().subscribe((room: FormGroup | undefined) => {
       if (room?.value) {
