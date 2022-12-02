@@ -1,11 +1,19 @@
 <mat-dialog-content>
   <form id="join-game" class="dialog-form" [formGroup]="gameInfo">
-    <mat-form-field class="dialog-form-field" appearance="fill">
-      <mat-label>Game Code</mat-label>
-      <input matInput formControlName="gameCode"/>
-      <mat-error *ngIf="gameCode && gameCode.hasError('pattern')">Invalid game code.</mat-error>
-      <mat-error *ngIf="gameCode && gameCode.hasError('required')">Game code is required.</mat-error>
-    </mat-form-field>
+    <fieldset formGroupName="roomCredentials">
+      <mat-form-field class="dialog-form-field" appearance="fill">
+        <mat-label>Game Room</mat-label>
+        <mat-select formControlName="gameRoom">
+          <mat-option *ngFor="let name of roomNames" [value]="name">{{ name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Game Code</mat-label>
+        <input matInput formControlName="gameCode"/>
+        <mat-error *ngIf="gameCode && gameCode.hasError('required')">Game code is required.</mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="gameCode?.value && roomCredentials?.hasError('invalidCode')">Game room and code do not match</mat-error>
+    </fieldset>
     <mat-form-field class="dialog-form-field" appearance="fill">
       <mat-label>Username</mat-label>
       <input matInput formControlName="username">
