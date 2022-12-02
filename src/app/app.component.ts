@@ -45,7 +45,17 @@ export class AppComponent implements OnInit {
           success: true,
         },
         duration: 100000,
-        panelClass: ['snackbar-container'],
+        panelClass: ['snackbar-container-success'],
+      });
+    });
+    this.socketService.createRoomFailed().subscribe((data) => {
+      this.snackbar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: `Room creation failed: ${data.reason}`,
+          success: false,
+        },
+        duration: 100000,
+        panelClass: ['snackbar-container-error'],
       });
     });
   }
