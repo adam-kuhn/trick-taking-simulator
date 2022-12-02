@@ -4,6 +4,7 @@ import path from 'path';
 import { createServer } from 'http';
 import { Server, Socket } from 'socket.io';
 import { socketCommunication, activeSockets } from './controllers/sockets';
+import gameRooms from './storage/rooms';
 
 const app = express();
 const httpServer = createServer(app);
@@ -24,6 +25,14 @@ app.get('/connections', (req, res) => {
     res.json({ connections: activeSockets.length });
   } catch (error) {
     res.status(500).send('Could not access live connections');
+  }
+});
+
+app.get('/rooms', (req, res) => {
+  try {
+    res.json({ rooms: gameRooms.getAllRoomsAndCodes() });
+  } catch (error) {
+    res.status(500).send('Could not get game rooms');
   }
 });
 

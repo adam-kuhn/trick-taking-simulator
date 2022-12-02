@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   // until connections request comes back
   connectedClients = 6;
   requestConnections = 0;
+  gameRooms: Record<string, string> = {};
 
   constructor(
     private dialog: MatDialog,
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.requestConnections = window.setInterval(async () => {
       await this.getConnections();
+      this.getGameRooms();
     }, 1000);
   }
 
@@ -77,12 +79,26 @@ export class AppComponent implements OnInit {
     }
   }
 
+  async getGameRooms(): Promise<void> {
+    try {
+      const { data } = await axios.get(`${environment.backEndUrl}/rooms`);
+      this.gameRooms = data.rooms;
+      console.log(this.gameRooms, 'what');
+    } catch (error) {
+      console.error('Oops, something went wrong!', error.message);
+    }
+  }
+
   joinGame(): void {
     this.inGame = true;
     window.clearInterval(this.requestConnections);
   }
   openJoinGameDialog(): void {
-    const dialogRef = this.dialog.open(JoinGameDialogComponent);
+    const dialogRef = this.dialog.open(JoinGameDialogComponent, {
+      data: {
+        rooms: this.gameRooms,
+      },
+    });
     dialogRef.afterClosed().subscribe((gameInfo: FormGroup | undefined) => {
       if (gameInfo && gameInfo.value) {
         this.socketService.updatePlayerName(gameInfo.value.username);
