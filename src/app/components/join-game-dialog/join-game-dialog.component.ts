@@ -36,13 +36,14 @@ export class JoinGameDialogComponent {
     private formBuilder: FormBuilder
   ) {
     this.rooms = data.rooms;
+
     this.gameInfo = this.formBuilder.group({
       roomCredentials: this.formBuilder.group(
         {
           gameRoom: new FormControl('', Validators.required),
           gameCode: new FormControl('', [Validators.required]),
         },
-        { validators: this.myvalidate }
+        { validators: this.roomCodeValidator }
       ),
       username: new FormControl('', [
         Validators.maxLength(15),
@@ -66,7 +67,7 @@ export class JoinGameDialogComponent {
   get username(): AbstractControl | null {
     return this.gameInfo.get('username');
   }
-  myvalidate: ValidatorFn = (formGroup: AbstractControl) => {
+  roomCodeValidator: ValidatorFn = (formGroup: AbstractControl) => {
     const formCode = formGroup.get('gameCode')?.value;
     const formName = formGroup.get('gameRoom')?.value;
     if (this.rooms[formName] === formCode) {

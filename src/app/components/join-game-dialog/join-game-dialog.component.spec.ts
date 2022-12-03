@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,6 +9,7 @@ import {
   createGameCode,
 } from './join-game-dialog.component';
 import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 describe('JoinGameDialogComponent', () => {
   let component: JoinGameDialogComponent;
@@ -23,6 +24,13 @@ describe('JoinGameDialogComponent', () => {
         MatInputModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
+        MatSelectModule,
+      ],
+      providers: [
+        {
+          provide: MAT_DIALOG_DATA,
+          useValue: { rooms: { roomOne: '123' } },
+        },
       ],
     }).compileComponents();
   });
@@ -31,6 +39,9 @@ describe('JoinGameDialogComponent', () => {
     fixture = TestBed.createComponent(JoinGameDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+  });
+  it('should create', () => {
+    expect(component).toBeTruthy();
   });
 
   it('Allows usernames with alphanumeric characters and spaces', () => {
