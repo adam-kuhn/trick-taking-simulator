@@ -7,20 +7,8 @@ import {
   ValidatorFn,
   FormBuilder,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-export const createGameCode = (): string => {
-  /* stupid simple password to enter the game this is just
-  to prevent randoms for joining the game and is not meant to be secure
-  TODO: individual rooms in progress - delete this soon */
-  const now = new Date();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-  const gameCode = `${date}-${month}_going-to-space`;
-  // log the code in the console, so I don't have to remember the password :)
-  console.log('Your game code is:', gameCode);
-  return gameCode;
-};
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-join-game-dialog',

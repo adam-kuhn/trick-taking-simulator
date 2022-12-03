@@ -3,18 +3,15 @@ import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import {
-  JoinGameDialogComponent,
-  createGameCode,
-} from './join-game-dialog.component';
+import { JoinGameDialogComponent } from './join-game-dialog.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 describe('JoinGameDialogComponent', () => {
   let component: JoinGameDialogComponent;
   let fixture: ComponentFixture<JoinGameDialogComponent>;
-
+  const ROOM_NAME = 'game room 1';
+  const ROOM_CODE = '1234';
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [JoinGameDialogComponent],
@@ -29,7 +26,7 @@ describe('JoinGameDialogComponent', () => {
       providers: [
         {
           provide: MAT_DIALOG_DATA,
-          useValue: { rooms: { roomOne: '123' } },
+          useValue: { rooms: { [ROOM_NAME]: ROOM_CODE } },
         },
       ],
     }).compileComponents();
@@ -45,9 +42,9 @@ describe('JoinGameDialogComponent', () => {
   });
 
   it('Allows usernames with alphanumeric characters and spaces', () => {
-    const { username } = component.gameInfo.controls;
-    username.setValue('Username Joe');
-    expect(username.errors).toBeFalsy();
+    const username = component.gameInfo.get('username');
+    username?.setValue('Username Joe');
+    expect(username?.errors).toBeFalsy();
   });
   it('Prevents usernames longer than 15 characters', () => {
     const { username } = component.gameInfo.controls;
@@ -73,30 +70,49 @@ describe('JoinGameDialogComponent', () => {
     expect(username.errors).toBeNull();
   });
   it('Shows an error when game code is wrong', () => {
-    const { gameCode } = component.gameInfo.controls;
-    gameCode.setValue('wrong code');
-    expect(gameCode.errors).toBeTruthy();
+    const credentialsGroup = component.gameInfo.get('roomCredentials');
+    const gameCode = component.gameInfo.get('roomCredentials.gameCode');
+    const gameRoom = component.gameInfo.get('roomCredentials.gameRoom');
+    gameRoom?.setValue(ROOM_NAME);
+    gameCode?.setValue('wrong code');
+    expect(credentialsGroup?.errors).toBeTruthy();
   });
-  it('Allows correct game code', () => {
-    const { gameCode } = component.gameInfo.controls;
-    gameCode.setValue(createGameCode());
-    expect(gameCode.errors).toBeFalsy();
+  it('Is valid when code input matches the roomm code', () => {
+    component.rooms = { roomOne: '1234' };
+    const gameCode = component.gameInfo.get('roomCredentials.gameCode');
+    gameCode?.setValue(1234);
+    expect(gameCode?.errors).toBeFalsy();
+  });
+  it('Is valid when code input does not match the roomm code', () => {
+    component.rooms = { roomOne: '1234' };
+    const gameCode = component.gameInfo.get('roomCredentials.gameCode');
+    gameCode?.setValue('wrong code');
+    expect(gameCode?.errors).toBeFalsy();
   });
   it('Is invalid when form is empty', () => {
     expect(component.gameInfo.valid).toBeFalse();
     expect(component.gameInfo.invalid).toBeTrue();
   });
-  it('Is invalid when there are errors', () => {
-    const { gameCode, username } = component.gameInfo.controls;
-    gameCode.setValue(createGameCode());
+  it('Form is INVALID when there are errors', () => {
+    const { username } = component.gameInfo.controls;
+    const submitButton = fixture.nativeElement.querySelector('button');
+    console.log(component.gameInfo.status, submitButton);
+
     username.setValue('!Invalid name!$');
     expect(component.gameInfo.valid).toBeFalse();
     expect(component.gameInfo.invalid).toBeTrue();
+    expect(component.gameInfo.status).toBe('INVALID');
   });
-  it('Is valid when game code is correct and no username entered', () => {
-    const { gameCode } = component.gameInfo.controls;
-    gameCode.setValue(createGameCode());
-    expect(component.gameInfo.valid).toBeTrue();
-    expect(component.gameInfo.invalid).toBeFalse();
+  it('Form is VALID when there are no errors', () => {
+    const { username } = component.gameInfo.controls;
+    const gameCode = component.gameInfo.get('roomCredentials.gameCode');
+    const gameRoom = component.gameInfo.get('roomCredentials.gameRoom');
+    const submitButton = fixture.nativeElement.querySelector('button');
+
+    username.setValue('Joe Bloe');
+    gameRoom?.setValue(ROOM_NAME);
+    gameCode?.setValue(ROOM_CODE);
+    console.log(component.gameInfo.status, submitButton);
+    expect(component.gameInfo.status).toBe('VALID');
   });
 });
