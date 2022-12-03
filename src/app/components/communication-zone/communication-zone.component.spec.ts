@@ -152,5 +152,65 @@ describe('CommunicationZoneComponent', () => {
       component.handleCommunication({ value: 'only' } as MatSelectChange);
       expect(sendCommunicationSpy).toHaveBeenCalled();
     });
+    it('prevents unknown communication when not valid', () => {
+      component.cardsInHand = [
+        {
+          suit: Suits.Pink,
+          value: 3,
+          playerPosition: 1,
+          username: USERNAME_ONE,
+        },
+        {
+          suit: Suits.Pink,
+          value: 1,
+          playerPosition: 1,
+          username: USERNAME_ONE,
+        },
+      ];
+
+      component.handleCommunication({ value: 'unknown' } as MatSelectChange);
+      expect(sendCommunicationSpy).not.toHaveBeenCalled();
+    });
+
+    it('allows unknown communication when valid - lowest', () => {
+      component.cardsInHand = [
+        {
+          suit: Suits.Pink,
+          value: 3,
+          playerPosition: 1,
+          username: USERNAME_ONE,
+        },
+      ];
+
+      component.handleCommunication({ value: 'unknown' } as MatSelectChange);
+      expect(sendCommunicationSpy).toHaveBeenCalled();
+    });
+
+    it('allows unknown communication when valid - highest', () => {
+      component.cardsInHand = [
+        {
+          suit: Suits.Pink,
+          value: 1,
+          playerPosition: 1,
+          username: USERNAME_ONE,
+        },
+      ];
+
+      component.handleCommunication({ value: 'unknown' } as MatSelectChange);
+      expect(sendCommunicationSpy).toHaveBeenCalled();
+    });
+
+    it('allows unknown communication when valid - only', () => {
+      component.cardsInHand = [
+        {
+          suit: Suits.Green,
+          value: 1,
+          playerPosition: 1,
+          username: USERNAME_ONE,
+        },
+      ];
+      component.handleCommunication({ value: 'unknown' } as MatSelectChange);
+      expect(sendCommunicationSpy).toHaveBeenCalled();
+    });
   });
 });
